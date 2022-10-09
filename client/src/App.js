@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { Warpper } from './styledComponent/common_cs';
+import { Header, Footer } from './component';
+import { Reset } from 'styled-reset';
+import { Main, Join, Login, Mypage, Board } from './page';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Warpper>
+      <Reset />
+        <Header /> 
+          <Routes>
+            <Route path='/' element={<Main/>} />
+            <Route path='/join' element={<Join/>} />
+            <Route path='/login' element={<Login/>} />
+            <Route path='/mypage' element={<Mypage/>} />
+            <Route path='/board' element={<Board/>} />
+          </Routes>
+
+        <Footer />
+      </Warpper>
+    // <div>
+    //   <Header  isLogin={isLogin}/>
+    // </div>
   );
 }
 

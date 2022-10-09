@@ -49,4 +49,4 @@ function signUp(id, pw, setWarp){
     }
 }
 
-export const loginAction = { login, logout, signUp };
+export const userAction = { login, logout, signUp };
