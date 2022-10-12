@@ -7,4 +7,7 @@ import FacebookIcon from './facebook.png';
 import InstagramIcon from './instagram.png';
 import TwitterIcon from './twitter.png';
 
-export { BoardIcon, HomeIcon, JoinIcon, FirstIcon, FacebookIcon, InstagramIcon, TwitterIcon }
+import LeftIcon from './icon-left.png';
+import RightIcon from './icon-right.png'
+
+export { BoardIcon, HomeIcon, JoinIcon, FirstIcon, FacebookIcon, InstagramIcon, TwitterIcon, LeftIcon, RightIcon }

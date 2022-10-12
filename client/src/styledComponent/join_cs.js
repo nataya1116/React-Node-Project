@@ -41,9 +41,9 @@ const Btn = styled.button`
     margin: 20px 0px;
 `
 
-const Check = styled.td`
+const CheckTd = styled.td`
     color: red;
     height: 20px;
 `
 
-export { Div, Td, Input, Btn, Check };
+export { Div, Td, Input, Btn, CheckTd };

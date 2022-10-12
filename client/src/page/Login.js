@@ -7,8 +7,7 @@ const Login = () => {
   return (
     <Section>
         <SectionHeader>
-            <SectionTitle> Memory </SectionTitle>
-            <SectionTitle> Game </SectionTitle>
+            <SectionTitle> Login </SectionTitle>
         </SectionHeader>
         <Article>
             <Div>

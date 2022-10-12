@@ -2,11 +2,11 @@ import React from 'react'
 import { Section, SectionHeader, SectionTitle, Article } from '../styledComponent/common_cs';
 import { Div, Td, Input, Btn, CheckTd } from '../styledComponent/join_cs';
 
-const Join = () => {
+const MypageModify = () => {
   return (
     <Section>
         <SectionHeader>
-            <SectionTitle> Join </SectionTitle>
+            <SectionTitle> My Page </SectionTitle>
         </SectionHeader>
         <Article>
             <Div>
@@ -14,8 +14,8 @@ const Join = () => {
                 <table>
                     <tr>
                         <Td>아이디</Td>
-                        <Td><Input/></Td>
-                        <Td><Btn>중복확인</Btn></Td>
+                        <Td>아이디</Td>
+                        <Td></Td>
                     </tr>
                     <tr></tr>
 
@@ -42,11 +42,11 @@ const Join = () => {
 
                 </table>
 
-                <Btn>회원가입</Btn>
+                <Btn>수정</Btn>
             </Div>
         </Article>
     </Section>
   )
 }
 
-export default Join
+export default MypageModify
