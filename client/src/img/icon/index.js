@@ -1,3 +1,4 @@
+import GameIcon from './game-console.png';
 import BoardIcon from './board.png';
 import HomeIcon from './home.png';
 import JoinIcon from './join.png';
@@ -10,4 +11,4 @@ import TwitterIcon from './twitter.png';
 import LeftIcon from './icon-left.png';
 import RightIcon from './icon-right.png'
 
-export { BoardIcon, HomeIcon, JoinIcon, FirstIcon, FacebookIcon, InstagramIcon, TwitterIcon, LeftIcon, RightIcon }
+export { GameIcon, BoardIcon, HomeIcon, JoinIcon, FirstIcon, FacebookIcon, InstagramIcon, TwitterIcon, LeftIcon, RightIcon }

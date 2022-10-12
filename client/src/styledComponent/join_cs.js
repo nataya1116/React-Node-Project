@@ -41,9 +41,21 @@ const Btn = styled.button`
     margin: 20px 0px;
 `
 
+const LargeBtn = styled.button`
+    font-size: small;
+    width: 120px;
+    height: 28px;
+    border: 0;
+    background-color: rgb(63, 62, 62);
+    color: white;
+    box-sizing: border-box;
+    border-radius: 8%;
+    margin: 10px 0px;
+`
+
 const CheckTd = styled.td`
     color: red;
     height: 20px;
 `
 
-export { Div, Td, Input, Btn, CheckTd };
+export { Div, Td, Input, Btn, LargeBtn, CheckTd };

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Section, SectionHeader, SectionTitle } from '../styledComponent/common_cs';
 
-import { Article, Th, Td, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_cs'
+import { Article, Th, Td, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
 
 import { LeftIcon, RightIcon } from '../img/icon'
 
