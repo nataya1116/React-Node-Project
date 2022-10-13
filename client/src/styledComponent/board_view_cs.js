@@ -53,7 +53,7 @@ const EctDiv = styled.div`
 
 const ContentDiv = styled.div`
     width: 100%;
-    padding: 30px 5px;
+    padding: 60px 20px;
     box-sizing: border-box;
 `
 
@@ -102,6 +102,7 @@ const ReplyWriterDiv = styled.div`
 
 const ReplyViewDiv = styled.div`
     width: 100%;
+    border-bottom: 1px solid rgb(172, 169, 169);
     div {
         &:first-child {
             width: 100%;
@@ -120,7 +121,7 @@ const ReplyViewDiv = styled.div`
             display: flex;
             justify-content: center;
             flex-direction: column;
-            padding: 10px;
+            padding: 30px 20px;
         }
     }
 
@@ -131,7 +132,7 @@ const ReplyViewDiv = styled.div`
             display: flex;
             flex-direction: row-reverse;
             box-sizing: border-box;
-
+            padding: 5px;
             ${Btn} {
                 margin-right: 5px;
                 box-sizing: border-box;

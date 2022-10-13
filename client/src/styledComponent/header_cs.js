@@ -17,7 +17,7 @@ const HeaderWap = styled.header`
 const Icon = styled.img`
     width: 40px;
     height: 40px;
-    margin: 5px;   
+    margin: 10px;   
 `
 
 const HeaderTitle = styled.h3`

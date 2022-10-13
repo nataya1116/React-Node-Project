@@ -3,7 +3,7 @@ import { Section, SectionHeader, SectionTitle } from '../styledComponent/common_
 
 import { Article, Th, Td, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
 
-import { LeftIcon, RightIcon } from '../img/icon'
+// import { LeftIcon, RightIcon } from '../img/icon'
 
 const BoardList = () => {
   return (
@@ -115,7 +115,7 @@ const BoardList = () => {
                 </SearchDiv>
                 
                 <PagenationDiv>
-                  <BoardLink> <Icon src={LeftIcon}/> </BoardLink>
+                  <BoardLink> <Icon src={process.env.PUBLIC_URL+'/img/icon/icon-left.png'}/> </BoardLink>
                   <ActivateLink> 1 </ActivateLink>
                   <BoardLink> 2 </BoardLink>
                   <BoardLink> 3 </BoardLink>
@@ -126,7 +126,7 @@ const BoardList = () => {
                   <BoardLink> 8 </BoardLink>
                   <BoardLink> 9 </BoardLink>
                   <BoardLink> 10 </BoardLink>
-                  <BoardLink> <Icon src={RightIcon} /> </BoardLink>
+                  <BoardLink> <Icon src={process.env.PUBLIC_URL+'/img/icon/icon-right.png'} /> </BoardLink>
                 </PagenationDiv>
 
             </div>

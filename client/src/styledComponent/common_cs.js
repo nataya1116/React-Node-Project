@@ -7,6 +7,7 @@ const Warpper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 `
 
 const Section = styled.section`
@@ -42,4 +43,16 @@ const Article = styled.article`
     align-items: center;
 `
 
-export { Warpper, Section, SectionHeader, SectionTitle, Article }
+const Btn = styled.button`
+    font-size: small;
+    width: ${(props) => props ? props.width : "80px"};
+    height: 28px;
+    border: 0;
+    background-color: rgb(63, 62, 62);
+    color: white;
+    box-sizing: border-box;
+    border-radius: 8%;
+    margin: 20px 0px;
+`
+
+export { Warpper, Section, SectionHeader, SectionTitle, Article, Btn }

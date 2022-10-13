@@ -1,7 +1,7 @@
 import React from 'react'
 import { HeaderWap, Icon } from '../../styledComponent/header_cs';
 import { Link } from 'react-router-dom';
-import { BoardIcon, GameIcon, JoinIcon, FirstIcon } from '../../img/icon';
+// import { BoardIcon, GameIcon, JoinIcon, FirstIcon, StoreIcon } from '../../img/icon';
 import { useSelector } from 'react-redux';
 
 
@@ -11,15 +11,16 @@ const Header = () => {
   const userId = useSelector(state=>state.userReducer.id);
   return (
     <HeaderWap>
-        <Link to="/"><Icon src={GameIcon} /></Link>
+        <Link to="/"><Icon src='/img/icon/game-console.png' /></Link>
 
         <div>
-            <Link to="/board"><Icon src={BoardIcon} /></Link>
-            <Link to="/ranking"><Icon src={FirstIcon} /></Link>
+            <Link to="/store"><Icon src='/img/icon/store.png' /></Link>
+            <Link to="/board"><Icon src='/img/icon/board.png' /></Link>
+            <Link to="/ranking"><Icon src='/img/icon/first-prize.png' /></Link>
             {
               isLogin ?
               <Link to="/mypage">{userId}님</Link> :
-              <Link to="/login"><Icon src={JoinIcon} /></Link>
+              <Link to="/login"><Icon src='/img/icon/join.png' /></Link>
             }
         </div>
         

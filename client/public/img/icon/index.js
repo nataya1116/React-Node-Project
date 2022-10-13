@@ -1,0 +1,15 @@
+// import GameIcon from './game-console.png';
+// import BoardIcon from './board.png';
+// import HomeIcon from './home.png';
+// import JoinIcon from './join.png';
+// import FirstIcon from './first-prize.png';
+// import StoreIcon from './store.png';
+
+// import FacebookIcon from './facebook.png';
+// import InstagramIcon from './instagram.png';
+// import TwitterIcon from './twitter.png';
+
+// import LeftIcon from './icon-left.png';
+// import RightIcon from './icon-right.png'
+
+// export { GameIcon, BoardIcon, HomeIcon, JoinIcon, FirstIcon, StoreIcon, FacebookIcon, InstagramIcon, TwitterIcon, LeftIcon, RightIcon }

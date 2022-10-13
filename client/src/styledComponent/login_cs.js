@@ -12,7 +12,6 @@ const Btn = styled.button`
     box-sizing: border-box;
     border-radius: 8%;
     margin: 20px 0px;
-    margin: 20px 0px;
 `
 
 const LoginLink = styled(Link)`

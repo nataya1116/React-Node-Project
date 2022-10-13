@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import { Warpper } from './styledComponent/common_cs';
 import { Header, Footer } from './component';
 import { Reset } from 'styled-reset';
-import { Main, Join, Login, Mypage, MypageModify, Board, Ranking } from './page';
+import { Main, Join, Login, Mypage, Board, Ranking, Store } from './page';
+import { GiftModal } from './component/modal';
 
 function App() {
 
@@ -19,9 +20,13 @@ function App() {
 
             <Route path='/mypage/*' element={<Mypage/>} />
             <Route path='/board/*' element={<Board/>} />
+            <Route path='/store/*' element={<Store/>} />
+            <Route path='/test' element={<div>test</div>} />
           </Routes>
 
         <Footer />
+        
+        <GiftModal />
       </Warpper>
   );
 }
