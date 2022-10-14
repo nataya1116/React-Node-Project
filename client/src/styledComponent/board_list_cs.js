@@ -8,7 +8,12 @@ const Article = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
     padding-top: 50px;
+
+    table {
+        width: 900px;
+    }
 `
 const Th = styled.th`
     padding: 15px 5px;
@@ -21,6 +26,10 @@ const ActivateLink = styled(Link)`
     padding: 0px 5px;
     margin: 5px 0px;
     color: black;
+
+    table {
+        table-layout: fixed;
+    }
 `
 
 const BoardLink = styled(Link)`
@@ -30,23 +39,34 @@ const BoardLink = styled(Link)`
     color: black;
 `
 
-const Td = styled.td`
-    padding: 12px 5px;
-`
-
-
 const Tr = styled.tr`
-    ${Td} {
-        &:not(${Td}:nth-child(2)) {
+    &:last-child {
+        border-bottom: 1px solid rgb(200, 200, 200);
+    }
+    td {
+        padding: 12px 5px;
+        
+        &:not(td:nth-child(2)) {
             text-align : center;
         }
+        &:nth-child(2) {
+            display: block;
+            width : 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
-    ${Th} {
+    th {
+        font-weight: bold;
+        padding: 12px 5px;
+
         &:nth-child(1) {
             width : 7.5vw;
         }
         &:nth-child(2) {
-            width : 40vw;
+            width : 40px;
+
         }
         &:nth-child(3) {
             width : 15vw;
@@ -91,4 +111,4 @@ const Icon = styled.img`
 `
 
 
-export { Article, Th, Td, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon }
+export { Article, Th, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Section, SectionHeader, SectionTitle } from '../styledComponent/common_cs';
 
-import { Article, Th, Td, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
+import { Article, Th, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
 
 // import { LeftIcon, RightIcon } from '../img/icon'
 
@@ -24,83 +24,83 @@ const BoardList = () => {
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>
 
                     <Tr>
-                      <Td>1</Td>
-                      <Td><BoardLink to="/gg">제목</BoardLink></Td>
-                      <Td>작성자</Td>
-                      <Td>221008</Td>
-                      <Td>0</Td>
+                      <td>1</td>
+                      <td><BoardLink to="/gg">제목</BoardLink></td>
+                      <td>작성자</td>
+                      <td>221008</td>
+                      <td>0</td>
                     </Tr>            
                 </table>
 

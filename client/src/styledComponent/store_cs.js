@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const Article = styled.article`
     width: 900px;
-    min-width: 400px;
     flex: 5;
     display: flex;
     flex-direction: column;
@@ -29,6 +28,7 @@ const Product = styled.div`
     width: 200px;
     height: 250px;
     margin: 7px;
+    padding: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -36,7 +36,7 @@ const Product = styled.div`
     justify-content: center;
     border: 2.5px solid rgb(172, 169, 169);
     border-radius: 5%;
-
+    overflow: hidden;
 
     div {
         &:first-child {
@@ -62,15 +62,25 @@ const Option = styled.div`
         border: 1px solid rgb(172, 169, 169);
         border-radius: 8%
     }
+`
 
-    button {
-        background-color: rgb(172, 169, 169);
-        border: 0;
-        height: 25px;
-        margin-right : 5px;
-        box-sizing: border-box;
-        border-radius: 8%;
-    }
+const OptionBtn = styled.button`
+    background-color: rgb(172, 169, 169);
+    border: 0;
+    height: 25px;
+    margin-right : 5px;
+    box-sizing: border-box;
+    border-radius: 8%;
+`
+
+const OptionActiveBtn = styled.button`
+    background-color: rgb(63, 62, 62);
+    color: white;
+    border: 0;
+    height: 25px;
+    margin-right : 5px;
+    box-sizing: border-box;
+    border-radius: 8%;
 `
 
 const Detail = styled.div`
@@ -107,7 +117,6 @@ const Detail = styled.div`
         box-sizing: border-box;
         border-radius: 8%;
         margin : 12px 3.5px 0px 3.5px;
-        
     }
 `
-export { Article, ProductList, Product, Detail, Option }
+export { Article, ProductList, Product, Detail, Option, OptionBtn, OptionActiveBtn, }

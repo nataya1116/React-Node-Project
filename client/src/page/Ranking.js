@@ -12,16 +12,16 @@ const Ranking = () => {
         <Article>
             <Div>
                 <Ol>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
-                    <li>가가 횟수1 시간 1초</li>
+                    <li><span>아이디(닉네임)rkrkrrkrkrkrrkrkrkrkrkrkrkrkrkrk</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
+                    <li><span>아이디(닉네임)</span> <span>1000회</span> <span>100초</span></li>
                 </Ol>
             </Div>
         </Article>

@@ -11,5 +11,8 @@ import BoardWrite from "./BoardWrite";
 // import BoardModifiy from "./BoardModify";
 import Ranking from "./Ranking";
 import Store from "./Store";
+import Admin from "./Admin";
+import AdminUserManagement from "./AdminUserManagement";
+import ProductRegister from "./ProductRegister";
 
-export { Main, Join, Login, Mypage, MypageView, MypageModify, Board, BoardView, BoardList, BoardWrite, Ranking, Store }
+export { Main, Join, Login, Mypage, MypageView, MypageModify, Board, BoardView, BoardList, BoardWrite, Ranking, Store, Admin, AdminUserManagement, ProductRegister, }

@@ -8,6 +8,10 @@ const Warpper = styled.div`
     flex-direction: column;
     align-items: center;
     position: relative;
+
+    div, th, tr, td, input, h3, h5, li, button, span, option {
+        font-family: 'NanumSquareRound';
+    } 
 `
 
 const Section = styled.section`

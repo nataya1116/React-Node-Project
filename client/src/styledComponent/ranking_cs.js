@@ -3,18 +3,17 @@ import '../fonts/fonts.css';
 
 
 const Div = styled.div`
-    width: 20vw;
-    min-width: 400px;
-    height: 20vw;
+    width: 700px;
+    height: 480px;
     overflow: auto;
 
-    margin-top: 25px;
+    padding-left: 110px;
 
     background-color: rgb(247, 244, 244);
 
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
 
     /* font-family: 'GangwonEduSaeeum_OTFMediumA'; */
     font-family: 'Jeju Gothic', sans-serif;
@@ -26,9 +25,23 @@ const Div = styled.div`
 `
 
 const Ol = styled.ol`
-    margin-left: 20%;
-    margin-top: 20%;
     list-style-type: decimal;
+
+    span:first-child {
+        width: 300px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    span:not(:first-child) {
+        width: 120px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 `
 
 export { Div, Ol }

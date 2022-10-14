@@ -1,7 +1,7 @@
 import React from 'react'
 import { Section, SectionHeader, SectionTitle, } from '../styledComponent/common_cs';
 import { PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
-import { Article, ProductList, Product, Detail, Option } from '../styledComponent/store_cs';
+import { Article, ProductList, Product, Detail, Option, OptionBtn, OptionActiveBtn, } from '../styledComponent/store_cs';
 import { Link } from 'react-router-dom';
 
 // import { LeftIcon, RightIcon } from '../img/icon'
@@ -21,8 +21,8 @@ const Store = () => {
           <option>gradation</option>
         </select>
 
-        <button>wish</button>
-        <button>own</button>
+        <OptionActiveBtn>wish</OptionActiveBtn>
+        <OptionBtn>own</OptionBtn>
       </Option>
       
       <ProductList>
