@@ -9,7 +9,7 @@ const Warpper = styled.div`
     align-items: center;
     position: relative;
 
-    div, th, tr, td, input, h3, h5, li, button, span, option {
+    div, th, tr, td, input, h4, h5, li, button, span, option {
         font-family: 'NanumSquareRound';
     } 
 `

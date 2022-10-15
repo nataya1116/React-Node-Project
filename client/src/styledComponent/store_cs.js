@@ -34,7 +34,7 @@ const Product = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2.5px solid rgb(172, 169, 169);
+    border: 2.5px solid rgb(200, 200, 200);
     border-radius: 5%;
     overflow: hidden;
 
@@ -43,7 +43,7 @@ const Product = styled.div`
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            background-color: rgb(172, 169, 169);
+            background-color: rgb(200, 200, 200);
             ${Link} img {
                 width: 20px;
                 height: 20px;
@@ -59,13 +59,13 @@ const Option = styled.div`
     select {
         height: 25px;
         margin-right : 5px;
-        border: 1px solid rgb(172, 169, 169);
+        border: 1px solid rgb(200, 200, 200);
         border-radius: 8%
     }
 `
 
 const OptionBtn = styled.button`
-    background-color: rgb(172, 169, 169);
+    background-color: rgb(200, 200, 200);
     border: 0;
     height: 25px;
     margin-right : 5px;

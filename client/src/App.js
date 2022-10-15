@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Warpper } from './styledComponent/common_cs';
 import { Header, Footer } from './component';
 import { Reset } from 'styled-reset';
-import { Main, Join, Login, Mypage, Board, Ranking, Store, Admin, } from './page';
+import { Main, Join, Login, Mypage, Board, Ranking, Store, Admin, GiftBox } from './page';
 import { GiftModal } from './component/modal';
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
             <Route path='/board/*' element={<Board/>} />
             <Route path='/store/*' element={<Store/>} />
             <Route path='/admin/*' element={<Admin/>} />
+            <Route path='/gift_box/*' element={<GiftBox/>} />
           </Routes>
 
         <Footer />

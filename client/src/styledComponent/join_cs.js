@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 const Div = styled.div`
     font-family: 'Jeju Gothic', sans-serif;
-    width: 20vw;
-    min-width: 400px;
-    height: 20vw;
+    min-width: 300px;
+    min-height: 250px;
+    padding: 30px;
 
     margin-top: 25px;
 
@@ -17,8 +17,20 @@ const Div = styled.div`
     justify-content: center;
 `
 
-const Td = styled.td`
-    padding: 10px 10px;
+const CheckTd = styled.td`
+    color: red;
+    height: 20px;
+    padding: 0 10px 10px 10px;
+`
+
+const Tr = styled.tr`
+    td:not(${CheckTd}) {
+        padding: 10px;
+        white-space: nowrap;
+        height: 25px;
+        vertical-align: middle;
+    }
+    
 `
 
 const Input = styled.input`
@@ -38,12 +50,12 @@ const Btn = styled.button`
     color: white;
     box-sizing: border-box;
     border-radius: 8%;
-    margin: 20px 0px;
+    /* margin: 20px 0px; */
 `
 
 const LargeBtn = styled.button`
     font-size: small;
-    width: 120px;
+    width: 100px;
     height: 28px;
     border: 0;
     background-color: rgb(63, 62, 62);
@@ -53,9 +65,4 @@ const LargeBtn = styled.button`
     margin: 10px 0px;
 `
 
-const CheckTd = styled.td`
-    color: red;
-    height: 20px;
-`
-
-export { Div, Td, Input, Btn, LargeBtn, CheckTd };
+export { Div, Tr, Input, Btn, LargeBtn, CheckTd };
