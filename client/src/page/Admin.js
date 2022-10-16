@@ -13,15 +13,15 @@ const Admin = () => {
         </SectionHeader>
         <Article>
             <MenuDiv>
+                <MenuActiveBtn onClick={()=>window.location.href='/admin/user_management'}>유저 관리</MenuActiveBtn>
+                <MenuBtn onClick={()=>window.location.href='/admin/product_register'}>상품 등록</MenuBtn>
+            </MenuDiv>  
 
-                <MenuActiveBtn>유저 관리</MenuActiveBtn>
-                <MenuBtn>상품 등록</MenuBtn>
-            </MenuDiv>    
-                <Routes>
-                    <Route path='/' element={<AdminUserManagement/>} />
-                    <Route path='/user_management' element={<AdminUserManagement/>} />
-                    <Route path='/product_register' element={<ProductRegister/>} />
-                </Routes>
+            <Routes>
+                <Route path='/' element={<AdminUserManagement/>} />
+                <Route path='/user_management' element={<AdminUserManagement/>} />
+                <Route path='/product_register' element={<ProductRegister/>} />
+            </Routes>
             
         </Article>
     </Section>

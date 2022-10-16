@@ -15,9 +15,6 @@ const Article = styled.article`
         width: 900px;
     }
 `
-const Th = styled.th`
-     
-`
 
 const ActivateLink = styled(Link)`
     font-weight: bold;
@@ -111,4 +108,4 @@ const Icon = styled.img`
 `
 
 
-export { Article, Th, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon }
+export { Article, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon }

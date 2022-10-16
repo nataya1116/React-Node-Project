@@ -5,7 +5,12 @@ import Login from "./Login";
 import Mypage from "./Mypage";
 import MypageView from "./MypageView"
 import MypageModify from "./MypageModify";
+
 import GiftBox from "./GiftBox";
+import GiftList from "./GiftList";
+import GiftView from "./GiftView";
+import GiftReceived from "./GiftReceived";
+import GiftSent from "./GiftSent";
 
 import Board from "./Board";
 import BoardView from "./BoardView";
@@ -21,4 +26,4 @@ import Admin from "./Admin";
 import AdminUserManagement from "./AdminUserManagement";
 import ProductRegister from "./ProductRegister";
 
-export { Main, Join, Login, Mypage, MypageView, MypageModify, GiftBox, Board, BoardView, BoardList, BoardWrite, Ranking, Store, Admin, AdminUserManagement, ProductRegister, }
+export { Main, Join, Login, Mypage, MypageView, MypageModify, GiftBox, GiftReceived, GiftSent, GiftList, GiftView, Board, BoardView, BoardList, BoardWrite, Ranking, Store, Admin, AdminUserManagement, ProductRegister, }

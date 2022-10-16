@@ -1,5 +1,5 @@
 import React from 'react'
-import { Th, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs';
+import { Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs';
 import { Tr, } from '../styledComponent/admin_cs';
 
 const AdminUserManager = () => {
@@ -7,14 +7,14 @@ const AdminUserManager = () => {
     <>
     <table>
         <Tr>
-            <Th>아이디</Th>
-            <Th>닉네임</Th>
-            <Th>가입일</Th>
-            <Th>최종로그인</Th>
-            <Th>등급</Th>
-            <Th>상태</Th>
-            <Th>활동정지</Th>
-            <Th>승인</Th>
+            <th>아이디</th>
+            <th>닉네임</th>
+            <th>가입일</th>
+            <th>최종로그인</th>
+            <th>등급</th>
+            <th>상태</th>
+            <th>활동정지</th>
+            <th>승인</th>
         </Tr>
 
         <Tr>

@@ -1,6 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { Section, SectionHeader, SectionTitle, Article } from '../styledComponent/common_cs';
+import { GiftReceived, GiftSent } from './index';
+import { Section, SectionHeader, SectionTitle,  } from '../styledComponent/common_cs';
+import { MenuBtn, MenuActiveBtn, MenuDiv, } from '../styledComponent/admin_cs';
+import { Article, } from '../styledComponent/gift_cs';
 
 const GiftBox = () => {
   return (
@@ -9,16 +12,18 @@ const GiftBox = () => {
         <SectionTitle> Gift Box </SectionTitle>
     </SectionHeader>
     <Article>
-      <div>
+        <MenuDiv>
+            <MenuActiveBtn onClick={()=>window.location.href='/gift_box/received'}>받은 선물</MenuActiveBtn>
+            <MenuBtn onClick={()=>window.location.href='/gift_box/sent'}>보낸 선물</MenuBtn>
+        </MenuDiv>
 
         <Routes>
             {/* 리액트 6부터 path 중첩 안됨 */}
-            {/* <Route path='/' element={<MypageView/>} />
-            <Route path='/view' element={<MypageView/>} />
-            <Route path='/modify' element={<MypageModify/>} /> */}
+            <Route path='/' element={<GiftReceived/>} />
+            <Route path='/received/' element={<GiftReceived/>} />
+            <Route path='/sent' element={<GiftSent/>} />
         </Routes>
         
-      </div>
     </Article>
   </Section>
   )

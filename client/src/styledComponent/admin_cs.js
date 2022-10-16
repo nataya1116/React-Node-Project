@@ -45,6 +45,7 @@ const Tr = styled.tr`
     th {
         font-weight: bold;
         padding: 12px 5px;
+        background-color: rgb(247, 244, 244);
 
         &:nth-child(1) {
             width : 17vw;

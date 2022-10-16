@@ -1,7 +1,7 @@
 import React from 'react'
 import { Section, SectionHeader, SectionTitle } from '../styledComponent/common_cs';
 
-import { Article, Th, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
+import { Article, Tr, Btn, SearchDiv, PagenationDiv, ActivateLink, BoardLink, Icon } from '../styledComponent/board_list_cs'
 
 // import { LeftIcon, RightIcon } from '../img/icon'
 
@@ -16,11 +16,11 @@ const BoardList = () => {
 
                 <table>
                     <Tr>
-                      <Th>번호</Th>
-                      <Th>제목</Th>
-                      <Th>작성자</Th>
-                      <Th>작성일</Th>
-                      <Th>조회</Th>
+                      <th>번호</th>
+                      <th>제목</th>
+                      <th>작성자</th>
+                      <th>작성일</th>
+                      <th>조회</th>
                     </Tr>
 
                     <Tr>
