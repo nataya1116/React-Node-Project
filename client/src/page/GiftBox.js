@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { GiftReceived, GiftSent } from './index';
+import { GiftReceived, GiftSent, GiftList, GiftView } from './index';
 import { Section, SectionHeader, SectionTitle,  } from '../styledComponent/common_cs';
 import { MenuBtn, MenuActiveBtn, MenuDiv, } from '../styledComponent/admin_cs';
 import { Article, } from '../styledComponent/gift_cs';
@@ -19,9 +19,10 @@ const GiftBox = () => {
 
         <Routes>
             {/* 리액트 6부터 path 중첩 안됨 */}
-            <Route path='/' element={<GiftReceived/>} />
-            <Route path='/received/' element={<GiftReceived/>} />
+            <Route path='/' element={<GiftList/>} />
+            <Route path='/received/' element={<GiftList/>} />
             <Route path='/sent' element={<GiftSent/>} />
+            <Route path='/view' element={<GiftView/>} />
         </Routes>
         
     </Article>

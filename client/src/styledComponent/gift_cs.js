@@ -11,23 +11,10 @@ const Article = styled.article`
 `
 
 const ListTable = styled.table`
+    width: 100%;
+
     tr:last-child {
         border-bottom: 1px solid rgb(200, 200, 200);
-    }
-
-    td {
-        padding: 12px 5px;
-        
-        &:not(td:nth-child(3)) {
-            text-align : center;
-        }
-        &:nth-child(3) {
-            display: block;
-            width : 400px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
     }
 
     th {
@@ -36,16 +23,80 @@ const ListTable = styled.table`
         background-color: rgb(247, 244, 244);
 
         &:nth-child(1) {
-            width : 7.5vw;
+            width : 10%;
         }
         &:nth-child(2) {
-            width : 40px;
+            width : 20%;
 
         }
         &:nth-child(3) {
-            width : 15vw;
+            width : 10%;
+        }
+        &:nth-child(4) {
+            width : 5%;
+        }
+    }
+
+    td {
+        padding: 12px 5px;
+        
+        &:not(td:nth-child(2)) {
+            text-align : center;
+        }
+        &:nth-child(2) {
+            display: block;
+            width : 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 `;
 
-export { Article, ListTable }
+const ViewTable = styled.table`
+    width: 100%;
+
+    tr:last-child {
+        border-bottom: 1px solid rgb(200, 200, 200);
+    }
+
+    th {
+        text-align: left;
+        padding: 15px 15px;
+        background-color: rgb(247, 244, 244);
+
+        &:first-child {
+            width: 10%;
+            font-weight: bold;
+        }
+    }
+
+    tr:nth-child(3) {
+        td {
+            padding: 30px;
+            width: 100%;
+            text-align: center;
+
+            img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    }
+
+    tr:nth-child(4) {
+        td {
+            padding: 30px 15px;
+        }
+    }
+
+    tr:nth-child(5) {
+        text-align: center;
+        button {
+            margin: 20px 5px 30px 5px;
+        }
+    }
+    
+`
+
+export { Article, ListTable, ViewTable }
