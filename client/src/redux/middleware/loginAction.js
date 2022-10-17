@@ -30,23 +30,5 @@ function logout() {
     }
 }
 
-function signUp(id, pw, setWarp){
-    return async(dispatch, getState) => {
-        const url = "http://localhost:8000/signUp";
-        const user = await axios({
-            url,
-            method:"post",
-            data: {
-                id,
-                pw
-            }
-        });
-        console.log(user);
-        alert(user.data);
-        if(user.data === "가입 완료"){
-            setWarp();
-        }
-    }
-}
 
-export const userAction = { login, logout, signUp };
+export const loginAction = { login, logout };

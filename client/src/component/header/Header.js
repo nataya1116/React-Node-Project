@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
 //   const nav = useNavigate();
-  const isLogin = useSelector(state=>state.userReducer.isLogin);
-  const userId = useSelector(state=>state.userReducer.id);
+  const isLogin = useSelector(state=>state.loginReducer.isLogin);
+  const userId = useSelector(state=>state.loginReducer.id);
   return (
     <HeaderWap>
         <Link to="/"><Icon src='/img/icon/game-console.png' /></Link>

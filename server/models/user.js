@@ -1,6 +1,9 @@
 const Sequelize = require("sequelize");
 const moment = require("moment");
 
+const WAITING = 1;
+const USER = 2;
+
 class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
@@ -21,21 +24,25 @@ class User extends Sequelize.Model {
           type: Sequelize.STRING(50),
           allowNull: false,
         },
+        userEmail: {
+          type: Sequelize.STRING(50),
+          allowNull: false
+        },
         userSocketId: {
           type: Sequelize.STRING,
-          allowNull: true,
         },
         userRefreshToken: {
-          type: Sequelize.STRING,
-          allowNull: true,
+          type: Sequelize.STRING
         },
-        userAuthorityId: {
+        authorityId: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          defaultValue: USER
         },
-        userConditionId: {
+        conditionId: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          defaultValue: WAITING
         },
         userLastLogin : {
           type: Sequelize.DATE,
@@ -83,26 +90,6 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    // 1 : N
-    db.User.hasMany(db.TipBoard, { foreignKey: "userId", sourceKey: "id" });
-    db.User.hasMany(db.TipReply, { foreignKey: "userId", sourceKey: "id" });
-
-    db.User.hasMany(db.QnaBoard, { foreignKey: "userId", sourceKey: "id" });
-    db.User.hasMany(db.QnaReply, { foreignKey: "userId", sourceKey: "id" });
-
-    db.User.hasMany(db.GameSkinUser, { foreignKey: "userId", sourceKey: "id" });
-    db.User.hasMany(db.GameSkinWish, { foreignKey: "userId", sourceKey: "id" });
-
-    // db.User.hasMany(db.Chatting, { foreignKey: "userId1", sourceKey: "id" });
-    // db.User.hasMany(db.Chatting, { foreignKey: "userId2", sourceKey: "id" });
-
-    db.User.hasMany(db.PointHistory, { foreignKey: "userId", sourceKey: "id" });
-
-    db.User.hasMany(db.InactiveUser, { foreignKey: "userId", sourceKey: "id" });
-    
-    // 1 : 1
-    db.User.hasOne(db.PointTotal, { foreignKey: "userId", sourceKey: "id" });
-
     // N : 1
     db.User.belongsTo(db.Authority, { foreignKey: "authorityId", targetKey: "id" });
     db.User.belongsTo(db.ConditionUser, { foreignKey: "conditionId", targetKey: "id" });
