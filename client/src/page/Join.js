@@ -113,14 +113,16 @@ const Join = () => {
                 />
               </td>
               <td>
-                <Btn onClick={()=>{
-                  const tmp = overlapUserId(userInputs.userId.current.value);
-                  console.log(tmp);
-                  if(overlapUserId(userInputs.userId.current.value) === "OVERLAP"){
-                  alert("중복이다");
-                }else{
-                  alert("사용가능한 아이디");
-                }
+                <Btn onClick={async ()=>{
+                  const data = await overlapUserId(userInputs.userId.current.value);
+                  console.log(data);
+                  // const tmp = overlapUserId(userInputs.userId.current.value);
+                  // console.log(tmp);
+                //   if(overlapUserId(userInputs.userId.current.value) === "OVERLAP"){
+                //   alert("중복이다");
+                // }else{
+                //   alert("사용가능한 아이디");
+                // }
                 }}>중복확인</Btn>
               </td>
             </Tr>

@@ -29,6 +29,7 @@ module.exports.overlapUserId = async (userId) => {
             attributes : ["user_id"],
             where : { userId }
         })
+        console.log(user);
         if(user) {
             return false;
         }else{

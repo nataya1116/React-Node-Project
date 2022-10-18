@@ -18,10 +18,15 @@ module.exports.joinUser = async (req, res) => {
 module.exports.overlapUserId = async (req, res) => {
     const { userId } = req.params;
     const result = await UserService.overlapUserId(userId);
+    console.log(result);
+
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
 
     if(result){
-        res.send({OVERLAP});
-    }else{
         res.send({POSSIBLE});
+    }else{
+        res.send({OVERLAP});
     }
 }
