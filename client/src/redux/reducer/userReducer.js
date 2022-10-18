@@ -1,7 +1,10 @@
 let init = {
-    id : null,
-    pw : null,
-    isLogin : false
+    login : {
+        id : null,
+        pw : null,
+        isLogin : false
+    }
+    
 }
 
 const LOG_IN = "LOG_IN";

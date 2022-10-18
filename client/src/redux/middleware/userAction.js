@@ -24,11 +24,11 @@ function login(id, pw){
 
 function logout() {
     return (dispatch, getState) => {
-        if(getState().loginReducer.isLogin){
+        if(getState().userReducer.isLogin){
             dispatch({type: "LOG_OUT"})
         }
     }
 }
 
 
-export const loginAction = { login, logout };
+export const userAction = { login, logout };

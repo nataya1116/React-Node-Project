@@ -14,6 +14,8 @@ const bcrypt = require("bcrypt");
 
 const mailer = require("nodemailer");
 
+const cors = require("cors");
+
 function header() {
   return fs.readFileSync();
 }
@@ -26,5 +28,6 @@ module.exports = {
   jwt,
   path,
   bcrypt,
+  cors,
   mailer,
 };

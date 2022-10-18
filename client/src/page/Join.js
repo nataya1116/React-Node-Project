@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 import {
   Section,
   SectionHeader,
@@ -7,14 +7,18 @@ import {
 } from "../styledComponent/common_cs";
 import { Div, Tr, Input, Btn, CheckTd } from "../styledComponent/join_cs";
 
+import { overlapUserId } from "../api/user";
+
 const Join = () => {
-  const [userInputs, setUserInputs] = useState({
-    userId: "",
-    userNickname: "",
-    userEmail: "",
-    userPw: "",
-    userPwCheck: "",
-  });
+
+  const userInputs = {
+    userId: useRef(),
+    userNickname: useRef(),
+    userEmail: useRef(),
+    userPw: useRef(),
+    userPwCheck: useRef(),
+  }
+
   const [userChecks, setUserChecks] = useState({
     userId: "",
     userNickname: "",
@@ -28,30 +32,29 @@ const Join = () => {
     userNickname: /^[가-힝|a-zA-Z0-9]{2,5}$/g,
     userEmail:
       /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/g,
-    userPw: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/g,
+    userPw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/g,
   };
 
   const checkMsg = {
-    userId: "소문자와 숫자를 포함한 4~8자리입니다.",
+    userId: "소문자 또는 숫자로 4~8자리입니다.",
     userNickname: "특수문자를 제외한 2~5자리입니다.",
     userEmail: "이메일을 확인해주세요.",
-    userPw: "대소문자와 숫자 포함 8~20자리입니다.",
+    userPw: "대소문자와 숫자, 특수문자 포함 8~20자리입니다.",
     userPwCheck: "비밀번호가 일치하지 않습니다.",
   };
 
   const onChangeHandler = (e) => {
-    const { name, value } = e.target;
-
-    userInputs[name] = value;
-    console.log(userInputs[name]);
-    setUserInputs({ ...userInputs });
-    console.log(userInputs);
-
-    regCheck(name);
+    const { name } = e.target;
+    if(name !== "userPwCheck"){
+      regCheck(name);
+    }else{
+      pwDoubleCheck();
+    }
+    
   };
 
   const regTest = (name) => {
-    return regs[name].test(userInputs[name]);
+    return regs[name].test(userInputs[name].current.value);
   };
 
   const regCheck = (name) => {
@@ -60,8 +63,38 @@ const Join = () => {
       ? setUserChecks({ ...userChecks, [name]: "" })
       : setUserChecks({ ...userChecks, [name]: checkMsg[name] });
 
-    return isCorrect
+    return isCorrect;
   };
+
+  const pwDoubleCheck = () => {
+    const userPw = userInputs.userPw.current.value;
+    const userPwCheck = userInputs.userPwCheck.current.value;
+
+    const isCorrect = userPw === userPwCheck ? true : false;
+    
+    const msg = isCorrect ? "" : checkMsg.userPwCheck;
+
+    setUserChecks({ ...userChecks, userPwCheck: msg });
+
+    return isCorrect;
+  };
+
+  const joinUser = () => {
+    const validate = Object.keys(userInputs).every((key)=>{
+      if(key !== "userPwCheck"){
+        return regCheck(key);
+      }else{
+        return pwDoubleCheck();
+      }
+    });
+
+    if(validate){
+      alert("회원가입 만들 예정");
+    }else{
+      alert("값을 확인해 주세요.");
+    }
+  }
+
   return (
     <Section>
       <SectionHeader>
@@ -74,13 +107,21 @@ const Join = () => {
               <td>아이디</td>
               <td>
                 <Input
+                  ref={userInputs.userId}
                   name="userId"
-                  value={userInputs.userId}
                   onChange={onChangeHandler}
                 />
               </td>
               <td>
-                <Btn>중복확인</Btn>
+                <Btn onClick={()=>{
+                  const tmp = overlapUserId(userInputs.userId.current.value);
+                  console.log(tmp);
+                  if(overlapUserId(userInputs.userId.current.value) === "OVERLAP"){
+                  alert("중복이다");
+                }else{
+                  alert("사용가능한 아이디");
+                }
+                }}>중복확인</Btn>
               </td>
             </Tr>
             <Tr>
@@ -91,8 +132,8 @@ const Join = () => {
               <td>닉네임</td>
               <td>
                 <Input
+                  ref={userInputs.userNickname}
                   name="userNickname"
-                  value={userInputs.userNickname}
                   onChange={onChangeHandler}
                 />
               </td>
@@ -108,8 +149,8 @@ const Join = () => {
               <td>이메일</td>
               <td>
                 <Input
+                  ref={userInputs.userEmail}
                   name="userEmail"
-                  value={userInputs.userEmail}
                   onChange={onChangeHandler}
                 />
               </td>
@@ -125,9 +166,9 @@ const Join = () => {
               <td>비밀번호</td>
               <td>
                 <Input
+                  ref={userInputs.userPw}
                   name="userPw"
-                  value={userInputs.userPw}
-                  type="password"
+                  // type="password"
                   onChange={onChangeHandler}
                 />
               </td>
@@ -141,9 +182,10 @@ const Join = () => {
               <td>비밀번호 확인</td>
               <td>
                 <Input
+                  ref={userInputs.userPwCheck}
                   name="userPwCheck"
-                  value={userInputs.userPwCheck}
                   type="password"
+                  onChange={onChangeHandler}
                 />
               </td>
               <td colSpan="3"></td>
@@ -153,7 +195,7 @@ const Join = () => {
             </Tr>
           </table>
 
-          <Btn>회원가입</Btn>
+          <Btn onClick={joinUser}>회원가입</Btn>
         </Div>
       </Article>
     </Section>

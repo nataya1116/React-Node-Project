@@ -1,7 +1,7 @@
 const { User, sequelize } = require("../models");
 const Op = require("sequelize").Op;
 
-module.exports.login = async (userId, userPw) => {
+module.exports.loginUser = async (userId, userPw) => {
     try {
         return await User.findOne({
             include : ["userId", "userNickname", "userAuthorityId", "userConditionId", "userRefreshToken"],
@@ -14,10 +14,28 @@ module.exports.login = async (userId, userPw) => {
 
 // module.exports.overlapUserId = 
 
-module.exports.join = async ({userId, userPw, userNickname, userEmail}) => {
+module.exports.joinUser = async ({userId, userPw, userNickname, userEmail}) => {
     try {
         return await User.create({userId, userPw, userNickname, userEmail});
     } catch (err) {
         console.error(err);
+        return false;
+    }
+}
+
+module.exports.overlapUserId = async (userId) => {
+    try{
+        const user = await User.findOne({
+            attributes : ["user_id"],
+            where : { userId }
+        })
+        if(user) {
+            return false;
+        }else{
+            return true;
+        }
+    }catch (err){
+        console.error(err);
+        return false;
     }
 }
