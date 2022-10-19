@@ -116,11 +116,13 @@ const Join = () => {
               <td>
                 <Btn onClick={ async (e)=>{
                   const value = userInputs.userId?.current?.value;
-
                   if(!value) return;
-                  console.log(value);
+
+                  const check = userChecks.userId;
+                  if(check) return;
+
                   const result = await UserService.overlapUserId(value);
-                  console.log(result);
+
                   userInputs.userId.current.disabled = result;
                   e.target.disabled = result;
 
@@ -143,11 +145,13 @@ const Join = () => {
               <td>
                 <Btn onClick={ async (e)=>{
                   const value = userInputs.userNickname?.current?.value;
-
                   if(!value) return;
-                  console.log(value);
+
+                  const check = userChecks.userNickname;
+                  if(check) return;
+
                   const result = await UserService.overlapUserNickname(value);
-                  console.log(result);
+
                   userInputs.userNickname.current.disabled = result;
                   e.target.disabled = result;
                 }}>중복확인</Btn>
@@ -169,14 +173,17 @@ const Join = () => {
               <td>
                 <Btn onClick={ async (e)=>{
                   const value = userInputs.userEmail?.current?.value+"";
-
                   if(!value) return;
-                  console.log(value);
+
+                  const check = userChecks.userEmail;
+                  if(check) return;
+
                   const result = await UserService.overlapUserEmail(value);
-                  console.log(result);
+
                   userInputs.userEmail.current.disabled = result;
                   e.target.disabled = result;
-                }}>메일인증</Btn>
+
+                }}>중복확인</Btn>
               </td>
             </Tr>
             <Tr>

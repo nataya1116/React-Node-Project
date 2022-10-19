@@ -48,22 +48,16 @@ API.interceptors.request.use(
 API.interceptors.response.use(
     response =>{
         //응답에 대한 로직 작성
-        console.log("정상");
-        const state = response?.status;
-        if(state) console.log(state, "state");
+        // console.log("정상");
+        // const state = response?.status;
+        // if(state) console.log(state, "state");
         const res = response.data;
         return res
     },
     error=>{
-        console.log("비정상");
-        console.log(error);
-        const state = error.response?.status;
-        if(state) console.log(state, "error");
         // 응답 에러가 발생했을 때 수행할 로직
-        //console.error(error); //디버깅
-        // // return Promise.reject(error);
-        // const res = error?.response?.data;
-        return {ret: ''}
+        console.error(error); //디버깅
+        return Promise.reject(error);
     }
 );
 
