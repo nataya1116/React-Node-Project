@@ -3,14 +3,11 @@ import { Warpper } from './styledComponent/common_cs';
 import { Header, Footer } from './component';
 import { Reset } from 'styled-reset';
 import { Main, Join, Login, Mypage, Board, Ranking, Store, Admin, GiftBox } from './page';
-import { GiftModal } from './component/modal';
-import axios from 'axios';
+// import { GiftModal } from './component/modal';
+
 
 function App() {
-  function name() {
-    axios({url:"http://localhost:8000/12"}).then(e=>console.log(e))
-  }
-  name();
+
   return (
       <Warpper>
       <Reset />

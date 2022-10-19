@@ -1,31 +1,17 @@
 import API from "./core";
 
-export const overlapUserId = async (userId) => {
-    try {
-        const { data } = await API.get(`user/overlap_id/${userId}`);
-        return data;
-    } catch (err) {
-        console.error(err);
-        return "fail";
-    }
+export const overlapUserNickname = async (userNickname) => {
+    return await API.get(`/user/overlap_nickname/${userNickname}`);
 }
 
-// 
-// export const getUserInfo = async (userId) => {
-//     return await request({url:`user/info/${userId}`});
-// }
+export const overlapUserEmail = async (userEmail) => {
+    return await API.get(`/user/overlap_email/${userEmail}`);
+}
 
-// export const overlapUserId = async (userId) => {
-//     return await request({url:`/user/overlap_id/${userId}`});
-// }
+export const joinUser = async (userInfo) => {
+    return await API.put("/user/insert", userInfo);
+};
 
-// //post요청
-// export const joinUser = (userInfo) =>{
-//     return request(
-//                     {
-//                         method:'POST',
-//                         url:'/user/join',
-//                         data : userInfo
-//                     }
-//                 )
-// }
+export const overlapUserId = async (userId) => {
+    return await API.get(`/user/overlap_id/${userId}`);
+};

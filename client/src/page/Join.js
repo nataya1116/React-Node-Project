@@ -7,7 +7,8 @@ import {
 } from "../styledComponent/common_cs";
 import { Div, Tr, Input, Btn, CheckTd } from "../styledComponent/join_cs";
 
-import { overlapUserId } from "../api/user";
+// import { overlapUserId } from "../api/user";
+import { UserService } from "../service";
 
 const Join = () => {
 
@@ -113,16 +114,16 @@ const Join = () => {
                 />
               </td>
               <td>
-                <Btn onClick={async ()=>{
-                  const data = await overlapUserId(userInputs.userId.current.value);
-                  console.log(data);
-                  // const tmp = overlapUserId(userInputs.userId.current.value);
-                  // console.log(tmp);
-                //   if(overlapUserId(userInputs.userId.current.value) === "OVERLAP"){
-                //   alert("중복이다");
-                // }else{
-                //   alert("사용가능한 아이디");
-                // }
+                <Btn onClick={(e)=>{
+                  const value = userInputs.userId?.current?.value;
+
+                  if(!value) return;
+                  console.log(value);
+                  const result = UserService.overlapUserId(value);
+
+                  userInputs.userId.current.disabled = result;
+                  e.target.disabled = result;
+
                 }}>중복확인</Btn>
               </td>
             </Tr>
@@ -140,7 +141,16 @@ const Join = () => {
                 />
               </td>
               <td>
-                <Btn>중복확인</Btn>
+                <Btn onClick={(e)=>{
+                  const value = userInputs.userNickname?.current?.value;
+
+                  if(!value) return;
+                  console.log(value);
+                  const result = UserService.overlapUserNickname(value);
+
+                  userInputs.userNickname.current.disabled = result;
+                  e.target.disabled = result;
+                }}>중복확인</Btn>
               </td>
             </Tr>
             <Tr>
@@ -157,7 +167,16 @@ const Join = () => {
                 />
               </td>
               <td>
-                <Btn>메일인증</Btn>
+                <Btn onClick={(e)=>{
+                  const value = userInputs.userEmail?.current?.value+"";
+
+                  if(!value) return;
+                  console.log(value);
+                  const result = UserService.overlapUserEmail(value);
+
+                  userInputs.userEmail.current.disabled = result;
+                  e.target.disabled = result;
+                }}>메일인증</Btn>
               </td>
             </Tr>
             <Tr>

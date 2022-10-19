@@ -29,7 +29,42 @@ module.exports.overlapUserId = async (userId) => {
             attributes : ["user_id"],
             where : { userId }
         })
+        if(user) {
+            return false;
+        }else{
+            return true;
+        }
+    }catch (err){
+        console.error(err);
+        return false;
+    }
+}
+
+module.exports.overlapUserNickname = async (userNickname) => {
+    try{
+        const user = await User.findOne({
+            attributes : ["user_nickname"],
+            where : { userNickname }
+        })
         console.log(user);
+        if(user) {
+            return false;
+        }else{
+            return true;
+        }
+    }catch (err){
+        console.error(err);
+        return false;
+    }
+}
+
+
+module.exports.overlapUserEmail = async (userEmail) => {
+    try{
+        const user = await User.findOne({
+            attributes : ["user_email"],
+            where : { userEmail }
+        })
         if(user) {
             return false;
         }else{
