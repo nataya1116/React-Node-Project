@@ -1,4 +1,4 @@
-const { express, path, dot, session, cors } = require("./modules");
+const { express, dot, cors } = require("./modules");
 
 dot.config();
 
@@ -8,14 +8,14 @@ const app = express();
 
 const PORT = 8000;
 
-const { UserRouter, } = require("./routers");
-
-app.use("/user", UserRouter);
+//  요청 허용 라우터보다 아래에 설정해주면 cors가 작동하지 않는다.
+app.use(cors({origin:"http://localhost:3000", credentials: true}));
 
 app.use(express.json());
 
-//  요청 허용
-app.use(cors({origin:"http://localhost:3000", credentials: true}));
+const { UserRouter, } = require("./routers");
+
+app.use("/user", UserRouter);
 
 app.get("/12", (req, res)=> {
   res.send("안녕");

@@ -1,4 +1,4 @@
-import React, { useState , useRef } from "react";
+import React, { useState , useRef} from "react";
 import {
   Section,
   SectionHeader,
@@ -9,49 +9,64 @@ import { Div, Tr, Input, Btn, CheckTd } from "../styledComponent/join_cs";
 
 // import { overlapUserId } from "../api/user";
 import { UserService } from "../service";
+import { useNavigate } from 'react-router-dom';
 
 const Join = () => {
 
+  const nav = useNavigate();
+
   const userInputs = {
-    userId: useRef(),
-    userNickname: useRef(),
-    userEmail: useRef(),
-    userPw: useRef(),
-    userPwCheck: useRef(),
+    id: useRef(),
+    nickname: useRef(),
+    email: useRef(),
+    pw: useRef(),
+    pwCheck: useRef(),
   }
 
   const [userChecks, setUserChecks] = useState({
-    userId: "",
-    userNickname: "",
-    userEmail: "",
-    userPw: "",
-    userPwCheck: "",
+    id: "",
+    nickname: "",
+    email: "",
+    pw: "",
+    pwCheck: "",
+  });
+
+  const [userIsOverlaps, setUserIsOverlaps] = useState({
+    id: false,
+    nickname: false,
+    email: false,
   });
 
   const regs = {
-    userId: /^[a-z0-9]{4,8}$/g,
-    userNickname: /^[가-힝|a-zA-Z0-9]{2,5}$/g,
-    userEmail:
+    id: /^[a-z0-9]{4,8}$/g,
+    nickname: /^[가-힝|a-zA-Z0-9]{2,8}$/g,
+    email:
       /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/g,
-    userPw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/g,
+    pw: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/g,
   };
 
   const checkMsg = {
-    userId: "소문자 또는 숫자로 4~8자리입니다.",
-    userNickname: "특수문자를 제외한 2~5자리입니다.",
-    userEmail: "이메일을 확인해주세요.",
-    userPw: "대소문자와 숫자, 특수문자 포함 8~20자리입니다.",
-    userPwCheck: "비밀번호가 일치하지 않습니다.",
+    id: "소문자 또는 숫자로 4~8자리입니다.",
+    nickname: "특수문자를 제외한 2~8자리입니다.",
+    email: "이메일을 확인해주세요.",
+    pw: "대소문자와 숫자, 특수문자 포함 8~20자리입니다.",
+    pwCheck: "비밀번호가 일치하지 않습니다.",
   };
+
+  const overlapMsg = {
+    id: "아이디를 중복체크해주세요.",
+    nickname: "닉네임을 중복체크해주세요.",
+    email: "이메일을 중복체크해주세요.",
+  }
 
   const onChangeHandler = (e) => {
     const { name } = e.target;
-    if(name !== "userPwCheck"){
-      regCheck(name);
-    }else{
-      pwDoubleCheck();
-    }
     
+    if(name === "pwCheck"){
+      pwDoubleCheck();
+    }else{
+      regCheck(name);
+    }
   };
 
   const regTest = (name) => {
@@ -60,40 +75,99 @@ const Join = () => {
 
   const regCheck = (name) => {
     const isCorrect = regTest(name);
-    isCorrect
-      ? setUserChecks({ ...userChecks, [name]: "" })
-      : setUserChecks({ ...userChecks, [name]: checkMsg[name] });
+    let msg = isCorrect ? "" : checkMsg[name];
+
+    if(userIsOverlaps[name] !== undefined && !userIsOverlaps[name] && !msg ){
+      msg = overlapMsg[name];
+    }
+
+    setUserChecks({ ...userChecks, [name]:msg });
 
     return isCorrect;
   };
 
   const pwDoubleCheck = () => {
-    const userPw = userInputs.userPw.current.value;
-    const userPwCheck = userInputs.userPwCheck.current.value;
+    const pw = userInputs.pw.current.value;
+    const pwCheck = userInputs.pwCheck.current.value;
 
-    const isCorrect = userPw === userPwCheck ? true : false;
+    const isCorrect = pw === pwCheck ? true : false;
     
-    const msg = isCorrect ? "" : checkMsg.userPwCheck;
+    const msg = isCorrect ? "" : checkMsg.pwCheck;
 
-    setUserChecks({ ...userChecks, userPwCheck: msg });
+    setUserChecks({ ...userChecks, pwCheck: msg });
 
     return isCorrect;
   };
 
-  const joinUser = () => {
+  const joinUser = async () => {
     const validate = Object.keys(userInputs).every((key)=>{
-      if(key !== "userPwCheck"){
-        return regCheck(key);
-      }else{
+      if(key === "pwCheck"){
         return pwDoubleCheck();
+      }else{
+        return regCheck(key);
       }
     });
+    
+    console.log("1")
+    const isOverlap = Object.keys(userIsOverlaps).every((key)=>{
 
-    if(validate){
-      alert("회원가입 만들 예정");
-    }else{
+      return userIsOverlaps[key]});
+
+    if(!validate) {
       alert("값을 확인해 주세요.");
+      return;
     }
+
+    if(!isOverlap) {
+      alert("중복 체크를 해주세요.");
+      return;
+    }
+    
+    const result = await UserService.joinUser({
+      userId: userInputs.id.current.value,
+      userNickname: userInputs.nickname.current.value,
+      userEmail: userInputs.email.current.value,
+      userPw: userInputs.pw.current.value
+    });
+
+    if(result) nav("/login");
+
+  }
+
+  const overLapCheck = async (e) => {
+
+    const name = e.target.name;
+    const check = userChecks[name];
+
+    if(check !== overlapMsg[name]) return;
+
+    const value = userInputs[name]?.current?.value;
+
+    let result;
+    switch (name) {
+      case "id":
+        result = await UserService.overlapUserId(value);
+        break;
+      
+      case "nickname":
+        result = await UserService.overlapUserNickname(value);
+        break;
+
+      case "email":
+        result = await UserService.overlapUserEmail(value);
+        break;
+
+      default:
+        break;
+    }
+    
+
+    if(result) userChecks[name] = "";
+
+    userInputs[name].current.disabled = result;
+    e.target.disabled = result;
+
+    setUserIsOverlaps({ ...userIsOverlaps, [name]: result });
   }
 
   return (
@@ -108,110 +182,84 @@ const Join = () => {
               <td>아이디</td>
               <td>
                 <Input
-                  ref={userInputs.userId}
-                  name="userId"
+                  ref={userInputs.id}
+                  name="id"
                   onChange={onChangeHandler}
                 />
               </td>
               <td>
-                <Btn onClick={ async (e)=>{
-                  const value = userInputs.userId?.current?.value;
-                  if(!value) return;
-
-                  const check = userChecks.userId;
-                  if(check) return;
-
-                  const result = await UserService.overlapUserId(value);
-
-                  userInputs.userId.current.disabled = result;
-                  e.target.disabled = result;
-
-                }}>중복확인</Btn>
+                <Btn 
+                  name="id" 
+                  onClick={overLapCheck}
+                >중복확인</Btn>
               </td>
             </Tr>
             <Tr>
-              <CheckTd colSpan="3">{userChecks.userId}</CheckTd>
+              <CheckTd colSpan="3">{userChecks.id}</CheckTd>
             </Tr>
 
             <Tr>
               <td>닉네임</td>
               <td>
                 <Input
-                  ref={userInputs.userNickname}
-                  name="userNickname"
+                  ref={userInputs.nickname}
+                  name="nickname"
                   onChange={onChangeHandler}
                 />
               </td>
               <td>
-                <Btn onClick={ async (e)=>{
-                  const value = userInputs.userNickname?.current?.value;
-                  if(!value) return;
-
-                  const check = userChecks.userNickname;
-                  if(check) return;
-
-                  const result = await UserService.overlapUserNickname(value);
-
-                  userInputs.userNickname.current.disabled = result;
-                  e.target.disabled = result;
-                }}>중복확인</Btn>
+                <Btn  
+                  name="nickname" 
+                  onClick={overLapCheck}
+                  >중복확인</Btn>
               </td>
             </Tr>
             <Tr>
-              <CheckTd colSpan="3">{userChecks.userNickname}</CheckTd>
+              <CheckTd colSpan="3">{userChecks.nickname}</CheckTd>
             </Tr>
 
             <Tr>
               <td>이메일</td>
               <td>
                 <Input
-                  ref={userInputs.userEmail}
-                  name="userEmail"
+                  ref={userInputs.email}
+                  name="email"
                   onChange={onChangeHandler}
                 />
               </td>
               <td>
-                <Btn onClick={ async (e)=>{
-                  const value = userInputs.userEmail?.current?.value+"";
-                  if(!value) return;
-
-                  const check = userChecks.userEmail;
-                  if(check) return;
-
-                  const result = await UserService.overlapUserEmail(value);
-
-                  userInputs.userEmail.current.disabled = result;
-                  e.target.disabled = result;
-
-                }}>중복확인</Btn>
+                <Btn  
+                  name="email" 
+                  onClick={overLapCheck}
+                  >중복확인</Btn>
               </td>
             </Tr>
             <Tr>
-              <CheckTd colSpan="3">{userChecks.userEmail}</CheckTd>
+              <CheckTd colSpan="3">{userChecks.email}</CheckTd>
             </Tr>
 
             <Tr>
               <td>비밀번호</td>
               <td>
                 <Input
-                  ref={userInputs.userPw}
-                  name="userPw"
-                  // type="password"
+                  ref={userInputs.pw}
+                  name="pw"
+                  type="password"
                   onChange={onChangeHandler}
                 />
               </td>
               <td></td>
             </Tr>
             <Tr>
-              <CheckTd colSpan="3">{userChecks.userPw}</CheckTd>
+              <CheckTd colSpan="3">{userChecks.pw}</CheckTd>
             </Tr>
 
             <Tr>
               <td>비밀번호 확인</td>
               <td>
                 <Input
-                  ref={userInputs.userPwCheck}
-                  name="userPwCheck"
+                  ref={userInputs.pwCheck}
+                  name="pwCheck"
                   type="password"
                   onChange={onChangeHandler}
                 />
@@ -219,7 +267,7 @@ const Join = () => {
               <td colSpan="3"></td>
             </Tr>
             <Tr>
-              <CheckTd colSpan="3">{userChecks.userPwCheck}</CheckTd>
+              <CheckTd colSpan="3">{userChecks.pwCheck}</CheckTd>
             </Tr>
           </table>
 

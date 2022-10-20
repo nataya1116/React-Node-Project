@@ -39,6 +39,7 @@ const Input = styled.input`
     border-radius: 5%;
     border: 0;
     box-sizing: border-box;
+    /* color: ${(props) => props ? props.color : "black"}; */
 `
 
 const Btn = styled.button`

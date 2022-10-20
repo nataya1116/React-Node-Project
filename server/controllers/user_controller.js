@@ -1,13 +1,18 @@
-const UserService = require("../service/user_service");
+const { UserService, EncryptionService } = require("../service");
 const { SUCCESSE, FAIL, OVERLAP, POSSIBLE,  } = require("../config/respons");
 
 module.exports.joinUser = async (req, res) => {
+
     const { userId, userPw, userNickname, userEmail } = req.body;
+    console.log(req.body);
+    const encryptedUserPw = EncryptionService.pwEncryption(userPw);
 
-    const result = await UserService.joinUser({userId, userPw, userNickname, userEmail});
-
-    console.log(result);
-
+    const result = await UserService.joinUser({
+        userId, 
+        userPw : encryptedUserPw, 
+        userNickname, 
+        userEmail
+    });
 
     if(result){
         res.send({ret : SUCCESSE});
@@ -16,15 +21,39 @@ module.exports.joinUser = async (req, res) => {
     }
 }
 
-module.exports.overlapUserId = async (req, res) => {
-    // res.send({ret : POSSIBLE});
+module.exports.loginUser = async (req, res) => {
+    const  { userId, userPw } = req.body;
+    console.log(req.body);
+    const result = await UserService.loginUser(userId, userPw);
+    // console.log(result);
+    const user = result?.dataValues;
+    console.log(user);
+
+    if(!user?.userId) return res.send({ret : FAIL});
     
+    console.log(EncryptionService.pwEncryption("1111"));
+
+    const accessToken = TokenService.createAccessToken({
+        userId : user.userId,
+        authorityId : user.authorityId,
+        conditionId : user.conditionId
+    });
+
+    const refreshToken = TokenService.createRefreshToken({
+        userId : user.userId,
+        authorityId : user.authorityId,
+        conditionId : user.conditionId
+    });
+    
+    return res.send({ret : SUCCESSE, info : user, token : { accessToken, refreshToken }});
+}
+
+module.exports.overlapUserId = async (req, res) => {
+ 
     const { userId } = req.params;
     const result = await UserService.overlapUserId(userId);
-    console.log(result);
 
-    resHeader(res);
-
+    resHeader(res)
     if(result){
         res.send({ret : POSSIBLE});
     }else{
@@ -33,13 +62,11 @@ module.exports.overlapUserId = async (req, res) => {
 }
 
 module.exports.overlapUserNickname = async (req, res) => {
-    // res.send({ret : POSSIBLE});
+
     const { userNickname } = req.params;
     const result = await UserService.overlapUserNickname(userNickname);
-    console.log(result);
 
-    resHeader(res);
-
+    resHeader(res)
     if(result){
         res.send({ret : POSSIBLE});
     }else{
@@ -50,17 +77,15 @@ module.exports.overlapUserNickname = async (req, res) => {
 module.exports.overlapUserEmail = async (req, res) => {
     const { userEmail } = req.params;
     const result = await UserService.overlapUserEmail(userEmail);
-    console.log(result);
 
-    resHeader(res);
-
-    
+    resHeader(res)
     if(result){
         res.send({ret : POSSIBLE});
     }else{
         res.send({ret : OVERLAP});
     }
 }
+
 
 function resHeader(res) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
