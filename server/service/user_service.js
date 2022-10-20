@@ -13,11 +13,28 @@ module.exports.joinUser = async ({userId, userPw, userNickname, userEmail}) => {
 module.exports.loginUser = async (userId, userPw) => {
     try {
         return await User.findOne({
-            attributes : ["userId", "userNickname", "authorityId", "conditionId", "userRefreshToken"],
+            attributes : ["userId", "userNickname", "authorityId", "conditionId"],
             where : { userId, userPw }
         })
     } catch (err) {
         console.error(err);
+        return false;
+    }
+}
+
+module.exports.updateUserRefreshToken = async (userId, userRefreshToken) => {
+    try {
+        return await User.update(
+            {
+                userRefreshToken, 
+                userLastLogin : new Date()}, 
+            {
+                where : { userId }
+            }
+        )
+    } catch (err) {
+        console.error(err);
+        return false;
     }
 }
 

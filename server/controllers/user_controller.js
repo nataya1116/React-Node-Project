@@ -1,4 +1,4 @@
-const { UserService, EncryptionService } = require("../service");
+const { UserService, EncryptionService, TokenService } = require("../service");
 const { SUCCESSE, FAIL, OVERLAP, POSSIBLE,  } = require("../config/respons");
 
 module.exports.joinUser = async (req, res) => {
@@ -33,6 +33,11 @@ module.exports.loginUser = async (req, res) => {
     
     console.log(EncryptionService.pwEncryption("1111"));
 
+    const id = user.userId;
+    const nickname = user.userNickname;
+    const authorityId = user.authorityId;
+    const conditionId = user.conditionId;
+
     const accessToken = TokenService.createAccessToken({
         userId : user.userId,
         authorityId : user.authorityId,
@@ -44,8 +49,10 @@ module.exports.loginUser = async (req, res) => {
         authorityId : user.authorityId,
         conditionId : user.conditionId
     });
-    
-    return res.send({ret : SUCCESSE, info : user, token : { accessToken, refreshToken }});
+
+    UserService.updateUserRefreshToken(user.userId, refreshToken);
+    // {id, nickname, authorityId, conditionId}
+    return res.send({ret : SUCCESSE, info : {id, nickname, authorityId, conditionId, accessToken, refreshToken } });
 }
 
 module.exports.overlapUserId = async (req, res) => {

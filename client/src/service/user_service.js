@@ -1,4 +1,5 @@
 import { UserAPI } from "../api";
+import { SessionService } from ".";
 
 
 export const overlapUserNickname = async(value)=> {
@@ -67,6 +68,16 @@ export const loginUser = async(userId, userPw)=>{
 
     if(data?.ret === "SUCCESSE"){
         alert("로그인에 성공하였습니다.");
+
+        // accessToken, refreshToken
+        // sessionStorage.setItem("accessToken", data?.token.accessToken);
+        // sessionStorage.setItem("refreshToken", data?.token.refreshToken);
+
+        // console.log("accessToken", sessionStorage.getItem("accessToken"));
+        // console.log("refreshToken", sessionStorage.getItem("refreshToken"));
+
+        SessionService.setInfo()
+
         return true;
     }else if(data?.ret === "FAIL"){
         alert("아이디 또는 비밀번호가 맞지 않습니다.");
