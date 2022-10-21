@@ -3,8 +3,8 @@ import { LOG_IN, LOG_OUT, POINT } from '../common';
 let init = {
     id : null,
     nickname : null,
-    authorityId : null, 
-    conditionId : null,
+    authorityNo : null, 
+    conditionNo : null,
     point : null,
     isLogin : false,
 }
@@ -17,8 +17,8 @@ function reducer(state = init, action) {
             return { ...state, 
                         id : payload.id, 
                         nickname : payload.nickname,
-                        authorityId : payload.authorityId, 
-                        conditionId : payload.conditionId,
+                        authorityNo : payload.authorityNo, 
+                        conditionNo : payload.conditionNo,
                         isLogin : true
                     };
         case LOG_OUT:
@@ -26,8 +26,8 @@ function reducer(state = init, action) {
             return { ...state, 
                         id : null,
                         nickname : null,
-                        authorityId : null, 
-                        conditionId : null,
+                        authorityNo : null, 
+                        conditionNo : null,
                         point : null,
                         isLogin : false
                     };

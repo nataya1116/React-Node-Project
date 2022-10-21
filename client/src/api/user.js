@@ -19,3 +19,7 @@ export const join = async ({id, nickname, email, pw}) => {
 export const login = async (id, pw) => {
     return await API.post("/user/login", { id, pw });
 }
+
+export const getPoint = async (id) => {
+    return await API.post("user/point", {id});
+}

@@ -29,33 +29,45 @@ module.exports.login = async (req, res) => {
 
     const user = result?.dataValues;
 
-    if(!user?.userId) return res.send({ret : FAIL});
+    if(!user?.id) return res.send({ret : FAIL});
 
     const isLogin = EncryptionService.isPwCheck(pw, user?.userPw);
     
     if(!isLogin) return res.send({ret : FAIL});
 
-    const nickname = user?.userNickname;
-    const authorityId = user?.authorityId;
-    const conditionId = user?.conditionId;
+    const nickname = user?.nickname;
+    const authorityNo = user?.authorityNo;
+    const conditionNo = user?.conditionNo;
 
     const accessToken = TokenService.createAccessToken({
         id,
         nickname,
-        authorityId,
-        conditionId
+        authorityNo,
+        conditionNo
     });
 
     const refreshToken = TokenService.createRefreshToken({
         id,
         nickname,
-        authorityId,
-        conditionId
+        authorityNo,
+        conditionNo
     });
 
-    UserService.updateUserRefreshToken(id, refreshToken);
-    // {id, nickname, authorityId, conditionId}
-    return res.send({ret : SUCCESSE, info : { nickname, authorityId, conditionId, accessToken, refreshToken } });
+    UserService.updateRefreshToken(id, refreshToken);
+    // {id, nickname, authorityNo, conditionNo}
+    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, conditionNo, accessToken, refreshToken } });
+}
+
+module.exports.getPoint = async (req, res) => {
+    const { id } = req.body;
+    const result = await UserService.getPoint(id);
+
+    const user = result?.dataValues;
+
+    if(!user?.id) return res.send({ret : FAIL});
+
+    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, conditionNo, accessToken, refreshToken } });
+
 }
 
 module.exports.overlapId = async (req, res) => {

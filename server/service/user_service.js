@@ -13,7 +13,7 @@ module.exports.join = async ({userId, userPw, userNickname, userEmail}) => {
 module.exports.login = async (userId) => {
     try {
         return await User.findOne({
-            attributes : ["userId", "userPw", "userNickname", "authorityId", "conditionId"],
+            attributes : ["id", "pw", "nickname", "authorityNo", "conditionNo"],
             where : { userId}
         })
     } catch (err) {
@@ -22,7 +22,22 @@ module.exports.login = async (userId) => {
     }
 }
 
-module.exports.updateUserRefreshToken = async (userId, userRefreshToken) => {
+
+
+module.exports.getPoint = async (userId) => {
+    try {
+        return await User.findOne({
+            attributes : ["point"],
+            where : { userId }
+        })
+    } catch (err){
+        console.error(err);
+        return false; 
+    }
+}
+
+
+module.exports.updateRefreshToken = async (userId, userRefreshToken) => {
     try {
         return await User.update(
             {

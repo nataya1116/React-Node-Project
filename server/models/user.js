@@ -8,7 +8,13 @@ class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        userId: {
+        no: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          allowNull: false,
+          autoIncrement: true
+        },
+        id: {
           // 데이터 타입 설정
           type: Sequelize.STRING(20),
           // 널 값 허용 여부
@@ -16,35 +22,35 @@ class User extends Sequelize.Model {
           // 고유값 여부
           unique: true,
         },
-        userPw: {
+        pw: {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
-        userNickname: {
+        nickname: {
           type: Sequelize.STRING(50),
           allowNull: false,
         },
-        userEmail: {
+        email: {
           type: Sequelize.STRING(50),
           allowNull: false
         },
-        userSocketId: {
+        socketId: {
           type: Sequelize.STRING,
         },
-        userRefreshToken: {
+        refreshToken: {
           type: Sequelize.STRING
         },
-        authorityId: {
+        authorityNo: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: USER
         },
-        conditionId: {
+        conditionNo: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: WAITING
         },
-        userLastLogin : {
+        lastLogin : {
           type: Sequelize.DATE,
           get() {
             return moment(this.getDataValue("lastLogin")).format("YYYY/MM/DD HH:mm:ss");
@@ -91,8 +97,8 @@ class User extends Sequelize.Model {
 
   static associate(db) {
     // N : 1
-    db.User.belongsTo(db.Authority, { foreignKey: "authorityId", targetKey: "id" });
-    db.User.belongsTo(db.ConditionUser, { foreignKey: "conditionId", targetKey: "id" });
+    db.User.belongsTo(db.Authority, { foreignKey: "authorityNo", targetKey: "no" });
+    db.User.belongsTo(db.ConditionUser, { foreignKey: "conditionNo", targetKey: "no" });
   }
 }
 

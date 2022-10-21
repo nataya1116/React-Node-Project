@@ -16,4 +16,6 @@ router.get("/overlap_nickname/:nickname", UserController.overlapNickname);
 
 router.get("/overlap_email/:email", UserController.overlapEmail);
 
+router.post("/point", UserController.getPoint);
+
 module.exports = router;

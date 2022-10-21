@@ -4,22 +4,22 @@ import { LOG_IN, LOG_OUT, POINT } from '../common';
 
 function login(id, pw, nav){
     return async(dispatch, getState) => {
-            console.log("userAction.login");
-            const data = await UserAPI.login(id, pw);
 
-            if(data?.ret === SUCCESSE){
+            const result = await UserAPI.login(id, pw);
+
+            if(result?.ret === SUCCESSE){
                 
-                const { nickname, authorityId, conditionId, accessToken, refreshToken } = data?.info;
+                const { nickname, authorityNo, conditionNo, accessToken, refreshToken } = result?.data;
 
                 SessionService.setToken({accessToken, refreshToken});
 
-                dispatch({type : LOG_IN, payload:{ id, nickname, authorityId, conditionId }});
+                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, conditionNo }});
 
                 alert("로그인에 성공하였습니다.");
 
                 nav("/");
 
-            }else if(data?.ret === FAIL){
+            }else if(result?.ret === FAIL){
                 alert("아이디 또는 비밀번호가 맞지 않습니다.");
             }else{
                 alert("통신의 문제가 있습니다. 다시 시도해주세요.");
