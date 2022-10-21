@@ -45,7 +45,7 @@ class User extends Sequelize.Model {
           allowNull: false,
           defaultValue: USER
         },
-        conditionNo: {
+        stateNo: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: WAITING
@@ -98,7 +98,7 @@ class User extends Sequelize.Model {
   static associate(db) {
     // N : 1
     db.User.belongsTo(db.Authority, { foreignKey: "authorityNo", targetKey: "no" });
-    db.User.belongsTo(db.ConditionUser, { foreignKey: "conditionNo", targetKey: "no" });
+    db.User.belongsTo(db.StateUser, { foreignKey: "stateNo", targetKey: "no" });
   }
 }
 

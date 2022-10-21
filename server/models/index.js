@@ -4,7 +4,7 @@ const { config } = require("../config");
 
 const User = require("./user");
 const Authority = require("./authority");
-const ConditionUser = require("./condition_user");
+const StateUser = require("./state_user");
 
 const sequelize = new Sequelize(
     config.dev.database,
@@ -18,14 +18,14 @@ db.sequelize = sequelize;
 
 db.User = User;
 db.Authority = Authority;
-db.ConditionUser = ConditionUser;
+db.StateUser = StateUser;
 
 User.init(sequelize);
 Authority.init(sequelize);
-ConditionUser.init(sequelize);
+StateUser.init(sequelize);
 
 User.associate(db);
 Authority.associate(db);
-ConditionUser.associate(db);
+StateUser.associate(db);
 
 module.exports = db;

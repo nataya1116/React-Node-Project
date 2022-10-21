@@ -37,25 +37,25 @@ module.exports.login = async (req, res) => {
 
     const nickname = user?.nickname;
     const authorityNo = user?.authorityNo;
-    const conditionNo = user?.conditionNo;
+    const stateNo = user?.stateNo;
 
     const accessToken = TokenService.createAccessToken({
         id,
         nickname,
         authorityNo,
-        conditionNo
+        stateNo
     });
 
     const refreshToken = TokenService.createRefreshToken({
         id,
         nickname,
         authorityNo,
-        conditionNo
+        stateNo
     });
 
     UserService.updateRefreshToken(id, refreshToken);
-    // {id, nickname, authorityNo, conditionNo}
-    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, conditionNo, accessToken, refreshToken } });
+    // {id, nickname, authorityNo, stateNo}
+    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
 }
 
 module.exports.getPoint = async (req, res) => {
@@ -66,7 +66,7 @@ module.exports.getPoint = async (req, res) => {
 
     if(!user?.id) return res.send({ret : FAIL});
 
-    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, conditionNo, accessToken, refreshToken } });
+    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
 
 }
 

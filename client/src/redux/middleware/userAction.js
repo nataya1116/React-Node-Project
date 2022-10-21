@@ -9,11 +9,11 @@ function login(id, pw, nav){
 
             if(result?.ret === SUCCESSE){
                 
-                const { nickname, authorityNo, conditionNo, accessToken, refreshToken } = result?.data;
+                const { nickname, authorityNo, stateNo, accessToken, refreshToken } = result?.data;
 
                 SessionService.setToken({accessToken, refreshToken});
 
-                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, conditionNo }});
+                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo }});
 
                 alert("로그인에 성공하였습니다.");
 

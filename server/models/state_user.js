@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-class ConditionUser extends Sequelize.Model {
+class StateUser extends Sequelize.Model {
     static init(sequelize){
         return super.init(
             {
@@ -18,8 +18,8 @@ class ConditionUser extends Sequelize.Model {
             {
                 sequelize,
                 underscored : true,
-                modelName : "ConditionUser",
-                tableName : "condition_user",
+                modelName : "StateUser",
+                tableName : "state_user",
                 charset: "utf8",
                 collate: "utf8_general_ci"
             }
@@ -28,8 +28,8 @@ class ConditionUser extends Sequelize.Model {
 
     static associate(db) {
         // 1 : N
-        db.ConditionUser.hasMany(db.User, { foreignKey: "conditionNo", sourceKey: "no" });
+        db.StateUser.hasMany(db.User, { foreignKey: "stateNo", sourceKey: "no" });
     }
 }
 
-module.exports = ConditionUser;
+module.exports = StateUser;

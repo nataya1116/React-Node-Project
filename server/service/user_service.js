@@ -13,7 +13,7 @@ module.exports.join = async ({userId, userPw, userNickname, userEmail}) => {
 module.exports.login = async (userId) => {
     try {
         return await User.findOne({
-            attributes : ["id", "pw", "nickname", "authorityNo", "conditionNo"],
+            attributes : ["id", "pw", "nickname", "authorityNo", "stateNo"],
             where : { userId}
         })
     } catch (err) {

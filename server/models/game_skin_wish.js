@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const moment = require("moment");
 
-class PointTotal extends Sequelize.Model {
+class GameSkinWish extends Sequelize.Model {
     static init(sequelize){
         return super.init(
             {
@@ -14,32 +14,30 @@ class PointTotal extends Sequelize.Model {
                 userNo : {
                     type : Sequelize.INTEGER,
                     allowNull : false,
-                    unique : true
                 },
-                point : {
+                productNo : {
                     type : Sequelize.INTEGER,
-                    allowNull : false
-                }
+                    allowNull : false,
+                },
             },
             {
                 sequelize,
                 underscored : true,
-                // 모델 이름 설정
-                modelName : "PointTotal",
-                // 테이블 이름 설정
-                tableName : "point_total",
-                // 삭제 컬럼 생성
+                modelName : "GameSkinWish",
+                tableName : "game_skin_wish",
+                timestamps : true,
                 paranoid : true,
                 charset: "utf8",
-                collate: "utf8_general_ci"
+                collate: "utf8_general_ci",
             }
         )
     }
 
-    static associate(db){
-        // 1 : 1
-        db.PointTotal.belongsTo(db.User, {foreignKey: "userNo", targetKey: "no"});
+    static associate(db) {
+        // N : 1
+        db.GameSkinWish.belongsTo(db.User, { foreignKey: "userNo", targetKey: "no" });
+        db.GameSkinWish.belongsTo(db.GameSkinProducts, { foreignKey: "productNo", targetKey: "no" });
     }
 }
 
-module.exports = PointTotal;
+module.exports = GameSkinWish;

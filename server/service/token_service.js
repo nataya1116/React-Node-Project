@@ -4,14 +4,14 @@ const { jwt , dot } = require("../modules");
 dot.config();
 
 // 인자로 추가할 값 포인트, 권한
-module.exports.createAccessToken = ({id, nickname, authorityNo, conditionNo}) => {
+module.exports.createAccessToken = ({id, nickname, authorityNo, stateNo}) => {
     
     return jwt.sign(
                     {
                         id, 
                         nickname,
                         authorityNo,
-                        conditionNo
+                        stateNo
                     },
                     process.env.ACCESS_TOKEN_KEY,
                     {
@@ -20,14 +20,14 @@ module.exports.createAccessToken = ({id, nickname, authorityNo, conditionNo}) =>
                 );
 }
 
-module.exports.createRefreshToken = ({id, nickname, authorityNo, conditionNo}) => {
+module.exports.createRefreshToken = ({id, nickname, authorityNo, stateNo}) => {
     
     return jwt.sign(
                     {
                         id, 
                         nickname,
                         authorityNo,
-                        conditionNo
+                        stateNo
                     },
                     process.env.REFRESH_TOKEN_KEY,
                     {

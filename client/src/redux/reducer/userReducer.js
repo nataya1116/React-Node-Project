@@ -4,7 +4,7 @@ let init = {
     id : null,
     nickname : null,
     authorityNo : null, 
-    conditionNo : null,
+    stateNo : null,
     point : null,
     isLogin : false,
 }
@@ -18,7 +18,7 @@ function reducer(state = init, action) {
                         id : payload.id, 
                         nickname : payload.nickname,
                         authorityNo : payload.authorityNo, 
-                        conditionNo : payload.conditionNo,
+                        stateNo : payload.stateNo,
                         isLogin : true
                     };
         case LOG_OUT:
@@ -27,7 +27,7 @@ function reducer(state = init, action) {
                         id : null,
                         nickname : null,
                         authorityNo : null, 
-                        conditionNo : null,
+                        stateNo : null,
                         point : null,
                         isLogin : false
                     };
