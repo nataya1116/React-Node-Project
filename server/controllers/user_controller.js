@@ -1,17 +1,17 @@
 const { UserService, EncryptionService, TokenService } = require("../service");
 const { SUCCESSE, FAIL, OVERLAP, POSSIBLE,  } = require("../config/respons");
 
-module.exports.joinUser = async (req, res) => {
+module.exports.join = async (req, res) => {
 
-    const { userId, userPw, userNickname, userEmail } = req.body;
+    const { id, pw, nickname, email } = req.body;
     console.log(req.body);
-    const encryptedUserPw = EncryptionService.pwEncryption(userPw);
+    const encryptedUserPw = EncryptionService.pwEncryption(pw);
 
-    const result = await UserService.joinUser({
-        userId, 
+    const result = await UserService.join({
+        id : id, 
         userPw : encryptedUserPw, 
-        userNickname, 
-        userEmail
+        nickname : nickname, 
+        email : email
     });
 
     if(result){
@@ -21,44 +21,47 @@ module.exports.joinUser = async (req, res) => {
     }
 }
 
-module.exports.loginUser = async (req, res) => {
-    const  { userId, userPw } = req.body;
-    console.log(req.body);
-    const result = await UserService.loginUser(userId, userPw);
-    // console.log(result);
+module.exports.login = async (req, res) => {
+
+    const  { id, pw } = req.body;
+
+    const result = await UserService.login(id);
+
     const user = result?.dataValues;
-    console.log(user);
 
     if(!user?.userId) return res.send({ret : FAIL});
-    
-    console.log(EncryptionService.pwEncryption("1111"));
 
-    const id = user.userId;
-    const nickname = user.userNickname;
-    const authorityId = user.authorityId;
-    const conditionId = user.conditionId;
+    const isLogin = EncryptionService.isPwCheck(pw, user?.userPw);
+    
+    if(!isLogin) return res.send({ret : FAIL});
+
+    const nickname = user?.userNickname;
+    const authorityId = user?.authorityId;
+    const conditionId = user?.conditionId;
 
     const accessToken = TokenService.createAccessToken({
-        userId : user.userId,
-        authorityId : user.authorityId,
-        conditionId : user.conditionId
+        id,
+        nickname,
+        authorityId,
+        conditionId
     });
 
     const refreshToken = TokenService.createRefreshToken({
-        userId : user.userId,
-        authorityId : user.authorityId,
-        conditionId : user.conditionId
+        id,
+        nickname,
+        authorityId,
+        conditionId
     });
 
-    UserService.updateUserRefreshToken(user.userId, refreshToken);
+    UserService.updateUserRefreshToken(id, refreshToken);
     // {id, nickname, authorityId, conditionId}
-    return res.send({ret : SUCCESSE, info : {id, nickname, authorityId, conditionId, accessToken, refreshToken } });
+    return res.send({ret : SUCCESSE, info : { nickname, authorityId, conditionId, accessToken, refreshToken } });
 }
 
-module.exports.overlapUserId = async (req, res) => {
+module.exports.overlapId = async (req, res) => {
  
-    const { userId } = req.params;
-    const result = await UserService.overlapUserId(userId);
+    const { id } = req.params;
+    const result = await UserService.overlapId(id);
 
     resHeader(res)
     if(result){
@@ -68,10 +71,10 @@ module.exports.overlapUserId = async (req, res) => {
     }
 }
 
-module.exports.overlapUserNickname = async (req, res) => {
+module.exports.overlapNickname = async (req, res) => {
 
-    const { userNickname } = req.params;
-    const result = await UserService.overlapUserNickname(userNickname);
+    const { nickname } = req.params;
+    const result = await UserService.overlapNickname(nickname);
 
     resHeader(res)
     if(result){
@@ -81,9 +84,9 @@ module.exports.overlapUserNickname = async (req, res) => {
     }
 }
 
-module.exports.overlapUserEmail = async (req, res) => {
-    const { userEmail } = req.params;
-    const result = await UserService.overlapUserEmail(userEmail);
+module.exports.overlapEmail = async (req, res) => {
+    const { email } = req.params;
+    const result = await UserService.overlapEmail(email);
 
     resHeader(res)
     if(result){

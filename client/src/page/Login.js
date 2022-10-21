@@ -1,11 +1,14 @@
 import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { UserService } from '../service';
+import { UserAction } from '../redux/middleware';
 import { Section, SectionHeader, SectionTitle, Article } from '../styledComponent/common_cs';
 import { Div, Tr, Input } from '../styledComponent/join_cs';
 import { Btn, LoginLink, FindDiv, FindLink } from '../styledComponent/login_cs';
 
 const Login = () => {
+
+    const dispatch = useDispatch();
 
     const nav = useNavigate();
 
@@ -14,11 +17,11 @@ const Login = () => {
       pw: useRef()
     }
 
-    const loginUser = async () => {
+    const login = () => {
         const id = userInputs.id.current.value;
         const pw = userInputs.pw.current.value;
-        const result = await UserService.loginUser(id, pw);
-        if(result) nav("/");
+
+        dispatch(UserAction.login(id, pw, nav));
     }
 
   return (
@@ -46,7 +49,7 @@ const Login = () => {
                 </table>
 
                 <Btn 
-                    onClick={loginUser}
+                    onClick={login}
                 >로그인</Btn>
 
                 <LoginLink to="/join">회원가입</LoginLink>

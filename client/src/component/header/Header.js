@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const Header = () => {
 //   const nav = useNavigate();
   const isLogin = useSelector(state=>state.userReducer.isLogin);
-  const userId = useSelector(state=>state.userReducer.id);
+  const id = useSelector(state=>state.userReducer.nickname);
   return (
     <HeaderWap>
         <Link to="/"><Icon src='/img/icon/game-console.png' /></Link>
@@ -19,7 +19,8 @@ const Header = () => {
             <Link to="/ranking"><Icon src='/img/icon/first-prize.png' /></Link>
             {
               isLogin ?
-              <Link to="/mypage">{userId}님</Link> :
+              <Link to="/mypage"><span>{id}님</span></Link> :
+              // <Link to="/mypage">{id}님</Link> :
               <Link to="/login"><Icon src='/img/icon/join.png' /></Link>
             }
         </div>

@@ -1,3 +1,3 @@
-import { userAction } from "./userAction";
+import { UserAction } from "./userAction";
 
-export { userAction }
+export { UserAction }

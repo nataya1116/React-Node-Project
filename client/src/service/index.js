@@ -1,5 +1,5 @@
-import * as UserService from './user_service';
-import * as SessionService from './session_service';
+import * as UserService from './userService';
+import * as SessionService from './sessionService';
 
 
 export { UserService, SessionService };

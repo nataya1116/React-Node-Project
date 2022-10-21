@@ -1,21 +1,21 @@
 import API from "./core";
 
-export const overlapUserNickname = async (userNickname) => {
-    return await API.get(`/user/overlap_nickname/${userNickname}`);
+export const overlapNickname = async (nickname) => {
+    return await API.get(`/user/overlap_nickname/${nickname}`);
 }
 
-export const overlapUserId = async (userId) => {
-    return await API.get(`/user/overlap_id/${userId}`);
+export const overlapId = async (id) => {
+    return await API.get(`/user/overlap_id/${id}`);
 };
 
-export const overlapUserEmail = async (userEmail) => {
-    return await API.get(`/user/overlap_email/${userEmail}`);
+export const overlapEmail = async (email) => {
+    return await API.get(`/user/overlap_email/${email}`);
 }
 
-export const joinUser = async ({userId, userNickname, userEmail, userPw}) => {
-    return await API.post("/user/join", { userId, userNickname, userEmail, userPw});
+export const join = async ({id, nickname, email, pw}) => {
+    return await API.post("/user/join", { id, nickname, email, pw});
 };
 
-export const loginUser = async (userId, userPw) => {
-    return await API.post("/user/login", { userId, userPw });
+export const login = async (id, pw) => {
+    return await API.post("/user/login", { id, pw });
 }

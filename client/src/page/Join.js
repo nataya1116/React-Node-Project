@@ -7,7 +7,7 @@ import {
 } from "../styledComponent/common_cs";
 import { Div, Tr, Input, Btn, CheckTd } from "../styledComponent/join_cs";
 
-// import { overlapUserId } from "../api/user";
+// import { overlapId } from "../api/user";
 import { UserService } from "../service";
 import { useNavigate } from 'react-router-dom';
 
@@ -99,7 +99,7 @@ const Join = () => {
     return isCorrect;
   };
 
-  const joinUser = async () => {
+  const join = async () => {
     const validate = Object.keys(userInputs).every((key)=>{
       if(key === "pwCheck"){
         return pwDoubleCheck();
@@ -123,11 +123,11 @@ const Join = () => {
       return;
     }
     
-    const result = await UserService.joinUser({
-      userId: userInputs.id.current.value,
-      userNickname: userInputs.nickname.current.value,
-      userEmail: userInputs.email.current.value,
-      userPw: userInputs.pw.current.value
+    const result = await UserService.join({
+      id: userInputs.id.current.value,
+      nickname: userInputs.nickname.current.value,
+      email: userInputs.email.current.value,
+      pw: userInputs.pw.current.value
     });
 
     if(result) nav("/login");
@@ -146,15 +146,15 @@ const Join = () => {
     let result;
     switch (name) {
       case "id":
-        result = await UserService.overlapUserId(value);
+        result = await UserService.overlapId(value);
         break;
       
       case "nickname":
-        result = await UserService.overlapUserNickname(value);
+        result = await UserService.overlapNickname(value);
         break;
 
       case "email":
-        result = await UserService.overlapUserEmail(value);
+        result = await UserService.overlapEmail(value);
         break;
 
       default:
@@ -271,7 +271,7 @@ const Join = () => {
             </Tr>
           </table>
 
-          <Btn onClick={joinUser}>회원가입</Btn>
+          <Btn onClick={join}>회원가입</Btn>
         </Div>
       </Article>
     </Section>

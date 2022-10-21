@@ -108,7 +108,7 @@ const BoardList = () => {
                   <select>
                       <option value="title" >제목</option>
                       <option value="content" >내용</option>
-                      <option value="userId" >작성자</option>
+                      <option value="nickname" >작성자</option>
                   </select>
                   <input/>
                       <Btn>검색</Btn>

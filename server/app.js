@@ -17,10 +17,6 @@ const { UserRouter, } = require("./routers");
 
 app.use("/user", UserRouter);
 
-app.get("/12", (req, res)=> {
-  res.send("안녕");
-});
-
 app.listen(PORT, () => {
     console.log(PORT, "번 포트 대기 중");
 });

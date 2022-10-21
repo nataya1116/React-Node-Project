@@ -6,14 +6,14 @@ const router = express.Router();
 
 const UserController = require("../controllers/user_controller");
 
-router.post("/join", UserController.joinUser);
+router.post("/join", UserController.join);
 
-router.post("/login", UserController.loginUser);
+router.post("/login", UserController.login);
 
-router.get("/overlap_id/:userId", UserController.overlapUserId);
+router.get("/overlap_id/:id", UserController.overlapId);
 
-router.get("/overlap_nickname/:userNickname", UserController.overlapUserNickname);
+router.get("/overlap_nickname/:nickname", UserController.overlapNickname);
 
-router.get("/overlap_email/:userEmail", UserController.overlapUserEmail);
+router.get("/overlap_email/:email", UserController.overlapEmail);
 
 module.exports = router;

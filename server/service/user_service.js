@@ -1,7 +1,7 @@
 const { User, sequelize } = require("../models");
 const Op = require("sequelize").Op;
 
-module.exports.joinUser = async ({userId, userPw, userNickname, userEmail}) => {
+module.exports.join = async ({userId, userPw, userNickname, userEmail}) => {
     try {
         return await User.create({userId, userPw, userNickname, userEmail});
     } catch (err) {
@@ -10,11 +10,11 @@ module.exports.joinUser = async ({userId, userPw, userNickname, userEmail}) => {
     }
 }
 
-module.exports.loginUser = async (userId, userPw) => {
+module.exports.login = async (userId) => {
     try {
         return await User.findOne({
-            attributes : ["userId", "userNickname", "authorityId", "conditionId"],
-            where : { userId, userPw }
+            attributes : ["userId", "userPw", "userNickname", "authorityId", "conditionId"],
+            where : { userId}
         })
     } catch (err) {
         console.error(err);
@@ -38,7 +38,7 @@ module.exports.updateUserRefreshToken = async (userId, userRefreshToken) => {
     }
 }
 
-module.exports.overlapUserId = async (userId) => {
+module.exports.overlapId = async (userId) => {
     try{
         const user = await User.findOne({
             attributes : ["user_id"],
@@ -55,7 +55,7 @@ module.exports.overlapUserId = async (userId) => {
     }
 }
 
-module.exports.overlapUserNickname = async (userNickname) => {
+module.exports.overlapNickname = async (userNickname) => {
     try{
         const user = await User.findOne({
             attributes : ["user_nickname"],
@@ -74,7 +74,7 @@ module.exports.overlapUserNickname = async (userNickname) => {
 }
 
 
-module.exports.overlapUserEmail = async (userEmail) => {
+module.exports.overlapEmail = async (userEmail) => {
     try{
         const user = await User.findOne({
             attributes : ["user_email"],
