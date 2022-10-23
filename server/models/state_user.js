@@ -20,6 +20,8 @@ class StateUser extends Sequelize.Model {
                 underscored : true,
                 modelName : "StateUser",
                 tableName : "state_user",
+                timestamps : false, 
+                paranoid : false,
                 charset: "utf8",
                 collate: "utf8_general_ci"
             }

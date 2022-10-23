@@ -99,6 +99,23 @@ class User extends Sequelize.Model {
     // N : 1
     db.User.belongsTo(db.Authority, { foreignKey: "authorityNo", targetKey: "no" });
     db.User.belongsTo(db.StateUser, { foreignKey: "stateNo", targetKey: "no" });
+
+    // 1 : N
+    db.User.hasMany(db.InactiveUser, { foreignKey: "userNo", sourceKey: "no" });
+
+    db.User.hasMany(db.FreeBoard, { foreignKey: "userNo", sourceKey: "no" });
+    db.User.hasMany(db.FreeReply, { foreignKey: "userNo", sourceKey: "no" });
+
+    db.User.hasMany(db.NoticeBoard, { foreignKey: "userNo", sourceKey: "no" });
+    db.User.hasMany(db.NoticeReply, { foreignKey: "userNo", sourceKey: "no" });
+
+    db.User.hasMany(db.GameSkinOrder, { foreignKey: "orderUserNo", sourceKey: "no" });
+    db.User.hasMany(db.GameSkinOrder, { foreignKey: "receiveUserNo", sourceKey: "no" });
+    db.User.hasMany(db.GameSkinUser, { foreignKey: "userNo", sourceKey: "no" });
+    db.User.hasMany(db.GameSkinWish, { foreignKey: "userNo", sourceKey: "no" });
+
+    db.User.hasMany(db.PointHistory, { foreignKey: "userNo", sourceKey: "no" });
+    db.User.hasMany(db.PointTotal, { foreignKey: "userNo", sourceKey: "no" });
   }
 }
 

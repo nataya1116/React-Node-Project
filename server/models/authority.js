@@ -27,6 +27,8 @@ class Authority extends Sequelize.Model {
                 modelName : "Authority",
                 // 테이블 이름 설정
                 tableName : "authority",
+                timestamps : false, 
+                paranoid : false,
                 charset: "utf8",
                 collate: "utf8_general_ci"
             }

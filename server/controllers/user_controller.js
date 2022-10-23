@@ -31,6 +31,8 @@ module.exports.login = async (req, res) => {
 
     if(!user?.id) return res.send({ret : FAIL});
 
+    console.log(EncryptionService.pwEncryption("1111"));
+
     const isLogin = EncryptionService.isPwCheck(pw, user?.userPw);
     
     if(!isLogin) return res.send({ret : FAIL});

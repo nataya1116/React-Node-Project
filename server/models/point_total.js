@@ -28,7 +28,7 @@ class PointTotal extends Sequelize.Model {
                 modelName : "PointTotal",
                 // 테이블 이름 설정
                 tableName : "point_total",
-                // 삭제 컬럼 생성
+                timestamps : false, 
                 paranoid : true,
                 charset: "utf8",
                 collate: "utf8_general_ci"

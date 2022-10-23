@@ -20,6 +20,8 @@ class StateOrder extends Sequelize.Model {
                 underscored : true,
                 modelName : "StateOrder",
                 tableName : "state_order",
+                timestamps : false, 
+                paranoid : false,
                 charset: "utf8",
                 collate: "utf8_general_ci"
             }

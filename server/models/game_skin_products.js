@@ -39,6 +39,7 @@ class GameSkinProduct extends Sequelize.Model {
         modelName: "GameSkinProduct",
         tableName: "game_skin_products",
         timestamps: true,
+        paranoid : false,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -46,6 +47,8 @@ class GameSkinProduct extends Sequelize.Model {
   }
 
   static associate(db) {
+
+    // 1 : N
     db.GameSkinProduct.hasMany(db.GameSkinUser, { foreignKey: "productNo", sourceKey: "no" });
     db.GameSkinProduct.hasMany(db.GameSkinWish, { foreignKey: "productNo", sourceKey: "no" });
   }

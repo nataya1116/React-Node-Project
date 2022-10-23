@@ -56,7 +56,7 @@ module.exports.updateRefreshToken = async (userId, userRefreshToken) => {
 module.exports.overlapId = async (userId) => {
     try{
         const user = await User.findOne({
-            attributes : ["user_id"],
+            attributes : ["id"],
             where : { userId }
         })
         if(user) {
@@ -73,7 +73,7 @@ module.exports.overlapId = async (userId) => {
 module.exports.overlapNickname = async (userNickname) => {
     try{
         const user = await User.findOne({
-            attributes : ["user_nickname"],
+            attributes : ["nickname"],
             where : { userNickname }
         })
         console.log(user);
@@ -92,7 +92,7 @@ module.exports.overlapNickname = async (userNickname) => {
 module.exports.overlapEmail = async (userEmail) => {
     try{
         const user = await User.findOne({
-            attributes : ["user_email"],
+            attributes : ["email"],
             where : { userEmail }
         })
         if(user) {

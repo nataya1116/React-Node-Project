@@ -42,6 +42,7 @@ class InactiveUser extends Sequelize.Model {
             modelName : "InactiveUser",
             tableName : "inactive_user",
             timestamps : true,
+            paranoid : false,
             charset : "utf8",
             collate : "utf8_general_ci"
         });

@@ -30,6 +30,7 @@ class GameSkinUser extends Sequelize.Model {
                 underscored : true,
                 modelName : "GameSkinUser",
                 tableName : "game_skin_user",
+                timestamps : false, 
                 paranoid : true,
                 charset: "utf8",
                 collate: "utf8_general_ci",
@@ -40,7 +41,7 @@ class GameSkinUser extends Sequelize.Model {
     static associate(db) {
         // N : 1
         db.GameSkinUser.belongsTo(db.User, { foreignKey: "userNo", targetKey: "no" });
-        db.GameSkinUser.belongsTo(db.GameSkinProducts, { foreignKey: "productNo", targetKey: "no" });
+        db.GameSkinUser.belongsTo(db.GameSkinProduct, { foreignKey: "productNo", targetKey: "no" });
     }
 }
 

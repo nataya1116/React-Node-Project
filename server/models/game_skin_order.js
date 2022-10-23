@@ -43,6 +43,7 @@ class GameSkinOrder extends Sequelize.Model {
         modelName: "GameSkinOrder",
         tableName: "game_skin_orders",
         timestamps: true,
+        paranoid : false,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
