@@ -19,7 +19,8 @@ module.exports.create = async ({id, boardNo, content}) => {
                                         });
                 await PointHistory.create({
                                             userNo : user.no,
-                                            typeNo : POINT_TYPE.WRITE_REPLY
+                                            typeNo : POINT_TYPE.WRITE_REPLY,
+                                            point: POINT.WRITE_REPLY
                                         },
                                         {
                                             transaction: t

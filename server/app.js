@@ -13,9 +13,15 @@ app.use(cors({origin:"http://localhost:3000", credentials: true}));
 
 app.use(express.json());
 
-const { UserRouter, } = require("./routers");
+const { 
+  UserRouter, 
+  NoticeBoardRouter,
+  NoticeReplyRouter
+} = require("./routers");
 
 app.use("/user", UserRouter);
+app.use("/notice_board", NoticeBoardRouter);
+app.use("/notice_reply", NoticeReplyRouter);
 
 app.listen(PORT, () => {
     console.log(PORT, "번 포트 대기 중");

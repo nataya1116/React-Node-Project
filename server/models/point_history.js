@@ -19,6 +19,11 @@ class PointHistory extends Sequelize.Model {
                     type : Sequelize.INTEGER,
                     allowNull : false
                 },
+                point: {
+                    type : Sequelize.INTEGER,
+                    allowNull : false
+                }
+                ,
                 createdAt : {
                     type: Sequelize.DATE,
                     allowNull : false,             

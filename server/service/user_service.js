@@ -1,20 +1,57 @@
-const { User, sequelize } = require("../models");
+const { User, PointHistory, PointTotal, PointType, sequelize } = require("../models");
 const Op = require("sequelize").Op;
+const { POINT, POINT_TYPE, CONDITION } = require("../config/state");
 
-module.exports.join = async ({userId, userPw, userNickname, userEmail}) => {
+module.exports.join = async ({id, pw, nickname, email}) => {
     try {
-        return await User.create({userId, userPw, userNickname, userEmail});
+        // console.log(id, pw, nickname, email);
+        return await sequelize.transaction(async (t) => {
+            const result = await User.create(
+              { id, pw, nickname, email },
+              {
+                transaction: t,
+              }
+            );
+      
+            const user = result.dataValues;
+      
+            await PointHistory.create(
+              {
+                userNo: user.no,
+                typeNo: POINT_TYPE.JOIN,
+                point: POINT.JOIN
+              },
+              {
+                transaction: t,
+              }
+            );
+
+            await PointTotal.create(
+              {
+                userNo: user.no,
+                point: POINT.JOIN,
+              },
+              {
+                transaction: t,
+              }
+            );
+
+            return user;
+      
+          });
+      
+
     } catch (err) {
         console.error(err);
         return false;
     }
 }
 
-module.exports.login = async (userId) => {
+module.exports.login = async (id) => {
     try {
         return await User.findOne({
             attributes : ["id", "pw", "nickname", "authorityNo", "stateNo"],
-            where : { userId}
+            where : { id}
         })
     } catch (err) {
         console.error(err);
@@ -24,11 +61,11 @@ module.exports.login = async (userId) => {
 
 
 
-module.exports.getPoint = async (userId) => {
+module.exports.getPoint = async (id) => {
     try {
         return await User.findOne({
             attributes : ["point"],
-            where : { userId }
+            where : { id }
         })
     } catch (err){
         console.error(err);
@@ -37,14 +74,14 @@ module.exports.getPoint = async (userId) => {
 }
 
 
-module.exports.updateRefreshToken = async (userId, userRefreshToken) => {
+module.exports.updateRefreshToken = async (id, userRefreshToken) => {
     try {
         return await User.update(
             {
                 userRefreshToken, 
                 userLastLogin : new Date()}, 
             {
-                where : { userId }
+                where : { id }
             }
         )
     } catch (err) {
@@ -53,11 +90,11 @@ module.exports.updateRefreshToken = async (userId, userRefreshToken) => {
     }
 }
 
-module.exports.overlapId = async (userId) => {
+module.exports.overlapId = async (id) => {
     try{
         const user = await User.findOne({
             attributes : ["id"],
-            where : { userId }
+            where : { id }
         })
         if(user) {
             return false;
@@ -70,11 +107,11 @@ module.exports.overlapId = async (userId) => {
     }
 }
 
-module.exports.overlapNickname = async (userNickname) => {
+module.exports.overlapNickname = async (nickname) => {
     try{
         const user = await User.findOne({
             attributes : ["nickname"],
-            where : { userNickname }
+            where : { nickname }
         })
         console.log(user);
         if(user) {
@@ -89,11 +126,11 @@ module.exports.overlapNickname = async (userNickname) => {
 }
 
 
-module.exports.overlapEmail = async (userEmail) => {
+module.exports.overlapEmail = async (email) => {
     try{
         const user = await User.findOne({
             attributes : ["email"],
-            where : { userEmail }
+            where : { email }
         })
         if(user) {
             return false;

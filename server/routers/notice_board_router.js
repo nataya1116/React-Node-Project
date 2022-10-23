@@ -1,4 +1,4 @@
-const { express } = require("../modules/common");
+const { express } = require("../modules");
 
 const router = express.Router();
 
@@ -6,25 +6,32 @@ const NoticeBoardController = require("../controllers/notice_board_controller");
 
 const SessionMiddleware = require("../middlewares/session_middleware");
 
-router.post("/create", SessionMiddleware.validity, NoticeBoardController.create);
+// router.post("/create", SessionMiddleware.validity, NoticeBoardController.create);
+router.post("/create", NoticeBoardController.create);
 
-router.post("/update", SessionMiddleware.validity, NoticeBoardController.update);
+// router.post("/update", SessionMiddleware.validity, NoticeBoardController.update);
+// router.post("/update", NoticeBoardController.update);
 
-router.get("/create_view", SessionMiddleware.validity, NoticeBoardController.createView);
 
-// 순서대로 경로를 지정해주고 순서에 맞는 키로 저장이 된다.
-// 익스프레스 라우터에 get으로 첫번째 파라미터는 경로, 두번째 파라미터는 미들웨어..
-router.get("/list/:page/:perPage/", SessionMiddleware.pass, NoticeBoardController.listSearching);
+// // 순서대로 경로를 지정해주고 순서에 맞는 키로 저장이 된다.
+// // 익스프레스 라우터에 get으로 첫번째 파라미터는 경로, 두번째 파라미터는 미들웨어..
+// // router.get("/list/:page/:perPage/", SessionMiddleware.pass, NoticeBoardController.listSearching);
+// router.get("/list/:page/:perPage/", NoticeBoardController.listSearching);
 
-router.get("/list/:page/:perPage/:searchKey/:searchWord", SessionMiddleware.pass, NoticeBoardController.listSearching);
+// // router.get("/list/:page/:perPage/:searchKey/:searchWord", SessionMiddleware.pass, NoticeBoardController.listSearching);
+// router.get("/list/:page/:perPage/:searchKey/:searchWord", NoticeBoardController.listSearching);
 
-router.get("/read/:offset", SessionMiddleware.pass, NoticeBoardController.view);
+// // router.get("/read/:offset", SessionMiddleware.pass, NoticeBoardController.view);
+// router.get("/read/:offset", NoticeBoardController.view);
 
-router.get("/read/:offset/:searchKey/:searchWord", SessionMiddleware.pass, NoticeBoardController.view);
+// // router.get("/read/:offset/:searchKey/:searchWord", SessionMiddleware.pass, NoticeBoardController.view);
+// router.get("/read/:offset/:searchKey/:searchWord", NoticeBoardController.view);
 
-router.get("/update/:id/:offset", SessionMiddleware.validity, NoticeBoardController.updateView);
+// // router.get("/update/:id/:offset", SessionMiddleware.validity, NoticeBoardController.updateView);
+// router.get("/update/:id/:offset", NoticeBoardController.updateView);
 
-router.get("/delete/:id/", SessionMiddleware.validity, NoticeBoardController.delete);
+// // router.get("/delete/:id/", SessionMiddleware.validity, NoticeBoardController.delete);
+// router.get("/delete/:id/", NoticeBoardController.delete);
 
 
 module.exports = router;

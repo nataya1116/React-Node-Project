@@ -7,8 +7,11 @@ module.exports.create = async ({ id, title, content }) => {
   try {
     await sequelize.transaction(async (t) => {
       await User.findOne({
+        attributes: ["no"],
         where: { id },
       }).then(async (user) => {
+        console.log("notice_board_create");
+        console.log(user);
         await NoticeBoard.create(
           {
             userNo: user.no,
@@ -22,7 +25,8 @@ module.exports.create = async ({ id, title, content }) => {
         await PointHistory.create(
           {
             userNo: user.no,
-            typeId: POINT_TYPE.WRITE_POST,
+            typeNo: POINT_TYPE.WRITE_POST,
+            point: POINT.WRITE_POST
           },
           {
             transaction: t,
@@ -46,7 +50,7 @@ module.exports.create = async ({ id, title, content }) => {
   }
 };
 
-module.exports.viewId = async ( no) => {
+module.exports.readId = async ( no) => {
   try {
     return await NoticeBoard.findOne({
       include: [
@@ -64,7 +68,7 @@ module.exports.viewId = async ( no) => {
   }
 };
 
-module.exports.viewOffset = async (offset, searchKey, searchWord) => {
+module.exports.readOffset = async (offset, searchKey, searchWord) => {
 
   // 모델 유저에서 검색하기 위한 whereUser 객체
   const whereUser = {};
@@ -171,7 +175,7 @@ module.exports.delete = async (no) => {
   }
 };
 
-module.exports.updateViewsCount = async (no) => {
+module.exports.updateReadCount = async (no) => {
   try {
     await NoticeBoard.increment(
       {

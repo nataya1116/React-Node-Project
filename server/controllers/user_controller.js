@@ -8,13 +8,13 @@ module.exports.join = async (req, res) => {
     const encryptedUserPw = EncryptionService.pwEncryption(pw);
 
     const result = await UserService.join({
-        id : id, 
-        userPw : encryptedUserPw, 
-        nickname : nickname, 
-        email : email
+        id, 
+        pw : encryptedUserPw, 
+        nickname, 
+        email
     });
 
-    if(result){
+    if(result?.id){
         res.send({ret : SUCCESSE});
     }else{
         res.send({ret : FAIL});
