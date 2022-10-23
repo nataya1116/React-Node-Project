@@ -2,7 +2,8 @@ const { NoticeBoardService,
         NoticeReplyService, 
         TokenService } = require("../service");
 
-const { AUTHORITY, BOARDS } = require("../config/config");
+const { AUTHORITY, BOARDS } = require("../config/state");
+const { SUCCESSE, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
   console.log(req.body);
@@ -10,7 +11,7 @@ module.exports.create = async (req, res) => {
   console.log("c create() ", id, title, content);
   await NoticeBoardService.create({ id, title, content });
 
-  res.redirect("/notice_board/list/1/10");
+  res.send({ret : SUCCESSE});
 };
 
 // // 게시판 목록 페이지 네이션을 동작하게 하는 부분(검색어가 없을 때)

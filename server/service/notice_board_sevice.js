@@ -10,8 +10,6 @@ module.exports.create = async ({ id, title, content }) => {
         attributes: ["no"],
         where: { id },
       }).then(async (user) => {
-        console.log("notice_board_create");
-        console.log(user);
         await NoticeBoard.create(
           {
             userNo: user.no,
