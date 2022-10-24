@@ -20,7 +20,8 @@ const Board = ({boardName}) => {
           {/* 리액트 6부터 path 중첩 안됨 */}
           <Route path='/list/:page/:perPage' element={<BoardList/>} />
           <Route path='/list/:page/:perPage/:searchKey/:searchWord' element={<BoardList/>} />
-          <Route path='/read' element={<BoardView/>} />
+          <Route path='/read/:offset' element={<BoardView/>} />
+          <Route path='/read/:offset/:searchKey/:searchWord' element={<BoardView/>} />
           <Route path='/write' element={<BoardWrite/>} />
           <Route path='/modify' element={<BoardWrite/>} />
       </Routes>

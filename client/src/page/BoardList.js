@@ -100,7 +100,7 @@ const BoardList = () => {
               <Tr>
                 <td>{item.no}</td>
                 <td>
-                  <BoardLink to={`/${url}/read/${offset}${searchKey}${searchWord}`} state={item.no}>
+                  <BoardLink to={`/${url}/read/${offset}/${searchKey}${searchWord}`} state={item.no}>
                     {item.title}
                   </BoardLink>
                 </td>
