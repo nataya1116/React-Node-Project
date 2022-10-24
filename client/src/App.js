@@ -20,7 +20,8 @@ function App() {
             <Route path='/ranking' element={<Ranking/>} />
 
             <Route path='/mypage/*' element={<Mypage/>} />
-            <Route path='/board/*' element={<Board/>} />
+            <Route path='/notice_board/*' element={<Board boardName="Notice Board"/>} />
+            <Route path='/free_board/*' element={<Board boardName="Free Board"/>} />
             <Route path='/store/*' element={<Store/>} />
             <Route path='/admin/*' element={<Admin/>} />
             <Route path='/gift_box/*' element={<GiftBox/>} />

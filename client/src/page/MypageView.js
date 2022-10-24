@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tr, LargeBtn } from '../styledComponent/join_cs';
 import { FindDiv, FindLink } from '../styledComponent/login_cs';
-import { UserAction } from '../redux/middleware';
+import { userAction } from '../redux/middleware';
 
 const Mypage = () => {
   return (
@@ -24,7 +24,7 @@ const Mypage = () => {
 
         <LargeBtn onClick={()=>{window.location.href="/mypage/modify"}}>회원 정보 수정</LargeBtn>
         <LargeBtn>카드 스킨 수정</LargeBtn>
-        <LargeBtn onClick={UserAction.logout}>로그아웃</LargeBtn>
+        <LargeBtn onClick={userAction.logout}>로그아웃</LargeBtn>
         
         <br/>
         <FindDiv>

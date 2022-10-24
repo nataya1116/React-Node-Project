@@ -53,7 +53,7 @@ module.exports.readId = async ( no) => {
     return await NoticeBoard.findOne({
       include: [
         {
-          attributes: ["id"],
+          attributes: ["nickname"],
           model: User,
         },
       ],
@@ -70,7 +70,7 @@ module.exports.readOffset = async (offset, searchKey, searchWord) => {
 
   // 모델 유저에서 검색하기 위한 whereUser 객체
   const whereUser = {};
-  if(searchKey == "id" && !!searchWord) whereUser.id = { [Op.like]: `%${searchWord}%` };
+  if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
 
   // 모델 NoticeBoard에서 검색하기 위한 where 객체
   const where = {};
@@ -81,7 +81,7 @@ module.exports.readOffset = async (offset, searchKey, searchWord) => {
     return await NoticeBoard.findAndCountAll({
       include: [
         {
-          attributes: ["id"],
+          attributes: ["nickname"],
           model: User,
           where : whereUser
         },
@@ -100,11 +100,11 @@ module.exports.readOffset = async (offset, searchKey, searchWord) => {
 // 게시판의 목록을 DB에서 가져온다
 // 이걸 가져와서 페이지에 보여준다
 // 페이지 네이션에서 필요한 것
-module.exports.listSearching = async (offset, limit, searchKey, searchWord) => {
+module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
 
   // 모델 유저에서 검색하기 위한 whereUser 객체
   const whereUser = {};
-  if(searchKey == "id" && !!searchWord) whereUser.id = { [Op.like]: `%${searchWord}%` };
+  if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
 
   // 모델 NoticeBoard에서 검색하기 위한 where 객체
   const where = {};
@@ -114,7 +114,7 @@ module.exports.listSearching = async (offset, limit, searchKey, searchWord) => {
   try {
     // findAndCountAll 조건에 맞는걸 찾고 개수도 알려줌
     return await NoticeBoard.findAndCountAll({
-      attributes: ["no", "title", "createdAt", "view"],
+      attributes: ["no", "title", "content", "createdAt", "view"],
       // include : 쿼리문의 join이랑 같은거(다른 테이블이랑 매핑하는 것)
       include: [
         {

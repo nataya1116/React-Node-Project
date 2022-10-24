@@ -1,8 +1,9 @@
 import * as UserAPI from './user';
+import * as BoardAPI from './board';
 
-const SUCCESSE = "SUCCESSE";
+const SUCCESS = "SUCCESS";
 const FAIL = "FAIL";
 const OVERLAP = "OVERLAP";
 const POSSIBLE = "POSSIBLE";
 
-export { UserAPI, SUCCESSE, FAIL, OVERLAP, POSSIBLE }
+export { UserAPI, BoardAPI, SUCCESS, FAIL, OVERLAP, POSSIBLE }

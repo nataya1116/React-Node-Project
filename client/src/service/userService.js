@@ -1,4 +1,4 @@
-import { UserAPI, SUCCESSE, FAIL, OVERLAP, POSSIBLE } from "../api";
+import { UserAPI, SUCCESS, FAIL, OVERLAP, POSSIBLE } from "../api";
 import { SessionService } from ".";
 
 
@@ -51,7 +51,7 @@ export const overlapId = async(id)=> {
 export const join = async({id, nickname, email, pw })=>{
     const result = await UserAPI.join({id, nickname, email, pw });
 
-    if(result?.ret === SUCCESSE){
+    if(result?.ret === SUCCESS){
         alert("회원가입이 성공하였습니다. 로그인해주세요.");
         return true;
     }else if(result?.ret === FAIL){

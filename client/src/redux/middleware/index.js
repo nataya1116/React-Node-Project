@@ -1,3 +1,4 @@
-import { UserAction } from "./userAction";
+import { userAction } from "./userAction";
+import * as boardAction from "./boardAction";
 
-export { UserAction }
+export { userAction, boardAction }

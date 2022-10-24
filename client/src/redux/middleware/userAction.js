@@ -1,4 +1,4 @@
-import { UserAPI, SUCCESSE, FAIL } from "../../api";
+import { UserAPI, SUCCESS, FAIL } from "../../api";
 import { SessionService } from "../../service";
 import { LOG_IN, LOG_OUT, POINT } from '../common';
 
@@ -7,7 +7,7 @@ function login(id, pw, nav){
 
             const result = await UserAPI.login(id, pw);
 
-            if(result?.ret === SUCCESSE){
+            if(result?.ret === SUCCESS){
                 
                 const { nickname, authorityNo, stateNo, accessToken, refreshToken } = result?.data;
 
@@ -37,4 +37,4 @@ function logout() {
 }
 
 
-export const UserAction = { login, logout };
+export const userAction = { login, logout };

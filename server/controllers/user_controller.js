@@ -1,5 +1,5 @@
 const { UserService, EncryptionService, TokenService } = require("../service");
-const { SUCCESSE, FAIL, OVERLAP, POSSIBLE,  } = require("../config/respons");
+const { SUCCESS, FAIL, OVERLAP, POSSIBLE,  } = require("../config/respons");
 
 module.exports.join = async (req, res) => {
 
@@ -15,7 +15,7 @@ module.exports.join = async (req, res) => {
     });
 
     if(result?.id){
-        res.send({ret : SUCCESSE});
+        res.send({ret : SUCCESS});
     }else{
         res.send({ret : FAIL});
     }
@@ -57,7 +57,12 @@ module.exports.login = async (req, res) => {
 
     UserService.updateRefreshToken(id, refreshToken);
     // {id, nickname, authorityNo, stateNo}
-    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
+    return res.send({ret : SUCCESS, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
+}
+
+module.exports.logout = (req, res) => {
+    const { id } = req.body;
+    UserService.updateRefreshToken(id, null);
 }
 
 module.exports.getPoint = async (req, res) => {
@@ -68,7 +73,7 @@ module.exports.getPoint = async (req, res) => {
 
     if(!user?.id) return res.send({ret : FAIL});
 
-    return res.send({ret : SUCCESSE, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
+    return res.send({ret : SUCCESS, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
 
 }
 

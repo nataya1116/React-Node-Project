@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { UserAction } from '../redux/middleware';
+import { userAction } from '../redux/middleware';
 import { Section, SectionHeader, SectionTitle, Article } from '../styledComponent/common_cs';
 import { Div, Tr, Input } from '../styledComponent/join_cs';
 import { Btn, LoginLink, FindDiv, FindLink } from '../styledComponent/login_cs';
@@ -21,7 +21,7 @@ const Login = () => {
         const id = userInputs.id.current.value;
         const pw = userInputs.pw.current.value;
 
-        dispatch(UserAction.login(id, pw, nav));
+        dispatch(userAction.login(id, pw, nav));
     }
 
   return (

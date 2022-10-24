@@ -3,7 +3,7 @@ const { NoticeBoardService,
         TokenService } = require("../service");
 
 const { AUTHORITY, BOARDS } = require("../config/state");
-const { SUCCESSE, FAIL,  } = require("../config/respons");
+const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
   console.log(req.body);
@@ -11,51 +11,47 @@ module.exports.create = async (req, res) => {
   console.log("c create() ", id, title, content);
   await NoticeBoardService.create({ id, title, content });
 
-  res.send({ret : SUCCESSE});
+  res.send({ret : SUCCESS});
 };
 
-// // 게시판 목록 페이지 네이션을 동작하게 하는 부분(검색어가 없을 때)
-// module.exports.listSearching = async (req, res) => {
+// 게시판 목록 페이지 네이션을 동작하게 하는 부분(검색어가 없을 때)
+module.exports.searchingList = async (req, res) => {
 
-//   const accessToken = req.session?.access_token;
-//   const User = TokenService.verifyAccessToken(accessToken);
+  // const accessToken = req.session?.access_token;
+  // const User = TokenService.verifyAccessToken(accessToken);
+  const User = null;
 
-//   const searchKey = req.params?.searchKey || null;
-//   const searchWord = req.params?.searchWord || null;
+  const searchKey = req.params?.searchKey || null;
+  const searchWord = req.params?.searchWord || null;
 
-//   // get방식으로 가져올 때는 req.parmas
-//   // post방식으로 가져올땐 req.body
-//   // parmas는 문자열로만 인식을 함! 그래서 타입캐스팅을 Number로 해준다
-//   // 몇번째 페이지인지
-//   const pageNum = Number(req.params.page || "1");
-//   // 게시판 글을 한 페이지에 몇개나 보여줄건지
-//   const limit = Number(req.params.perPage || "10");
-//   //
-//   let offset = 0;
 
-//   // 페이지에 목록 10개씩 보여주기 위해서 쓴 식임
-//   // 밑의 조건은 1 페이지를 넘어간 경우(왜냐믄 1페이지부터 -10을 해주면 안되니깡!~)
-//   if (pageNum > 1) {
-//     // 목록 개수 리미트 * 페이지 -1
-//     // EX) 10개라고 리미트를 정해주고 2페이지인 경우 1페이지에서 보여준 10개의 목록을 제외
-//     offset = limit * (pageNum - 1);
-//   }
-//   // 팁 보드 리스트
-//   const result = await NoticeBoardService.listSearching(offset, limit, searchKey, searchWord);
+  const page = Number(req.params.page || "1");
+  const perPage = Number(req.params.perPage || "10");
+  
+  let offset = 0;
 
-//   const list = result?.rows;
-//   const postNum = result?.count;
-//   const totalPage = Math.ceil(postNum / limit);
+  
+  if (page > 1) {
+    offset = perPage * (page - 1);
+  }
 
-//   console.log(searchKey, searchWord);
+  console.log(page, perPage, searchKey, searchWord);
+  const result = await NoticeBoardService.searchingList(offset, perPage, searchKey, searchWord);
 
-//   res.render( "notice_board_list", { User, list , totalPage , pageNum, limit, searchKey, searchWord });
-// };
+  const list = result?.rows;
+  const postNum = result?.count;
+  const totalPageNum = Math.ceil(postNum / perPage);
+
+  console.log(searchKey, searchWord, totalPageNum);
+
+  res.send({ ret : SUCCESS , User, list , postNum, totalPageNum, info : { page, perPage, searchKey, searchWord } });
+};
 
 module.exports.read = async (req, res) => {
 
-    const accessToken = req.session?.access_token;
-    const User = TokenService.verifyAccessToken(accessToken);
+    // const accessToken = req.session?.access_token;
+    // const User = TokenService.verifyAccessToken(accessToken);
+    const User = null;
 
     const searchKey = req.params?.searchKey || null;
     const searchWord = req.params?.searchWord || null;
@@ -73,7 +69,8 @@ module.exports.read = async (req, res) => {
     // offset 값으로 찾아서 보여주는 것이 아니라 id(pk)로 찾는 방식이라면 리플을 따로 불러올 필요 없이 NoticeBoardService.viewOffset() 함수에서 인클루드로 리플 모델을 불러와도 된다. 굳이 offset 방식으로 값을 처리한 이유는 id값으로 처리 할 경우 게시글이 삭제 되었을때 오류가 발생하기 때문이다.
     const replyList = await NoticeReplyService.list(no);
 
-    res.render("notice_board_view", { User, offset, post, postNum, replyList, offset, searchKey, searchWord });
+    // res.render("notice_board_view", { User, offset, post, postNum, replyList, offset, searchKey, searchWord });
+    res.send({ ret : SUCCESS , User, post, postNum, replyList, info : { searchKey, searchWord } });
 }
 
 // module.exports.update = async (req, res) => {

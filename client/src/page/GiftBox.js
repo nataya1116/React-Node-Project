@@ -22,7 +22,7 @@ const GiftBox = () => {
             <Route path='/' element={<GiftList/>} />
             <Route path='/received/' element={<GiftList/>} />
             <Route path='/sent' element={<GiftSent/>} />
-            <Route path='/view' element={<GiftView/>} />
+            <Route path='/read' element={<GiftView/>} />
         </Routes>
         
     </Article>
