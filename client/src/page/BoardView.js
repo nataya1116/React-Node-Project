@@ -53,6 +53,10 @@ const BoardList = () => {
   
   console.log("postNum", postNum);
 
+  const nickname = useSelector(state => state.userReducer.nickname);
+
+  const reply = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
+
   return (
     <Article>
         <div>
@@ -73,8 +77,15 @@ const BoardList = () => {
                   <span>{post?.createdAt}</span>
               </div>
               <div>
-                  <Btn>수정</Btn>
-                  <Btn>삭제</Btn>
+                {nickname == post?.User?.nickname ? 
+                  <>
+                    <Btn>수정</Btn>
+                    <Btn>삭제</Btn>
+                  </>
+                  :
+                  <></>
+                }
+                  
               </div>
             </EctDiv>
 
@@ -91,22 +102,36 @@ const BoardList = () => {
             </ReplyDiv>
 
             <div>
-              <ReplyViewDiv>
-                <div>
-                    <span>작성자</span>
-                    <span>작성날짜</span>
-                </div>
-                
-                <div>
-                    <p>
-                        내용
-                    </p>
-                </div>
-                <div>
-                    <Btn>수정</Btn>
-                    <Btn>삭제</Btn>
-                </div>
-              </ReplyViewDiv>
+              {
+                post[reply].map(reply => {
+                  return (
+                    <ReplyViewDiv>
+                      <div>
+                          <span>{reply?.User?.nickname}</span>
+                          <span>{reply?.createdAt}</span>
+                      </div>
+                      
+                      <div>
+                          <p>
+                              {reply?.content}
+                          </p>
+                      </div>
+                      <div>
+                      {nickname == reply?.User?.nickname ? 
+                        <>
+                          <Btn>수정</Btn>
+                          <Btn>삭제</Btn>
+                        </>
+                        :
+                        <></>
+                      }
+                      </div>
+                    </ReplyViewDiv>
+                  )
+                })
+              }
+              
+
             </div>
         </div>
         <PageNav>

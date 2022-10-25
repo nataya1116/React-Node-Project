@@ -61,7 +61,7 @@ const BoardList = () => {
   const pageNation = () => {
     let list = [];
     for (let i = 1; i <= totalPageNum; i++) {
-      if(pageQuery.page === i){
+      if(page == i){
         list = [...list, <ActivateLink to={`/${url}/list/${i}/${perPage}${searchKey}${searchWord}`}>{i}</ActivateLink>];
       }else{
         list = [...list, <BoardLink to={`/${url}/list/${i}/${perPage}${searchKey}${searchWord}`}>{i}</BoardLink>];

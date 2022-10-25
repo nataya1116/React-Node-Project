@@ -6,6 +6,8 @@ let init = {
     authorityNo : null, 
     stateNo : null,
     point : null,
+    accessToken : null, 
+    refreshToken : null,
     isLogin : false,
 }
 
@@ -19,6 +21,8 @@ function reducer(state = init, action) {
                         nickname : payload.nickname,
                         authorityNo : payload.authorityNo, 
                         stateNo : payload.stateNo,
+                        accessToken : payload.accessToken, 
+                        refreshToken : payload.refreshToken,
                         isLogin : true
                     };
         case LOG_OUT:
@@ -29,6 +33,8 @@ function reducer(state = init, action) {
                         authorityNo : null, 
                         stateNo : null,
                         point : null,
+                        accessToken : null, 
+                        refreshToken : null,
                         isLogin : false
                     };
         case POINT:

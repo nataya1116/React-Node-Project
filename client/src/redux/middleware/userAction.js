@@ -1,5 +1,4 @@
 import { UserAPI, SUCCESS, FAIL } from "../../api";
-import { SessionService } from "../../service";
 import { LOG_IN, LOG_OUT, POINT } from '../common';
 
 function login(id, pw, nav){
@@ -11,9 +10,7 @@ function login(id, pw, nav){
                 
                 const { nickname, authorityNo, stateNo, accessToken, refreshToken } = result?.data;
 
-                SessionService.setToken({accessToken, refreshToken});
-
-                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo }});
+                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo, accessToken, refreshToken }});
 
                 alert("로그인에 성공하였습니다.");
 

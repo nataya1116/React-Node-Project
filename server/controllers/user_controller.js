@@ -24,16 +24,16 @@ module.exports.join = async (req, res) => {
 module.exports.login = async (req, res) => {
 
     const  { id, pw } = req.body;
-
+    console.log(req.body);
     const result = await UserService.login(id);
 
     const user = result?.dataValues;
 
     if(!user?.id) return res.send({ret : FAIL});
 
-    console.log(EncryptionService.pwEncryption("1111"));
+    // console.log(EncryptionService.pwEncryption("1111"));
 
-    const isLogin = EncryptionService.isPwCheck(pw, user?.userPw);
+    const isLogin = EncryptionService.isPwCheck(pw, user?.pw);
     
     if(!isLogin) return res.send({ret : FAIL});
 

@@ -114,28 +114,26 @@ module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
           attributes: ["nickname"],
           model: User,
           where : whereUser,
-          // separate : true
         },
         {
           attributes: ["no", "content", "replyNo", "createdAt"],
           model: NoticeReply,
-          // separate : true,
+          separate : true, // hasMany로 연결된 인스턴스 가지고 오는 옵션
           include: [
             {
               attributes: ["nickname"],
               model: User,
               where : whereUser,
-              // separate : true
             }
           ]
         }
       ],
-      where,
+      // where,
       order: [["no", "DESC"]],
+      subQuery: false,
+      distinct: "NoticeBoard.no",
       offset,
       limit,
-      subQuery: false,
-      distinct: "NoticeBoard.no"
     });
   } catch (err) {
     console.error(err);

@@ -32,7 +32,7 @@ const BoardLink = styled(Link)`
     text-decoration: none;
     padding: 0px 5px;
     margin: 5px 0px;
-    color: black;
+    color: gray;
 `
 
 const Tr = styled.tr`
