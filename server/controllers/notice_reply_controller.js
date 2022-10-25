@@ -1,17 +1,24 @@
 const { NoticeReplyService } = require("../service");
+const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
-    const { offset, userId, boardId, content } = req.body;
-    console.log("create()", offset, userId, boardId, content);
-    await NoticeReplyService.create({ userId, boardId, content });
+    console.log("c notice reply create");
+    console.log(req.body);
+    const { id, boardNo, content } = req.body;
+    console.log("create()", id, boardNo, content);
+    const result = await NoticeReplyService.create({ id, boardNo, content });
 
-    res.redirect("/notice_board/read/"+offset);
+    if(result){
+        res.send({ret : SUCCESS});
+    }else{
+        res.send({ret : FAIL});
+    }
 }
 
 module.exports.createNested = async (req, res) => {
-    const { offset, userId, boardId, replyId, content } = req.body;
-    // console.log("createNested()",offset, userId, boardId, replyId, content);
-    await NoticeReplyService.createNested({ userId, boardId, replyId, content });
+    const { offset, userId, boardNo, replyId, content } = req.body;
+    // console.log("createNested()",offset, userId, boardNo, replyId, content);
+    await NoticeReplyService.createNested({ userId, boardNo, replyId, content });
 
     res.redirect("/notice_board/read/"+offset);
 }

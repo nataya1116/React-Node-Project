@@ -5,12 +5,12 @@ const { POINT_TYPE, POINT } = require("../config/state");
 // 포인트 토탈, 포인트 히스토리 추가해줄것
 module.exports.create = async ({ id, title, content }) => {
   try {
-    await sequelize.transaction(async (t) => {
-      await User.findOne({
+    return await sequelize.transaction(async (t) => {
+      return await User.findOne({
         attributes: ["no"],
         where: { id },
       }).then(async (user) => {
-        await NoticeBoard.create(
+        const result = await NoticeBoard.create(
           {
             userNo: user.no,
             title,
@@ -41,6 +41,7 @@ module.exports.create = async ({ id, title, content }) => {
             transaction: t,
           }
         );
+        return result;
       });
     });
   } catch (err) {
@@ -48,85 +49,93 @@ module.exports.create = async ({ id, title, content }) => {
   }
 };
 
-module.exports.readId = async ( no) => {
-  try {
-    return await NoticeBoard.findOne({
-      include: [
-        {
-          attributes: ["nickname"],
-          model: User,
-        },
-      ],
-      where: {
-        no,
-      },
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+// module.exports.readNo = async ( no) => {
+//   try {
+//     return await NoticeBoard.findOne({
+//       include: [
+//         {
+//           attributes: ["nickname"],
+//           model: User,
+//         },
+//       ],
+//       where: {
+//         no,
+//       },
+//     });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-module.exports.readOffset = async (offset, searchKey, searchWord) => {
+// module.exports.readOffset = async (offset, searchKey, searchWord) => {
 
-  // 모델 유저에서 검색하기 위한 whereUser 객체
-  const whereUser = {};
-  if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
+//   // 모델 유저에서 검색하기 위한 whereUser 객체
+//   const whereUser = {};
+//   if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
 
-  // 모델 NoticeBoard에서 검색하기 위한 where 객체
-  const where = {};
-  if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
-  if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
+//   // 모델 NoticeBoard에서 검색하기 위한 where 객체
+//   const where = {};
+//   if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
+//   if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
 
-  try {
-    return await NoticeBoard.findAndCountAll({
-      include: [
-        {
-          attributes: ["nickname"],
-          model: User,
-          where : whereUser
-        },
-      ],
-      where,
-      order: [["no", "DESC"]],
-      offset,
-      limit: 1,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+//   try {
+//     return await NoticeBoard.findAndCountAll({
+//       include: [
+//         {
+//           attributes: ["nickname"],
+//           model: User,
+//           where : whereUser
+//         },
+//       ],
+//       where,
+//       order: [["no", "DESC"]],
+//       offset,
+//       limit: 1,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-// 게시판의 목록(검색어가 없을 때)
-// 게시판의 목록을 DB에서 가져온다
-// 이걸 가져와서 페이지에 보여준다
-// 페이지 네이션에서 필요한 것
 module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
 
-  // 모델 유저에서 검색하기 위한 whereUser 객체
   const whereUser = {};
   if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
 
-  // 모델 NoticeBoard에서 검색하기 위한 where 객체
   const where = {};
   if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
   if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
 
   try {
-    // findAndCountAll 조건에 맞는걸 찾고 개수도 알려줌
     return await NoticeBoard.findAndCountAll({
       attributes: ["no", "title", "content", "createdAt", "view"],
-      // include : 쿼리문의 join이랑 같은거(다른 테이블이랑 매핑하는 것)
       include: [
         {
           attributes: ["nickname"],
           model: User,
-          where : whereUser
+          where : whereUser,
+          // separate : true
         },
+        {
+          attributes: ["no", "content", "replyNo", "createdAt"],
+          model: NoticeReply,
+          // separate : true,
+          include: [
+            {
+              attributes: ["nickname"],
+              model: User,
+              where : whereUser,
+              // separate : true
+            }
+          ]
+        }
       ],
       where,
       order: [["no", "DESC"]],
       offset,
       limit,
+      subQuery: false,
+      distinct: "NoticeBoard.no"
     });
   } catch (err) {
     console.error(err);

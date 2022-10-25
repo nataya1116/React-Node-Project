@@ -5,11 +5,11 @@ const { POINT_TYPE, POINT } = require("../config/state");
 // TODO 포인트 추가해줄것
 module.exports.create = async ({id, boardNo, content}) => {
     try {
-        await sequelize.transaction( async (t) => {
-            await User.findOne({
+        return await sequelize.transaction( async (t) => {
+            return await User.findOne({
                                     where : { id }
             }).then( async (user) => {
-                await NoticeReply.create({
+                const result = await NoticeReply.create({
                                             userNo : user.no,
                                             boardNo, 
                                             content
@@ -34,6 +34,7 @@ module.exports.create = async ({id, boardNo, content}) => {
                                             {
                                                 transaction: t
                                             });
+                return result;
             });
         });
 

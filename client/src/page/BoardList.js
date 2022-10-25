@@ -27,44 +27,44 @@ const BoardList = () => {
 
   let { page, perPage, searchKey = null, searchWord = null } = useParams();
   const pageParams = { page, perPage, searchKey, searchWord };
-
+  // console.log(pageParams);
   const url = useSelector((state) => state.boardReducer.url);
-  const pageInfo = useSelector((state) => state.boardReducer.info);
+  // console.log(url);
+  const pageQuery = useSelector((state) => state.boardReducer.query);
+  // console.log(pageQuery);
   const totalPageNum = useSelector(state => state.boardReducer.totalPageNum);
 
   const list = useSelector((state) => state.boardReducer.list);
-
+  // console.log(list);
   // let key
   let isSameValue = true;
-  for (const key in pageInfo) {
-    if (pageParams[key] != pageInfo[key]) {
+  for (const key in pageQuery) {
+    if (pageParams[key] != pageQuery[key]) {
       isSameValue = false;
       break;
     }
   }
 
-  if(pageInfo.searchWord){
-    searchSelect.current.value = pageInfo.searchKey;
-    searchInput.current.value = pageInfo.searchWord;
+  if(pageQuery?.searchWord){
+    searchSelect.current.value = pageQuery.searchKey;
+    searchInput.current.value = pageQuery.searchWord;
   }
   
-  if(!isSameValue){
+  if(!isSameValue || !list){
+    console.log("boardAction.searchingList()");
     dispatch(boardAction.searchingList({ url, ...pageParams }));
   }
 
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
 
-  let count = 0;
-  let offset;
-
   const pageNation = () => {
     let list = [];
     for (let i = 1; i <= totalPageNum; i++) {
-      if(pageInfo.page === i){
-        list = [...list, <ActivateLink to={`/${url}/list/${i}/${pageInfo.perPage}${searchKey}${searchWord}`}>{i}</ActivateLink>];
+      if(pageQuery.page === i){
+        list = [...list, <ActivateLink to={`/${url}/list/${i}/${perPage}${searchKey}${searchWord}`}>{i}</ActivateLink>];
       }else{
-        list = [...list, <BoardLink to={`/${url}/list/${i}/${pageInfo.perPage}${searchKey}${searchWord}`}>{i}</BoardLink>];
+        list = [...list, <BoardLink to={`/${url}/list/${i}/${perPage}${searchKey}${searchWord}`}>{i}</BoardLink>];
       }
     }
     return list;
@@ -89,18 +89,11 @@ const BoardList = () => {
           </Tr>
 
           {list.map((item) => {
-            offset = 0;
-            if (pageParams.page > 1) {
-              offset = pageParams.perPage * (pageParams.page - 1);
-            }
-            offset += count;
-            count++;
-
             return (
               <Tr>
                 <td>{item.no}</td>
                 <td>
-                  <BoardLink to={`/${url}/read/${offset}/${searchKey}${searchWord}`} state={item.no}>
+                  <BoardLink to={`/${url}/read/${item.offset}${searchKey}${searchWord}`} >
                     {item.title}
                   </BoardLink>
                 </td>
@@ -123,7 +116,7 @@ const BoardList = () => {
         </SearchDiv>
 
         <PagenationDiv>
-          <BoardLink to={`/${url}/list/1/${pageInfo.perPage}${searchKey}${searchWord}`}>
+          <BoardLink to={`/${url}/list/1/${perPage}${searchKey}${searchWord}`}>
             {" "}
             <Icon
               src={process.env.PUBLIC_URL + "/img/icon/icon-left.png"}
@@ -132,7 +125,7 @@ const BoardList = () => {
 
           {pageNation()}
 
-          <BoardLink to={`/${url}/list/${totalPageNum}/${pageInfo.perPage}${searchKey}${searchWord}`}>
+          <BoardLink to={`/${url}/list/${totalPageNum}/${perPage}${searchKey}${searchWord}`}>
             {" "}
             <Icon
               src={process.env.PUBLIC_URL + "/img/icon/icon-right.png"}

@@ -15,7 +15,7 @@ const Header = () => {
 
         <div>
             <Link to="/store"><Icon src='/img/icon/store.png' /></Link>
-            <Link to="/board"><Icon src='/img/icon/board.png' /></Link>
+            <Link to="/notice_board/list/1/10"><Icon src='/img/icon/board.png' /></Link>
             <Link to="/ranking"><Icon src='/img/icon/first-prize.png' /></Link>
             {
               isLogin ?

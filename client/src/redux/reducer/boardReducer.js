@@ -4,7 +4,7 @@ let init = {
     url : null,
     postNum : null,
     totalPageNum : null,
-    info : {
+    query : {
         page : null,
         perPage : null,
         searchKey : null,
@@ -47,7 +47,7 @@ function reducer(state = init, action) {
             return { ...state, 
                         url : payload.url, 
                         list : payload.list, 
-                        info: payload.info 
+                        query: payload.query 
                     };
         case DELETE:
             console.log("포인트");
@@ -62,7 +62,7 @@ function reducer(state = init, action) {
                 list : [...payload.list], 
                 postNum : payload.postNum,
                 totalPageNum : payload.totalPageNum,
-                info: {...payload.info}
+                query: {...payload.query}
             };
         default:
             return state;

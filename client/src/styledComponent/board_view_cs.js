@@ -47,7 +47,7 @@ const EctDiv = styled.div`
 
     div span {
         box-sizing: border-box;
-        margin-left: 5px;
+        margin-left: 20px;
     }
 `
 
@@ -142,4 +142,21 @@ const ReplyViewDiv = styled.div`
     }
 `
 
-export { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn  }
+const PageNav = styled.div`
+    padding: 60px 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    
+    a {
+        text-decoration: none;
+        color: #4e4e4e;
+        font-size: medium;
+
+        &:nth-child(2) {
+            font-weight: bold;
+            color: black;
+        }
+    }
+`
+
+export { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  }

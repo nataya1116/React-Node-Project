@@ -1,26 +1,76 @@
 import React from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn  } from '../styledComponent/board_view_cs'
+import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
+import { Icon,} from "../styledComponent/board_list_cs";
+import { useDispatch, useSelector } from 'react-redux';
+import { boardAction } from '../redux/middleware';
 
 const BoardList = () => {
+
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+  
+  const url = useSelector((state) => state.boardReducer.url);
+
+  const undefinedPage = ()=>{
+    alert("존재하지 않는 페이지입니다.");
+    nav(`/${url}/list/1/10`);
+  }
+
+  let { offset, searchKey = null, searchWord = null } = useParams();
+
+  if(isNaN(offset)){
+    undefinedPage();
+  }
+
+  offset = Number(offset);
+
+  if(offset < 0) {
+    undefinedPage();
+  }
+  
+  const list = useSelector((state) => state.boardReducer.list);
+  const pageQuery = useSelector((state) => state.boardReducer.query);
+
+  const post = list.find(item => {return item.offset == offset} );
+
+  if(!post || searchKey !== pageQuery.searchKey || searchWord !== pageQuery.searchWord){
+    const perPage = 10;
+    const page = Math.floor( offset / perPage ) + 1;
+    console.log("offset",offset,"page",page,"perPage",perPage);
+    dispatch(boardAction.searchingList({ url, page, perPage, searchKey, searchWord }));
+  }
+
+  const postNum = useSelector(state => state.boardReducer.postNum);
+
+  if(offset > postNum -1) {
+    undefinedPage();
+  }
+
+  searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
+  searchWord = searchWord !== null ? "/"+searchWord : "";
+  
+  console.log("postNum", postNum);
+
   return (
     <Article>
         <div>
 
             <TitleDiv>
-              <h5>제목</h5>
+              <h5>{post?.title}</h5>
             </TitleDiv>
 
             
             <ContentDiv>
-              <p>내용</p>
+              <p>{post?.content}</p>
             </ContentDiv>
 
             <EctDiv>
               <div>
-                  <span>작성자</span>
-                  <span>작성날짜</span>
-                  <span>조회수</span>
+                  <span>{post?.User?.nickname}</span>
+                  <span>{post?.view}</span>                  
+                  <span>{post?.createdAt}</span>
               </div>
               <div>
                   <Btn>수정</Btn>
@@ -59,6 +109,26 @@ const BoardList = () => {
               </ReplyViewDiv>
             </div>
         </div>
+        <PageNav>
+          {
+            offset > 0 ? 
+            <Link to={`/${url}/read/${offset-1}${searchKey}${searchWord}`}>
+              <Icon src={process.env.PUBLIC_URL + "/img/icon/icon-left.png"}/>
+              이전글
+            </Link> :
+            <></>
+          }
+          
+          <Link to={`/${url}/list/1/10${searchKey}${searchWord}`}>목록</Link>
+
+          {
+            offset < postNum -1 ?
+            <Link to={`/${url}/read/${offset+1}${searchKey}${searchWord}`}>다음글
+              <Icon src={process.env.PUBLIC_URL + "/img/icon/icon-right.png"}/>
+            </Link> :
+            <></>
+          }
+        </PageNav>
     </Article>
   )
 }
