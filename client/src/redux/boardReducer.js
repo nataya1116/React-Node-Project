@@ -100,6 +100,9 @@ function board(state = init, action) {
             }
         case CREATE:
             console.log("board create");
+            state.list.map(item=>{
+              item.offset++;
+            });
             return { 
                 ...state, 
                 list : [{

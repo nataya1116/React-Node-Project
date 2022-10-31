@@ -103,7 +103,7 @@ const BoardList = () => {
 
             <div>
               {
-                post[reply].map(reply => {
+                post[reply]?.map(reply => {
                   return (
                     <ReplyViewDiv>
                       <div>
