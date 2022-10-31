@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { searchingList } from "../redux/reducer/boardReducer";
+import { searchingList } from "../redux/boardReducer";
 
 const BoardList = () => {
 

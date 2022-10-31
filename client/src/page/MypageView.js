@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tr, LargeBtn } from '../styledComponent/join_cs';
 import { FindDiv, FindLink } from '../styledComponent/login_cs';
-import { logoutAction } from '../redux/reducer/userReducer';
+import { logoutAction } from '../redux/userReducer';
 
 const Mypage = () => {
   return (

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
-import { searchingList } from '../redux/reducer/boardReducer';
+import { searchingList } from '../redux/boardReducer';
 
 const BoardList = () => {
 

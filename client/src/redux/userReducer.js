@@ -1,5 +1,5 @@
-import { UserAPI, SUCCESS, FAIL } from "../../api";
-import { LOG_IN, LOG_OUT, POINT } from '../common';
+import { UserAPI, SUCCESS, FAIL } from "../api";
+import { LOG_IN, LOG_OUT, POINT } from './common';
 
 function loginAction(id, pw, nav){
     return async(dispatch, getState) => {

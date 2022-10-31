@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginAction } from '../redux/reducer/userReducer';
+import { loginAction } from '../redux/userReducer';
 import { Section, SectionHeader, SectionTitle, Article } from '../styledComponent/common_cs';
 import { Div, Tr, Input } from '../styledComponent/join_cs';
 import { Btn, LoginLink, FindDiv, FindLink } from '../styledComponent/login_cs';

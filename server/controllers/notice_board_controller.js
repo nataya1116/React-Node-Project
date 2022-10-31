@@ -11,6 +11,7 @@ module.exports.create = async (req, res) => {
   console.log("c create() ", id, title, content);
   const result = await NoticeBoardService.create({ id, title, content });
   const post = result?.dataValues;
+  console.log(post);
   if(result){
     res.send({ret : SUCCESS,  post });
   }else{
@@ -34,6 +35,7 @@ module.exports.searchingList = async (req, res) => {
   if(!result) res.send({ret : FAIL});
   // console.log(result);
   const list = result?.rows;
+  console.log(list);
   const postNum = result?.count;
   const totalPageNum = Math.ceil(postNum / limit);
 

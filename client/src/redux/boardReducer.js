@@ -1,5 +1,5 @@
-import { BoardAPI, SUCCESS, FAIL } from "../../api";
-import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST } from '../common';
+import { BoardAPI, SUCCESS, FAIL } from "../api";
+import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST } from './common';
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
 
@@ -48,7 +48,7 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
 
 function postWrite({url, id, nickname, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
-    console.log({id, nickname, title, content});
+    // console.log({id, nickname, title, content});
     const result = await BoardAPI.writePost({url, id, title, content});
     
     if(result?.ret !== SUCCESS){
@@ -56,13 +56,22 @@ function postWrite({url, id, nickname, title, content, pageQuery, nav}){
       nav(`/${url}/list/1/10`);
       return;
     }
-    console.log(result?.post);
     if(pageQuery?.page == 1){
-      dispatch({type : CREATE, payload: {...result.post, {nickname}} });
+      const { no, title, content } = result?.post;
+      let createdAt = result?.post.createdAt;
+      createdAt = dataStr(createdAt);
+      console.log({ no, title, content, createdAt});
+      dispatch({type : CREATE, payload: { no, nickname, title, content, createdAt} });
     }
 
     nav(`/${url}/list/1/10`);
   }
+}
+
+function dataStr(date) {
+  const dateStr = date.split("T")[0];
+  const timeStr = date.split("T")[1].split(".")[0];
+  return dateStr+" "+timeStr;
 }
 
 export { searchingList, postWrite, };
@@ -94,10 +103,13 @@ function board(state = init, action) {
             return { 
                 ...state, 
                 list : [{
+                          no : payload.no,
                           User : { nickname : payload.nickname },
                           createdAt : payload.createdAt,
                           title : payload.title,
-                          content : payload.content 
+                          content : payload.content,
+                          offset : 0,
+                          view : 0, 
                         },
                         ...state.list, 
                         ]
