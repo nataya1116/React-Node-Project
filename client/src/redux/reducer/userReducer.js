@@ -1,4 +1,40 @@
+import { UserAPI, SUCCESS, FAIL } from "../../api";
 import { LOG_IN, LOG_OUT, POINT } from '../common';
+
+function loginAction(id, pw, nav){
+    return async(dispatch, getState) => {
+
+            const result = await UserAPI.login(id, pw);
+
+            if(result?.ret === SUCCESS){
+                
+                const { nickname, authorityNo, stateNo, accessToken, refreshToken } = result?.data;
+
+                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo, accessToken, refreshToken }});
+
+                alert("로그인에 성공하였습니다.");
+
+                nav("/");
+
+            }else if(result?.ret === FAIL){
+                alert("아이디 또는 비밀번호가 맞지 않습니다.");
+            }else{
+                alert("통신의 문제가 있습니다. 다시 시도해주세요.");
+            }
+
+        }
+    }
+
+function logoutAction() {
+    return (dispatch, getState) => {
+        if(getState().user.isLogin){
+            dispatch({type: LOG_OUT})
+        }
+    }
+}
+
+
+export { loginAction, logoutAction };
 
 let init = {
     id : null,
@@ -11,7 +47,7 @@ let init = {
     isLogin : false,
 }
 
-function reducer(state = init, action) {
+function user(state = init, action) {
     const {type, payload} = action;
     switch (type) {
         case LOG_IN:
@@ -47,4 +83,4 @@ function reducer(state = init, action) {
     }
 }
 
-export default reducer;
+export default user;

@@ -87,8 +87,8 @@ const Btn = styled.button`
 
 const SearchDiv = styled.div`
     display: flex;
-    justify-content: right;
-    select, input, ${Btn} {
+    justify-content: space-between;
+    div > select, input, ${Btn} {
         margin: 15px 2px;
         padding: 3px 5px;
     }

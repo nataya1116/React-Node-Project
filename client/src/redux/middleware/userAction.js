@@ -27,7 +27,7 @@ function login(id, pw, nav){
 
 function logout() {
     return (dispatch, getState) => {
-        if(getState().userReducer.isLogin){
+        if(getState().user.isLogin){
             dispatch({type: LOG_OUT})
         }
     }

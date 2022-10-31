@@ -4,14 +4,14 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
-import { boardAction } from '../redux/middleware';
+import { searchingList } from '../redux/reducer/boardReducer';
 
 const BoardList = () => {
 
   const dispatch = useDispatch();
   const nav = useNavigate();
   
-  const url = useSelector((state) => state.boardReducer.url);
+  const url = useSelector((state) => state.board.url);
 
   const undefinedPage = ()=>{
     alert("존재하지 않는 페이지입니다.");
@@ -30,8 +30,8 @@ const BoardList = () => {
     undefinedPage();
   }
   
-  const list = useSelector((state) => state.boardReducer.list);
-  const pageQuery = useSelector((state) => state.boardReducer.query);
+  const list = useSelector((state) => state.board.list);
+  const pageQuery = useSelector((state) => state.board.query);
 
   const post = list.find(item => {return item.offset == offset} );
 
@@ -39,10 +39,10 @@ const BoardList = () => {
     const perPage = 10;
     const page = Math.floor( offset / perPage ) + 1;
     console.log("offset",offset,"page",page,"perPage",perPage);
-    dispatch(boardAction.searchingList({ url, page, perPage, searchKey, searchWord }));
+    dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
   }
 
-  const postNum = useSelector(state => state.boardReducer.postNum);
+  const postNum = useSelector(state => state.board.postNum);
 
   if(offset > postNum -1) {
     undefinedPage();
@@ -53,7 +53,7 @@ const BoardList = () => {
   
   console.log("postNum", postNum);
 
-  const nickname = useSelector(state => state.userReducer.nickname);
+  const nickname = useSelector(state => state.user.nickname);
 
   const reply = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
 

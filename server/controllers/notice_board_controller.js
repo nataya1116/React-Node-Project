@@ -10,9 +10,9 @@ module.exports.create = async (req, res) => {
   const { id, title, content } = req.body;
   console.log("c create() ", id, title, content);
   const result = await NoticeBoardService.create({ id, title, content });
-
+  const post = result?.dataValues;
   if(result){
-    res.send({ret : SUCCESS});
+    res.send({ret : SUCCESS,  post });
   }else{
     res.send({ret : FAIL});
   }
@@ -32,7 +32,7 @@ module.exports.searchingList = async (req, res) => {
   const result = await NoticeBoardService.searchingList(offset, limit, searchKey, searchWord);
 
   if(!result) res.send({ret : FAIL});
-  console.log(result);
+  // console.log(result);
   const list = result?.rows;
   const postNum = result?.count;
   const totalPageNum = Math.ceil(postNum / limit);

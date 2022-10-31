@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { boardAction } from "../redux/middleware";
+import { searchingList } from "../redux/reducer/boardReducer";
 
 const BoardList = () => {
 
@@ -28,14 +28,14 @@ const BoardList = () => {
   let { page, perPage, searchKey = null, searchWord = null } = useParams();
   const pageParams = { page, perPage, searchKey, searchWord };
   // console.log(pageParams);
-  const url = useSelector((state) => state.boardReducer.url);
+  const url = useSelector((state) => state.board.url);
   // console.log(url);
-  const pageQuery = useSelector((state) => state.boardReducer.query);
+  const pageQuery = useSelector((state) => state.board.query);
   // console.log(pageQuery);
-  const totalPageNum = useSelector(state => state.boardReducer.totalPageNum);
+  const totalPageNum = useSelector(state => state.board.totalPageNum);
 
-  const list = useSelector((state) => state.boardReducer.list);
-  // console.log(list);
+  const list = useSelector((state) => state.board.list);
+  console.log(list);
   // let key
   let isSameValue = true;
   for (const key in pageQuery) {
@@ -51,8 +51,7 @@ const BoardList = () => {
   }
   
   if(!isSameValue || !list){
-    console.log("boardAction.searchingList()");
-    dispatch(boardAction.searchingList({ url, ...pageParams }));
+    dispatch(searchingList({ url, ...pageParams }));
   }
 
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
@@ -70,6 +69,7 @@ const BoardList = () => {
     return list;
   }
 
+  let count = 0;
   const searching = () => {
     const searchKey = searchSelect.current.value;
     const searchWord = searchInput.current.value;
@@ -89,6 +89,8 @@ const BoardList = () => {
           </Tr>
 
           {list.map((item) => {
+            count++;
+            if(count <= perPage)
             return (
               <Tr>
                 <td>{item.no}</td>
@@ -104,8 +106,12 @@ const BoardList = () => {
             );
           })}
         </table>
-
+        
+        
+       
         <SearchDiv>
+          <Btn onClick={()=>{nav(`/${url}/write`)}}>글쓰기</Btn>
+          <div>
           <select ref={searchSelect}>
             <option value="title" >제목</option>
             <option value="content" >내용</option>
@@ -113,6 +119,7 @@ const BoardList = () => {
           </select>
           <input ref={searchInput} />
           <Btn onClick={searching}>검색</Btn>
+          </div>
         </SearchDiv>
 
         <PagenationDiv>
