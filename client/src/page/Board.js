@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import { Section, SectionHeader, SectionTitle } from '../styledComponent/common_cs';
-import { BoardView, BoardList, BoardWrite } from '../page';
+import { BoardView, BoardList, BoardWrite, BoardUpdate } from '../page';
 import { useDispatch } from 'react-redux';
 import { BOARD_URL } from '../redux/common';
 
@@ -23,7 +23,7 @@ const Board = ({boardName}) => {
           <Route path='/read/:offset' element={<BoardView/>} />
           <Route path='/read/:offset/:searchKey/:searchWord' element={<BoardView/>} />
           <Route path='/write' element={<BoardWrite/>} />
-          <Route path='/update' element={<BoardWrite/>} />
+          <Route path='/update/:no/:offset' element={<BoardUpdate/>} />
           <Route path='/modify' element={<BoardWrite/>} />
       </Routes>
     </Section>

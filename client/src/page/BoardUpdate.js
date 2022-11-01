@@ -1,24 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, ContentDiv, Btn  } from '../styledComponent/board_write_cs';
 import { postWrite } from "../redux/boardReducer";
+import { BoardAPI } from '../api';
 
 
-const BoardWrite = () => {
-  //     accessToken : null, 
-    // refreshToken : null,
+const BoardUpdate = () => {
+  const { no = null, offset = null } = useParams(); 
   const nickname = useSelector(state=>state.user.nickname);
-  const accessToken = useSelector(state=>state.user.accessToken);
-  const refreshToken = useSelector(state=>state.user.refreshToken);
+  const id= useSelector(state=>state.user.id);
   const url = useSelector((state) => state.board.url);
   const pageQuery = useSelector((state) => state.board.query);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
   useEffect(()=>{
-    if(!accessToken){
+    if(!id){
       alert("로그인을 해주세요.");
       
       console.log("/login");
@@ -32,8 +31,18 @@ const BoardWrite = () => {
     content : useRef()
   }
 
+  useEffect(()=>{
+    if(no){
+      const list = BoardAPI.searchingList({url, offset, perPage : 1});
+      const post = list[0];
+      console.log(post);
+      postInputs.title.current.value = post.title;
+      postInputs.content.current.value = post.content;
+    }
+  },[])
+
   const createPost = () => {
-    if(!accessToken){
+    if(!id){
       alert("로그인을 해주세요.");
       nav("/login");
       return;
@@ -49,8 +58,7 @@ const BoardWrite = () => {
 
     dispatch(postWrite({
                           url, 
-                          accessToken,
-                          refreshToken, 
+                          id, 
                           nickname, 
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
@@ -80,4 +88,4 @@ const BoardWrite = () => {
   )
 }
 
-export default BoardWrite
+export default BoardUpdate

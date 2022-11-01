@@ -88,14 +88,14 @@ const BoardList = () => {
             <th>조회</th>
           </Tr>
 
-          {list.map((item) => {
+          {list.map((item, index) => {
             count++;
             if(count <= perPage)
             return (
               <Tr>
                 <td>{item.no}</td>
                 <td>
-                  <BoardLink to={`/${url}/read/${item.offset}${searchKey}${searchWord}`} >
+                  <BoardLink to={`/${url}/read/${item.offset}${searchKey}${searchWord}`} index={index}>
                     {item.title}
                   </BoardLink>
                 </td>

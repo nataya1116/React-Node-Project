@@ -16,6 +16,7 @@ import Board from "./Board";
 import BoardView from "./BoardView";
 import BoardList from "./BoardList";
 import BoardWrite from "./BoardWrite";
+import BoardUpdate from "./BoardUpdate";
 // import BoardModifiy from "./BoardModify";
 
 import Ranking from "./Ranking";
@@ -26,4 +27,4 @@ import Admin from "./Admin";
 import AdminUserManagement from "./AdminUserManagement";
 import ProductRegister from "./ProductRegister";
 
-export { Main, Join, Login, Mypage, MypageView, MypageModify, GiftBox, GiftReceived, GiftSent, GiftList, GiftView, Board, BoardView, BoardList, BoardWrite, Ranking, Store, Admin, AdminUserManagement, ProductRegister, }
+export { Main, Join, Login, Mypage, MypageView, MypageModify, GiftBox, GiftReceived, GiftSent, GiftList, GiftView, Board, BoardView, BoardList, BoardWrite, BoardUpdate, Ranking, Store, Admin, AdminUserManagement, ProductRegister, }

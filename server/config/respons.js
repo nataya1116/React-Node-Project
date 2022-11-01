@@ -2,5 +2,9 @@ const SUCCESS = "SUCCESS";
 const FAIL = "FAIL";
 const OVERLAP = "OVERLAP";
 const POSSIBLE = "POSSIBLE";
+const LOGIN_REQ = "LOGIN_REQ";
+const INACTIVE = "INACTIVE";
+const WAITING = "WAITING";
+const NOT_ADMIN = "NOT_ADMIN";
 
-module.exports = { SUCCESS, FAIL, OVERLAP, POSSIBLE,  };
+module.exports = { SUCCESS, FAIL, OVERLAP, POSSIBLE, LOGIN_REQ, INACTIVE, WAITING, NOT_ADMIN };

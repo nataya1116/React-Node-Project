@@ -1,5 +1,5 @@
 import { BoardAPI, SUCCESS, FAIL } from "../api";
-import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST } from './common';
+import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST,  } from './common';
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
 
@@ -46,13 +46,35 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
   };
 }
 
-function postWrite({url, id, nickname, title, content, pageQuery, nav}){
+function postWrite({url, accessToken, refreshToken, nickname, title, content, pageQuery, nav}){
+  return async  (dispatch, getState) => {
+    // console.log({id, nickname, title, content});
+    const result = await BoardAPI.writePost({url, title, content, accessToken, refreshToken});
+    
+    if(result?.ret === FAIL){
+      alert("게시글 등록에 실패하였습니다.");
+      nav(`/${url}/list/1/10`);
+      return;
+    }
+    if(pageQuery?.page == 1){
+      const { no, title, content } = result?.post;
+      let createdAt = result?.post.createdAt;
+      createdAt = dataStr(createdAt);
+      console.log({ no, title, content, createdAt});
+      dispatch({type : CREATE, payload: { no, nickname, title, content, createdAt} });
+    }
+
+    nav(`/${url}/list/1/10`);
+  }
+}
+
+function postUpdate({url, id, nickname, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
     // console.log({id, nickname, title, content});
     const result = await BoardAPI.writePost({url, id, title, content});
     
-    if(result?.ret !== SUCCESS){
-      alert("게시글 등록에 실패하였습니다.");
+    if(result?.ret === FAIL){
+      alert("게시글 수정에 실패하였습니다.");
       nav(`/${url}/list/1/10`);
       return;
     }

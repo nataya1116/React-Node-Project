@@ -9,9 +9,13 @@ const UPDATE = "UPDATE";
 const READ = "READ";
 const DELETE = "DELETE";
 const LIST = "LIST";
-
+const LOGIN_REQ = "LOGIN_REQ";
+const INACTIVE = "INACTIVE";
+const WAITING = "WAITING";
+const NOT_ADMIN = "NOT_ADMIN";
 
 export { 
     LOG_IN, LOG_OUT, POINT,
     BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST,
+    LOGIN_REQ, INACTIVE, WAITING, NOT_ADMIN,
 };

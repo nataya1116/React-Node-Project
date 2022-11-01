@@ -6,12 +6,12 @@ const { AUTHORITY, BOARDS } = require("../config/state");
 const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
-  console.log(req.body);
+  const { accessToken, refreshToken } = req.headers;
   const { id, title, content } = req.body;
   console.log("c create() ", id, title, content);
   const result = await NoticeBoardService.create({ id, title, content });
   const post = result?.dataValues;
-  console.log(post);
+  // console.log(post);
   if(result){
     res.send({ret : SUCCESS,  post });
   }else{
@@ -68,14 +68,18 @@ module.exports.searchingList = async (req, res) => {
 //     res.send({ ret : SUCCESS , post, postNum, replyList, info : { searchKey, searchWord } });
 // }
 
-// module.exports.update = async (req, res) => {
-//   const no = Number(req.body.no);
-//   const offset = Number(req.body.offset);
-//   const { title, content } = req.body;
+module.exports.update = async (req, res) => {
+  const no = Number(req.body.no);
+  const { title, content } = req.body;
 
-//   const result = await NoticeBoardService.update({ no, title, content });
-//   res.redirect("/notice_board/read/" + offset);
-// };
+  const result = await NoticeBoardService.update({ no, title, content });
+
+  if(result){
+    res.send({ret : SUCCESS});
+  }else{
+    res.send({ret : FAIL});
+  }
+};
 
 // module.exports.updateView = async (req, res) => {
   

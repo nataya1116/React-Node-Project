@@ -10,7 +10,7 @@ const SessionMiddleware = require("../middlewares/session_middleware");
 router.post("/create", NoticeBoardController.create);
 
 // router.post("/update", SessionMiddleware.validity, NoticeBoardController.update);
-// router.post("/update", NoticeBoardController.update);
+router.post("/update", NoticeBoardController.update);
 
 
 // // 순서대로 경로를 지정해주고 순서에 맞는 키로 저장이 된다.

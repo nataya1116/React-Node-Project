@@ -6,7 +6,7 @@ import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
 import { searchingList } from '../redux/boardReducer';
 
-const BoardList = () => {
+const BoardView = () => {
 
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -158,4 +158,4 @@ const BoardList = () => {
   )
 }
 
-export default BoardList
+export default BoardView
