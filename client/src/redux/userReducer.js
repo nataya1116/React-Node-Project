@@ -1,5 +1,6 @@
 import { UserAPI, SUCCESS, FAIL } from "../api";
 import { LOG_IN, LOG_OUT, POINT } from './common';
+import { SessionService } from "../service";
 
 function loginAction(id, pw, nav){
     return async(dispatch, getState) => {
@@ -10,7 +11,10 @@ function loginAction(id, pw, nav){
                 
                 const { nickname, authorityNo, stateNo, accessToken, refreshToken } = result?.data;
 
-                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo, accessToken, refreshToken }});
+                dispatch({type : LOG_IN, payload:{ id, nickname, authorityNo, stateNo }});
+
+                SessionService.setAccessToken(accessToken);
+                SessionService.setRefreshToken(refreshToken);
 
                 alert("로그인에 성공하였습니다.");
 
@@ -25,10 +29,20 @@ function loginAction(id, pw, nav){
         }
     }
 
-function logoutAction() {
+function logoutAction(nav) {
+    console.log("logout");
     return (dispatch, getState) => {
+        console.log("logout");
+        console.log("getState().user.isLogin", getState().user.isLogin);
         if(getState().user.isLogin){
-            dispatch({type: LOG_OUT})
+
+            console.log("logout");
+
+            dispatch({type: LOG_OUT});
+
+            SessionService.removeTokenAll();
+
+            nav("/login");
         }
     }
 }
@@ -42,8 +56,6 @@ let init = {
     authorityNo : null, 
     stateNo : null,
     point : null,
-    accessToken : null, 
-    refreshToken : null,
     isLogin : false,
 }
 
@@ -57,8 +69,6 @@ function user(state = init, action) {
                         nickname : payload.nickname,
                         authorityNo : payload.authorityNo, 
                         stateNo : payload.stateNo,
-                        accessToken : payload.accessToken, 
-                        refreshToken : payload.refreshToken,
                         isLogin : true
                     };
         case LOG_OUT:
@@ -69,8 +79,6 @@ function user(state = init, action) {
                         authorityNo : null, 
                         stateNo : null,
                         point : null,
-                        accessToken : null, 
-                        refreshToken : null,
                         isLogin : false
                     };
         case POINT:

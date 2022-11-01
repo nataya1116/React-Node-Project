@@ -3,7 +3,9 @@ const { CONDITION, AUTHORITY } = require("../config/state");
 const { LOGIN_REQ, INACTIVE, WAITING, NOT_ADMIN } = require("../config/respons");
 
 module.exports.validity = async (req, res, next) => {
-  const { accessToken, refreshToken } = req.headers;
+  const accessToken = req.headers.access_token;
+  const refreshToken = req.headers.refresh_token;
+  console.log("validity", {accessToken, refreshToken});
   // 모든 if의 조건이 아닐경우 엑세스토큰 재생성
   if (!accessToken || !refreshToken) {
     return res.send({ret : LOGIN_REQ});
@@ -51,13 +53,14 @@ module.exports.validity = async (req, res, next) => {
                                                         stateNo
                                                       );
 
-  req.headers.accessToken = accessTokenRe;
+  req.headers.access_token = accessTokenRe;
 
   return next();
 };
 
 module.exports.pass = async (req, res, next) => {
-  const { accessToken, refreshToken } = req.headers;
+  const accessToken = req.headers.access_token;
+  const refreshToken = req.headers.refresh_token;
 
   if (!accessToken || !refreshToken) {
     return next();
@@ -93,7 +96,7 @@ module.exports.pass = async (req, res, next) => {
                                                         stateNo
                                                       );
 
-  req.headers.accessToken = accessTokenRe;
+  req.headers.access_token = accessTokenRe;
 
   return next();
 };
@@ -143,7 +146,7 @@ module.exports.validityAdmin = async (req, res, next) => {
                                                         stateNo
                                                       );
 
-  req.headers.accessToken = accessTokenRe;
+  req.headers.access_token = accessTokenRe;
 
   return next();
 };

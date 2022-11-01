@@ -46,10 +46,12 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
   };
 }
 
-function postWrite({url, accessToken, refreshToken, nickname, title, content, pageQuery, nav}){
+function postWrite({url, nickname, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
     // console.log({id, nickname, title, content});
-    const result = await BoardAPI.writePost({url, title, content, accessToken, refreshToken});
+    const result = await BoardAPI.writePost({url, title, content});
+
+    console.log("boardReducer",result);
     
     if(result?.ret === FAIL){
       alert("게시글 등록에 실패하였습니다.");
@@ -57,6 +59,8 @@ function postWrite({url, accessToken, refreshToken, nickname, title, content, pa
       return;
     }
     if(pageQuery?.page == 1){
+      
+      console.log(result?.post);
       const { no, title, content } = result?.post;
       let createdAt = result?.post.createdAt;
       createdAt = dataStr(createdAt);

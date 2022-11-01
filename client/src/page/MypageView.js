@@ -2,8 +2,11 @@ import React from 'react';
 import { Tr, LargeBtn } from '../styledComponent/join_cs';
 import { FindDiv, FindLink } from '../styledComponent/login_cs';
 import { logoutAction } from '../redux/userReducer';
+import { useNavigate } from 'react-router-dom';
 
 const Mypage = () => {
+
+  const nav = useNavigate();
   return (
     <>
         <table>
@@ -22,9 +25,9 @@ const Mypage = () => {
           </Tr>
         </table>
 
-        <LargeBtn onClick={()=>{window.location.href="/mypage/modify"}}>회원 정보 수정</LargeBtn>
+        <LargeBtn onClick={()=>{nav("/mypage/modify")}}>회원 정보 수정</LargeBtn>
         <LargeBtn>카드 스킨 수정</LargeBtn>
-        <LargeBtn onClick={logoutAction}>로그아웃</LargeBtn>
+        <LargeBtn onClick={()=>{logoutAction(nav)}}>로그아웃</LargeBtn>
         
         <br/>
         <FindDiv>

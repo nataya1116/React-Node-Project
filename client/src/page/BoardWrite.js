@@ -7,18 +7,15 @@ import { postWrite } from "../redux/boardReducer";
 
 
 const BoardWrite = () => {
-  //     accessToken : null, 
-    // refreshToken : null,
   const nickname = useSelector(state=>state.user.nickname);
-  const accessToken = useSelector(state=>state.user.accessToken);
-  const refreshToken = useSelector(state=>state.user.refreshToken);
   const url = useSelector((state) => state.board.url);
   const pageQuery = useSelector((state) => state.board.query);
+
   const dispatch = useDispatch();
   const nav = useNavigate();
 
   useEffect(()=>{
-    if(!accessToken){
+    if(!nickname){
       alert("로그인을 해주세요.");
       
       console.log("/login");
@@ -33,7 +30,7 @@ const BoardWrite = () => {
   }
 
   const createPost = () => {
-    if(!accessToken){
+    if(!nickname){
       alert("로그인을 해주세요.");
       nav("/login");
       return;
@@ -49,9 +46,7 @@ const BoardWrite = () => {
 
     dispatch(postWrite({
                           url, 
-                          accessToken,
-                          refreshToken, 
-                          nickname, 
+                          nickname,
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
                           pageQuery, 

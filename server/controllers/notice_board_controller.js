@@ -6,12 +6,18 @@ const { AUTHORITY, BOARDS } = require("../config/state");
 const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
-  const { accessToken, refreshToken } = req.headers;
-  const { id, title, content } = req.body;
-  console.log("c create() ", id, title, content);
+  console.log("create");
+  const accessToken = req.headers?.access_token;
+
+  const user = TokenService.verifyAccessToken(accessToken);
+  const id = user?.id;
+
+  const { title, content } = req.body;
+
   const result = await NoticeBoardService.create({ id, title, content });
+  console.log(result);
   const post = result?.dataValues;
-  // console.log(post);
+  
   if(result){
     res.send({ret : SUCCESS,  post });
   }else{
@@ -35,7 +41,7 @@ module.exports.searchingList = async (req, res) => {
   if(!result) res.send({ret : FAIL});
   // console.log(result);
   const list = result?.rows;
-  console.log(list);
+  // console.log(list);
   const postNum = result?.count;
   const totalPageNum = Math.ceil(postNum / limit);
 
