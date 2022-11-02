@@ -3,8 +3,18 @@ const FAIL = "FAIL";
 const OVERLAP = "OVERLAP";
 const POSSIBLE = "POSSIBLE";
 const LOGIN_REQ = "LOGIN_REQ";
-const INACTIVE = "INACTIVE";
-const WAITING = "WAITING";
-const NOT_ADMIN = "NOT_ADMIN";
 
-module.exports = { SUCCESS, FAIL, OVERLAP, POSSIBLE, LOGIN_REQ, INACTIVE, WAITING, NOT_ADMIN };
+const WAITING = 1;
+const ACTIVE = 2;
+const INACTIVE = 3;
+
+const ADMIN = 1;
+const USER = 2
+
+module.exports = { 
+                    SUCCESS, FAIL, 
+                    OVERLAP, POSSIBLE, 
+                    LOGIN_REQ, 
+                    ACTIVE, WAITING, INACTIVE, 
+                    ADMIN, USER 
+                };

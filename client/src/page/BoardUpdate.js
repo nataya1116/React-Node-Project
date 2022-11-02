@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, ContentDiv, Btn  } from '../styledComponent/board_write_cs';
-import { postWrite } from "../redux/boardReducer";
+import { postUpdate, postWrite } from "../redux/boardReducer";
 import { BoardAPI } from '../api';
 
 
@@ -56,10 +56,8 @@ const BoardUpdate = () => {
       return;
     }
 
-    dispatch(postWrite({
-                          url, 
-                          id, 
-                          nickname, 
+    dispatch(postUpdate({
+                          url,
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
                           pageQuery, 

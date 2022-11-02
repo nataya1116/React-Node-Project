@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { searchingList } from "../redux/boardReducer";
+import { ACTIVE, ADMIN } from "../redux/common";
 
 const BoardList = () => {
 
@@ -24,6 +25,10 @@ const BoardList = () => {
 
   const searchSelect = useRef();
   const searchInput = useRef();
+
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const stateNo = useSelector((state) => state.user.stateNo);
+  const authorityNo = useSelector((state) => state.user.authorityNo);
 
   let { page, perPage, searchKey = null, searchWord = null } = useParams();
   const pageParams = { page, perPage, searchKey, searchWord };
@@ -76,6 +81,18 @@ const BoardList = () => {
 
     nav(`/${url}/list/1/10/${searchKey}/${searchWord}`);
   }
+
+  
+
+  function printWriteBtn(){
+    if(!isLogin) return <div></div>;
+
+    if(stateNo !== ACTIVE) return <div></div>;
+
+    if(url === "notice_board" && authorityNo !== ADMIN) return <div></div>;
+
+    return <Btn onClick={()=>{nav(`/${url}/write`)}}>글쓰기</Btn>
+  }
   return (
     <Article>
       <div>
@@ -110,7 +127,7 @@ const BoardList = () => {
         
        
         <SearchDiv>
-          <Btn onClick={()=>{nav(`/${url}/write`)}}>글쓰기</Btn>
+          {printWriteBtn()}
           <div>
           <select ref={searchSelect}>
             <option value="title" >제목</option>

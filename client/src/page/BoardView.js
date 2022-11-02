@@ -33,7 +33,9 @@ const BoardView = () => {
   const list = useSelector((state) => state.board.list);
   const pageQuery = useSelector((state) => state.board.query);
 
-  const post = list.find(item => {return item.offset == offset} );
+  const offsetStr = offset+"";
+  const index = Number(offsetStr.substring(offsetStr?.length-1, 1));
+  const post = list[index];
 
   if(!post || searchKey !== pageQuery.searchKey || searchWord !== pageQuery.searchWord){
     const perPage = 10;

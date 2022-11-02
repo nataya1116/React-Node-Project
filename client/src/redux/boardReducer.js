@@ -33,7 +33,7 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
 
     const list = result?.list;
 
-    list.map(item => {
+    list?.map(item => {
       item.offset = count;
       count++;
     });
@@ -72,10 +72,10 @@ function postWrite({url, nickname, title, content, pageQuery, nav}){
   }
 }
 
-function postUpdate({url, id, nickname, title, content, pageQuery, nav}){
+function postUpdate({url, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
     // console.log({id, nickname, title, content});
-    const result = await BoardAPI.writePost({url, id, title, content});
+    const result = await BoardAPI.updatePost({url, no, title, content});
     
     if(result?.ret === FAIL){
       alert("게시글 수정에 실패하였습니다.");
@@ -87,7 +87,7 @@ function postUpdate({url, id, nickname, title, content, pageQuery, nav}){
       let createdAt = result?.post.createdAt;
       createdAt = dataStr(createdAt);
       console.log({ no, title, content, createdAt});
-      dispatch({type : CREATE, payload: { no, nickname, title, content, createdAt} });
+      dispatch({type : CREATE, payload: { no, title, content, createdAt} });
     }
 
     nav(`/${url}/list/1/10`);
@@ -100,7 +100,7 @@ function dataStr(date) {
   return dateStr+" "+timeStr;
 }
 
-export { searchingList, postWrite, };
+export { searchingList, postWrite, postUpdate };
 
 let init = {
     url : null,

@@ -8,8 +8,8 @@ export const writePost = async ({url, title, content}) => {
     return await authAPI.post(`/${url}/create`, {title, content});
 }
 
-export const updatePost = async ({url, id, no, title, content}) => {
-    return await authAPI.post(`/${url}/update`, {id, no, title, content});
+export const updatePost = async ({url, no, title, content}) => {
+    return await authAPI.post(`/${url}/update`, {no, title, content});
 }
 
 

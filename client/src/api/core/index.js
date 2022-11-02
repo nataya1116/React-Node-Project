@@ -56,7 +56,7 @@ authAPI.interceptors.request.use(
         const refresh_token = SessionService.getRefreshToken();
 
         config.headers = {access_token, refresh_token};
-        return config
+        return config;
     },
     error =>{
         //요청 에러가 발생했을 때 수행할 로직

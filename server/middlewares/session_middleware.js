@@ -1,6 +1,6 @@
 const { UserService, InactiveUserService ,TokenService } = require("../service");
 const { CONDITION, AUTHORITY } = require("../config/state");
-const { LOGIN_REQ, INACTIVE, WAITING, NOT_ADMIN } = require("../config/respons");
+const { LOGIN_REQ, INACTIVE, WAITING, USER } = require("../config/respons");
 
 module.exports.validity = async (req, res, next) => {
   const accessToken = req.headers.access_token;
@@ -58,49 +58,6 @@ module.exports.validity = async (req, res, next) => {
   return next();
 };
 
-module.exports.pass = async (req, res, next) => {
-  const accessToken = req.headers.access_token;
-  const refreshToken = req.headers.refresh_token;
-
-  if (!accessToken || !refreshToken) {
-    return next();
-  }
-  const decodeAcc = TokenService.verifyAccessToken(accessToken);
-
-  if (decodeAcc) {
-    return next();
-  }
-
-  const decodeRe = TokenService.verifyRefreshToken(refreshToken);
-
-  if (!decodeRe) {
-    return next();
-  }
-
-  const id = decodeRe.id;
-  const result = await UserService.login(id);
-  const user = result.dataValues;
-
-  if (refreshToken != user.refreshToken) {
-    return next();
-  }
-
-  const nickname = user.nickname;
-  const authorityNo = user.authorityNo;
-  const stateNo = user.stateNo;
-
-  const accessTokenRe = TokenService.createAccessToken(
-                                                        id,
-                                                        nickname,
-                                                        authorityNo,
-                                                        stateNo
-                                                      );
-
-  req.headers.access_token = accessTokenRe;
-
-  return next();
-};
-
 module.exports.validityAdmin = async (req, res, next) => {
   const { accessToken, refreshToken } = req.headers;
 
@@ -114,7 +71,7 @@ module.exports.validityAdmin = async (req, res, next) => {
   }
 
   if(decodeAcc){
-    return res.send({ret : NOT_ADMIN});
+    return res.send({ret : USER});
   }
 
   const decodeRe = TokenService.verifyRefreshToken(refreshToken);
@@ -124,7 +81,7 @@ module.exports.validityAdmin = async (req, res, next) => {
   }
 
   if (decodeRe.authorityNo != AUTHORITY.ADMIN){
-    return res.send({ret : NOT_ADMIN});
+    return res.send({ret : USER});
   }
 
   const id = decodeRe.id;
