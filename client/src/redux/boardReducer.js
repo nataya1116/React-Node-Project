@@ -72,7 +72,7 @@ function postWrite({url, nickname, title, content, pageQuery, nav}){
   }
 }
 
-function postUpdate({url, title, content, pageQuery, nav}){
+function postUpdate({url, no, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
     // console.log({id, nickname, title, content});
     const result = await BoardAPI.updatePost({url, no, title, content});

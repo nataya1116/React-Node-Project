@@ -42,8 +42,7 @@ const BoardUpdate = () => {
     content : useRef()
   }
 
-  postInputs.title.current.value = post.title;
-  postInputs.content.current.value = post.content;
+  
 
   useEffect(()=>{
     if(!post){
@@ -51,9 +50,10 @@ const BoardUpdate = () => {
       list = BoardAPI.searchingList({url, offset, perPage : 1});
       post = list[0];
       console.log(post);
-      postInputs.title.current.value = post.title;
-      postInputs.content.current.value = post.content;
     }
+
+    postInputs.title.current.value = post?.title;
+    postInputs.content.current.value = post?.content;
   },[])
 
 
@@ -74,6 +74,7 @@ const BoardUpdate = () => {
 
     dispatch(postUpdate({
                           url,
+                          no : index,
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
                           pageQuery, 

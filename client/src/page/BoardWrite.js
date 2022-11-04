@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 
 import { Article, TitleDiv, ContentDiv, Btn  } from '../styledComponent/board_write_cs';
-import { postUpdate } from "../redux/boardReducer";
+import { postWrite } from "../redux/boardReducer";
 
 
 const BoardWrite = () => {
@@ -44,7 +44,7 @@ const BoardWrite = () => {
       return;
     }
 
-    dispatch(postUpdate({
+    dispatch(postWrite({
                           url, 
                           nickname,
                           title : postInputs.title.current.value, 
