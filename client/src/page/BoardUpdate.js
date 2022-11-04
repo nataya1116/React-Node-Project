@@ -8,13 +8,8 @@ import { BoardAPI } from '../api';
 
 
 const BoardUpdate = () => {
-  const { no = null, offset = null } = useParams(); 
-  const nickname = useSelector(state=>state.user.nickname);
+  const { offset = null } = useParams(); 
   const id= useSelector(state=>state.user.id);
-  const url = useSelector((state) => state.board.url);
-  const pageQuery = useSelector((state) => state.board.query);
-  const dispatch = useDispatch();
-  const nav = useNavigate();
 
   useEffect(()=>{
     if(!id){
@@ -24,22 +19,43 @@ const BoardUpdate = () => {
       nav("/login");
       console.log("hihi")
     }
-  },[])
+
+    if(!offset || isNaN(offset)){
+      alert("없는 게시물 입니다.");
+      nav(`/${url}/list/1/10`);
+    }
+  },[]);
+
+  const url = useSelector((state) => state.board.url);
+  let list = useSelector((state) => state.board.list);
+  const offsetStr = offset+"";
+  const index = Number(offsetStr.substring(offsetStr?.length-1, 1));
+  let post = list[index];
+  console.log({post});
+  
+  const pageQuery = useSelector((state) => state.board.query);
+  const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const postInputs = {
     title : useRef(),
     content : useRef()
   }
 
+  postInputs.title.current.value = post.title;
+  postInputs.content.current.value = post.content;
+
   useEffect(()=>{
-    if(no){
-      const list = BoardAPI.searchingList({url, offset, perPage : 1});
-      const post = list[0];
+    if(!post){
+      // , searchKey : "", searchWord : ""
+      list = BoardAPI.searchingList({url, offset, perPage : 1});
+      post = list[0];
       console.log(post);
       postInputs.title.current.value = post.title;
       postInputs.content.current.value = post.content;
     }
   },[])
+
 
   const createPost = () => {
     if(!id){

@@ -23,7 +23,7 @@ const Board = ({boardName}) => {
           <Route path='/read/:offset' element={<BoardView/>} />
           <Route path='/read/:offset/:searchKey/:searchWord' element={<BoardView/>} />
           <Route path='/write' element={<BoardWrite/>} />
-          <Route path='/update/:no/:offset' element={<BoardUpdate/>} />
+          <Route path='/update/:offset' element={<BoardUpdate/>} />
           <Route path='/modify' element={<BoardWrite/>} />
       </Routes>
     </Section>

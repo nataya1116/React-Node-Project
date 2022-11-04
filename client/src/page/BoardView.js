@@ -81,7 +81,7 @@ const BoardView = () => {
               <div>
                 {nickname == post?.User?.nickname ? 
                   <>
-                    <Btn>수정</Btn>
+                    <Btn onClick={()=>{nav(`/${url}/update/${offset}`)}}>수정</Btn>
                     <Btn>삭제</Btn>
                   </>
                   :
