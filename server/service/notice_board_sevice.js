@@ -49,54 +49,6 @@ module.exports.create = async ({ id, title, content }) => {
   }
 };
 
-// module.exports.readNo = async ( no) => {
-//   try {
-//     return await NoticeBoard.findOne({
-//       include: [
-//         {
-//           attributes: ["nickname"],
-//           model: User,
-//         },
-//       ],
-//       where: {
-//         no,
-//       },
-//     });
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
-// module.exports.readOffset = async (offset, searchKey, searchWord) => {
-
-//   // 모델 유저에서 검색하기 위한 whereUser 객체
-//   const whereUser = {};
-//   if(searchKey == "nickname" && !!searchWord) whereUser.nickname = { [Op.like]: `%${searchWord}%` };
-
-//   // 모델 NoticeBoard에서 검색하기 위한 where 객체
-//   const where = {};
-//   if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
-//   if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
-
-//   try {
-//     return await NoticeBoard.findAndCountAll({
-//       include: [
-//         {
-//           attributes: ["nickname"],
-//           model: User,
-//           where : whereUser
-//         },
-//       ],
-//       where,
-//       order: [["no", "DESC"]],
-//       offset,
-//       limit: 1,
-//     });
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
 module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
 
   const whereUser = {};
@@ -142,8 +94,14 @@ module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
   
 };
 
-module.exports.update = async ({ no, title, content }) => {
+module.exports.update = async ({id, no, title, content }) => {
   try {
+    const user = await User.findOne({
+                                      attributes : ["no"],
+                                      where: { id }
+                                    });
+    if (!user) return false;
+
     return await NoticeBoard.update(
       {
         title,
@@ -152,6 +110,7 @@ module.exports.update = async ({ no, title, content }) => {
       {
         where: {
           no,
+          userNo : user.no
         },
       }
     );
@@ -161,22 +120,36 @@ module.exports.update = async ({ no, title, content }) => {
   }
 };
 
-module.exports.delete = async (no) => {
+module.exports.delete = async (id, no) => {
   try {
+    const user = await User.findOne({
+      attributes : ["no"],
+      where: { id }
+    });
+
+    if (!user) return false;
+
     // 게시글이 삭제되면 댓글도 함께 삭제된다.
-    await sequelize.transaction(async (t) => {
-      await NoticeBoard.destroy({
-        where: { no },
+    return await sequelize.transaction(async (t) => {
+      const result = await NoticeBoard.destroy({
+        where: { 
+          no, 
+          userNo : user.no 
+        },
         transaction: t,
       });
 
-      await NoticeReply.destroy({
-        where: { boardId: no },
-        transaction: t,
-      });
+      if(result){
+        await NoticeReply.destroy({
+          where: { boardId: no },
+          transaction: t,
+        });
+      }
+      return result
     });
   } catch (err) {
     console.log(err);
+    return false;
   }
 };
 

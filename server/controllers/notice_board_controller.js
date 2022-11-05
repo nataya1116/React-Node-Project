@@ -25,6 +25,43 @@ module.exports.create = async (req, res) => {
   }
 };
 
+
+module.exports.update = async (req, res) => {
+
+  const accessToken = req.headers?.access_token;
+
+  const user = TokenService.verifyAccessToken(accessToken);
+  const id = user?.id;
+
+  const no = Number(req.body.no);
+  const { title, content } = req.body;
+
+  const result = await NoticeBoardService.update({id, no, title, content });
+
+  if(result){
+    res.send({ret : SUCCESS});
+  }else{
+    res.send({ret : FAIL});
+  }
+};
+
+
+module.exports.delete = async (req, res) => {
+  const accessToken = req.headers?.access_token;
+
+  const user = TokenService.verifyAccessToken(accessToken);
+  const id = user?.id;
+
+  const no = Number(req.params.no);
+  const result = await NoticeBoardService.delete(id, no);
+
+  if(result){
+    res.send({ret : SUCCESS});
+  }else{
+    res.send({ret : FAIL});
+  }
+};
+
 // 게시판 목록 페이지 네이션을 동작하게 하는 부분(검색어가 없을 때)
 module.exports.searchingList = async (req, res) => {
 
@@ -74,18 +111,6 @@ module.exports.searchingList = async (req, res) => {
 //     res.send({ ret : SUCCESS , post, postNum, replyList, info : { searchKey, searchWord } });
 // }
 
-module.exports.update = async (req, res) => {
-  const no = Number(req.body.no);
-  const { title, content } = req.body;
-
-  const result = await NoticeBoardService.update({ no, title, content });
-
-  if(result){
-    res.send({ret : SUCCESS});
-  }else{
-    res.send({ret : FAIL});
-  }
-};
 
 // module.exports.updateView = async (req, res) => {
   
@@ -101,9 +126,3 @@ module.exports.update = async (req, res) => {
 //   res.render("notice_board_update", { User, offset, post });
 // };
 
-// module.exports.delete = async (req, res) => {
-//   const no = Number(req.params.no);
-//   await NoticeBoardService.delete(no);
-
-//   res.redirect("/notice_board/list/1/10");
-// };

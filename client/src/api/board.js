@@ -12,6 +12,10 @@ export const updatePost = async ({url, no, title, content}) => {
     return await authAPI.post(`/${url}/update`, {no, title, content});
 }
 
+export const deletePost = async (url, no) => {
+    return await baseAPI.get(`/${url}/delete/${no}`);
+}
+
 
 // export const readPost = async ({url, offset, searchKey, searchWord}) => {
 //     return await baseAPI.get(`/${url}/read/${offset}${searchKey}${searchWord}`);

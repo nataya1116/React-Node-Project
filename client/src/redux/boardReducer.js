@@ -46,7 +46,7 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
   };
 }
 
-function postWrite({url, nickname, title, content, pageQuery, nav}){
+function writePost({url, nickname, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
     // console.log({id, nickname, title, content});
     const result = await BoardAPI.writePost({url, title, content});
@@ -72,25 +72,28 @@ function postWrite({url, nickname, title, content, pageQuery, nav}){
   }
 }
 
-function postUpdate({url, no, title, content, pageQuery, nav}){
+function updatePost({url, index, no, offset, title, content, nav}){
   return async  (dispatch, getState) => {
-    // console.log({id, nickname, title, content});
+    console.log({url, index, no, offset, title, content, nav});
     const result = await BoardAPI.updatePost({url, no, title, content});
+
+    nav(`/${url}/read/${offset}`);
     
-    if(result?.ret === FAIL){
+    if(result?.ret !== SUCCESS){
       alert("게시글 수정에 실패하였습니다.");
-      nav(`/${url}/list/1/10`);
+      
       return;
     }
-    if(pageQuery?.page == 1){
-      const { no, title, content } = result?.post;
-      let createdAt = result?.post.createdAt;
-      createdAt = dataStr(createdAt);
-      console.log({ no, title, content, createdAt});
-      dispatch({type : CREATE, payload: { no, title, content, createdAt} });
-    }
 
-    nav(`/${url}/list/1/10`);
+    dispatch({type : UPDATE, payload: { index, title, content } });
+  }
+}
+
+function deletePost(url, no){
+  return async (dispatch, getState) => {
+    const result = await BoardAPI.deletePost(url, no);
+
+    
   }
 }
 
@@ -100,7 +103,7 @@ function dataStr(date) {
   return dateStr+" "+timeStr;
 }
 
-export { searchingList, postWrite, postUpdate };
+export { searchingList, writePost, updatePost };
 
 let init = {
     url : null,
@@ -144,14 +147,13 @@ function board(state = init, action) {
                         ]
             };
         case UPDATE:
-            console.log("로그아웃");
+            console.log("board update");
+            if(state.list.length){
+              state.list[payload.index] = {...state.list[payload.index], title : payload.title, content : payload.content};
+            }
+
             return { 
-                ...state, 
-                id : payload.id, 
-                nickname : payload.nickname,
-                authorityNo : payload.authorityNo, 
-                stateNo : payload.stateNo,
-                isLogin : true
+                ...state
             };
         case READ:
             console.log("포인트");

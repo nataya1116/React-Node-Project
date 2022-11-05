@@ -1,5 +1,8 @@
 import axios from "axios";
 import { SessionService } from "../../service";
+import { LOGIN_REQ, 
+         WAITING, INACTIVE, 
+        } from "../../redux/common";
 
 const BASE_URL = "http://localhost:8000";
 const TIMEOUT = 2500;
@@ -68,6 +71,23 @@ authAPI.interceptors.request.use(
 authAPI.interceptors.response.use(
     response =>{
         const res = response.data;
+        console.log(res);
+        switch (res.ret) {
+            case LOGIN_REQ:
+                alert("로그인해주세요.")
+                window.location.href = "/login";
+                return;
+        
+            case WAITING:
+                alert("로그인 승인이 되지 않았습니다.")
+                window.location.href = "/login";
+                return;
+
+            case INACTIVE:
+                alert(`활동가능까지 ${res?.date}일 남았습니다.`);
+                window.location.href = "/login";
+                return;
+        }
         return res
     },
     error=>{

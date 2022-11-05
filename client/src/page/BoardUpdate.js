@@ -3,13 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, ContentDiv, Btn  } from '../styledComponent/board_write_cs';
-import { postUpdate, postWrite } from "../redux/boardReducer";
+import { updatePost } from "../redux/boardReducer";
 import { BoardAPI } from '../api';
 
 
 const BoardUpdate = () => {
   const { offset = null } = useParams(); 
   const id= useSelector(state=>state.user.id);
+
+  const url = useSelector((state) => state.board.url);
+  let list = useSelector((state) => state.board.list);
+  const offsetStr = offset+"";
+  const index = Number(offsetStr.substring(offsetStr?.length-1, 1));
+  let post = list[index];
+  console.log({index});
 
   useEffect(()=>{
     if(!id){
@@ -20,20 +27,14 @@ const BoardUpdate = () => {
       console.log("hihi")
     }
 
-    if(!offset || isNaN(offset)){
+    if(!offset || isNaN(offset) || !post){
       alert("없는 게시물 입니다.");
       nav(`/${url}/list/1/10`);
     }
   },[]);
 
-  const url = useSelector((state) => state.board.url);
-  let list = useSelector((state) => state.board.list);
-  const offsetStr = offset+"";
-  const index = Number(offsetStr.substring(offsetStr?.length-1, 1));
-  let post = list[index];
-  console.log({post});
-  
-  const pageQuery = useSelector((state) => state.board.query);
+  console.log({offset});
+
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -42,22 +43,15 @@ const BoardUpdate = () => {
     content : useRef()
   }
 
-  
-
   useEffect(()=>{
-    if(!post){
-      // , searchKey : "", searchWord : ""
-      list = BoardAPI.searchingList({url, offset, perPage : 1});
-      post = list[0];
-      console.log(post);
-    }
-
     postInputs.title.current.value = post?.title;
     postInputs.content.current.value = post?.content;
+
   },[])
 
 
-  const createPost = () => {
+  const update = () => {
+    
     if(!id){
       alert("로그인을 해주세요.");
       nav("/login");
@@ -71,13 +65,13 @@ const BoardUpdate = () => {
       postInputs.content?.current.focus();
       return;
     }
-
-    dispatch(postUpdate({
+    dispatch(updatePost({
                           url,
-                          no : index,
+                          index,
+                          no : post.no,
+                          offset,
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
-                          pageQuery, 
                           nav
                         }))
   }
@@ -97,7 +91,7 @@ const BoardUpdate = () => {
               </div>
             </ContentDiv>
             
-            <Btn onClick={createPost}>저장</Btn>
+            <Btn onClick={update}>저장</Btn>
         </div>
     </Article>
   )
