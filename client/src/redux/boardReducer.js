@@ -4,8 +4,6 @@ import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST,  } from './common';
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
 
   return async (dispatch, getState) => {
-
-
     const querySearchKey = searchKey === null || searchWord === null ? "" : "/" + searchKey;
     const querySearchWord = searchWord === null ? "" : "/" + searchWord;
 
@@ -16,12 +14,6 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
     }
 
     let count = offset;
-
-    console.log(url,
-      offset,
-      perPage,
-      searchKey,
-      searchWord);
 
     const result = await BoardAPI.searchingList({ 
                                                 url,
@@ -89,11 +81,37 @@ function updatePost({url, index, no, offset, title, content, nav}){
   }
 }
 
-function deletePost(url, no){
+function deletePost(url, no, nav){
   return async (dispatch, getState) => {
     const result = await BoardAPI.deletePost(url, no);
-
+    console.log("deletePost");
     
+    if(result?.ret !== SUCCESS){
+      alert("게시글 삭제에 실패하였습니다.");
+    }
+
+    let offset = 0;
+
+    let count = offset;
+
+    const resultList = await BoardAPI.searchingList({ 
+                                                url,
+                                                offset,
+                                                perPage : 10
+                                              });
+
+    const list = resultList?.list;
+
+    list?.map(item => {
+      item.offset = count;
+      count++;
+    });
+
+    if (resultList?.ret === SUCCESS) {
+      dispatch({ type: LIST, payload: { url, list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page : 1, perPage : 10, searchKey : "", searchWord : "" } } });
+    }
+    
+    nav(`/${url}/list/1/10`);
   }
 }
 
@@ -103,7 +121,7 @@ function dataStr(date) {
   return dateStr+" "+timeStr;
 }
 
-export { searchingList, writePost, updatePost };
+export { searchingList, writePost, updatePost, deletePost };
 
 let init = {
     url : null,

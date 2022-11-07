@@ -50,10 +50,12 @@ const BoardList = () => {
     }
   }
 
-  if(pageQuery?.searchWord){
-    searchSelect.current.value = pageQuery.searchKey;
-    searchInput.current.value = pageQuery.searchWord;
-  }
+  useEffect(()=>{
+    if(pageQuery?.searchWord){
+      searchSelect.current.value = pageQuery?.searchKey;
+      searchInput.current.value = pageQuery?.searchWord;
+    }
+  },[])
   
   if(!isSameValue || !list){
     dispatch(searchingList({ url, ...pageParams }));
@@ -81,8 +83,6 @@ const BoardList = () => {
 
     nav(`/${url}/list/1/10/${searchKey}/${searchWord}`);
   }
-
-  
 
   function printWriteBtn(){
     if(!isLogin) return <div></div>;

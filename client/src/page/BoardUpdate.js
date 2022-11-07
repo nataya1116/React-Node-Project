@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, ContentDiv, Btn  } from '../styledComponent/board_write_cs';
 import { updatePost } from "../redux/boardReducer";
-import { BoardAPI } from '../api';
 
 
 const BoardUpdate = () => {
@@ -73,7 +72,7 @@ const BoardUpdate = () => {
                           title : postInputs.title.current.value, 
                           content : postInputs.content.current.value, 
                           nav
-                        }))
+                        }));
   }
 
   return (

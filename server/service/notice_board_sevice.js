@@ -58,6 +58,7 @@ module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
   if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
   if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
 
+  console.log({where});
   try {
     return await NoticeBoard.findAndCountAll({
       attributes: ["no", "title", "content", "createdAt", "view"],
@@ -80,7 +81,7 @@ module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
           ]
         }
       ],
-      // where,
+      where,
       order: [["no", "DESC"]],
       subQuery: false,
       distinct: "NoticeBoard.no",

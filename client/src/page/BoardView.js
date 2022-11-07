@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
-import { searchingList } from '../redux/boardReducer';
+import { searchingList, deletePost } from '../redux/boardReducer';
 
 const BoardView = () => {
 
@@ -34,15 +34,21 @@ const BoardView = () => {
   const pageQuery = useSelector((state) => state.board.query);
 
   const offsetStr = offset+"";
-  const index = Number(offsetStr.substring(offsetStr?.length-1, 1));
+  const index = Number(offsetStr.substring(offsetStr?.length-1));
+  console.log({index});
   const post = list[index];
 
-  if(!post || searchKey !== pageQuery.searchKey || searchWord !== pageQuery.searchWord){
-    const perPage = 10;
-    const page = Math.floor( offset / perPage ) + 1;
-    console.log("offset",offset,"page",page,"perPage",perPage);
-    dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
-  }
+  let perPage = pageQuery.perPage;
+  let page = pageQuery.page;
+
+  useEffect(()=>{
+    if(!post || searchKey !== pageQuery.searchKey || searchWord !== pageQuery.searchWord){
+      perPage = 10;
+      page = Math.floor( offset / perPage ) + 1;
+      console.log("offset",offset,"page",page,"perPage",perPage);
+      dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
+    }
+  },[])
 
   const postNum = useSelector(state => state.board.postNum);
 
@@ -82,7 +88,7 @@ const BoardView = () => {
                 {nickname == post?.User?.nickname ? 
                   <>
                     <Btn onClick={()=>{nav(`/${url}/update/${offset}`)}}>수정</Btn>
-                    <Btn>삭제</Btn>
+                    <Btn onClick={()=>{ deletePost(url, post.no, nav)}}>삭제</Btn>
                   </>
                   :
                   <></>
@@ -146,7 +152,7 @@ const BoardView = () => {
             <></>
           }
           
-          <Link to={`/${url}/list/1/10${searchKey}${searchWord}`}>목록</Link>
+          <Link to={`/${url}/list/${page}/${perPage}${searchKey}${searchWord}`}>목록</Link>
 
           {
             offset < postNum -1 ?
