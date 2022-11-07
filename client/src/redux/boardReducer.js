@@ -1,5 +1,6 @@
 import { BoardAPI, SUCCESS, FAIL } from "../api";
 import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST,  } from './common';
+import {produce} from "immer"
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
 
@@ -82,6 +83,7 @@ function updatePost({url, index, no, offset, title, content, nav}){
 }
 
 function deletePost(url, no, nav){
+  console.log("deletePost");
   return async (dispatch, getState) => {
     const result = await BoardAPI.deletePost(url, no);
     console.log("deletePost");

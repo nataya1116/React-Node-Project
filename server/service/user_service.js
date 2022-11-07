@@ -74,12 +74,12 @@ module.exports.getPoint = async (id) => {
 }
 
 
-module.exports.updateRefreshToken = async (id, userRefreshToken) => {
+module.exports.updateRefreshToken = async (id, refreshToken) => {
     try {
         return await User.update(
             {
-                userRefreshToken, 
-                userLastLogin : new Date()}, 
+                refreshToken, 
+                lastLogin : new Date()}, 
             {
                 where : { id }
             }

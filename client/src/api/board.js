@@ -13,6 +13,7 @@ export const updatePost = async ({url, no, title, content}) => {
 }
 
 export const deletePost = async (url, no) => {
+    console.log(`/${url}/delete/${no}`);
     return await baseAPI.get(`/${url}/delete/${no}`);
 }
 

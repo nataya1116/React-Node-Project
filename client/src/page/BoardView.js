@@ -88,7 +88,7 @@ const BoardView = () => {
                 {nickname == post?.User?.nickname ? 
                   <>
                     <Btn onClick={()=>{nav(`/${url}/update/${offset}`)}}>수정</Btn>
-                    <Btn onClick={()=>{ deletePost(url, post.no, nav)}}>삭제</Btn>
+                    <Btn onClick={()=>{ dispatch(deletePost(url, post.no, nav))}}>삭제</Btn>
                   </>
                   :
                   <></>

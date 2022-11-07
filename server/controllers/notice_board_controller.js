@@ -47,6 +47,7 @@ module.exports.update = async (req, res) => {
 
 
 module.exports.delete = async (req, res) => {
+  console.log("server delete");
   const accessToken = req.headers?.access_token;
 
   const user = TokenService.verifyAccessToken(accessToken);

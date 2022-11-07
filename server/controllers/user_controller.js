@@ -55,7 +55,8 @@ module.exports.login = async (req, res) => {
         stateNo
     });
 
-    UserService.updateRefreshToken(id, refreshToken);
+    const result2 = await UserService.updateRefreshToken(id, refreshToken);
+    console.log(result2);
     // {id, nickname, authorityNo, stateNo}
     return res.send({ret : SUCCESS, data : { nickname, authorityNo, stateNo, accessToken, refreshToken } });
 }
