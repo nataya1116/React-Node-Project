@@ -5,9 +5,12 @@ const { LOGIN_REQ, INACTIVE, WAITING, USER } = require("../config/respons");
 module.exports.validity = async (req, res, next) => {
   const accessToken = req.headers.access_token;
   const refreshToken = req.headers.refresh_token;
-  console.log("validity", {accessToken, refreshToken});
+
+  console.log(req.headers);
+  console.log({accessToken, refreshToken});
   // 모든 if의 조건이 아닐경우 엑세스토큰 재생성
   if (!accessToken || !refreshToken) {
+    console.log("if (!accessToken || !refreshToken)");
     return res.send({ret : LOGIN_REQ});
   }
   const decodeAcc = TokenService.verifyAccessToken(accessToken);
@@ -25,6 +28,7 @@ module.exports.validity = async (req, res, next) => {
   const decodeRe = TokenService.verifyRefreshToken(refreshToken);
 
   if (!decodeRe) {
+    console.log("if (!decodeRe)");
     return res.send({ret : LOGIN_REQ});
   }
 
@@ -35,10 +39,12 @@ module.exports.validity = async (req, res, next) => {
   }
 
   const id = decodeRe.id;
+
   const result = await UserService.login(id);
   const user = result.dataValues;
-
+  
   if (refreshToken != user.refreshToken) {
+    console.log(" if (refreshToken != user.refreshToken)");
     return res.send({ret : LOGIN_REQ});
   }
 
@@ -46,12 +52,12 @@ module.exports.validity = async (req, res, next) => {
   const authorityNo = user.authorityNo;
   const stateNo = user.stateNo;
 
-  const accessTokenRe = TokenService.createAccessToken(
+  const accessTokenRe = TokenService.createAccessToken({
                                                         id,
                                                         nickname,
                                                         authorityNo,
                                                         stateNo
-                                                      );
+                                                      });
 
   req.headers.access_token = accessTokenRe;
 
@@ -96,12 +102,12 @@ module.exports.validityAdmin = async (req, res, next) => {
   const authorityNo = user.authorityNo;
   const stateNo = user.stateNo;
 
-  const accessTokenRe = TokenService.createAccessToken(
+  const accessTokenRe = TokenService.createAccessToken({
                                                         id,
                                                         nickname,
                                                         authorityNo,
                                                         stateNo
-                                                      );
+                                                      });
 
   req.headers.access_token = accessTokenRe;
 

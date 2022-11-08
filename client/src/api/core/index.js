@@ -87,6 +87,8 @@ authAPI.interceptors.response.use(
                 alert(`활동가능까지 ${res?.date}일 남았습니다.`);
                 window.location.href = "/login";
                 return;
+            default:
+                break;
         }
         return res
     },

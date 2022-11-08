@@ -85,9 +85,10 @@ function updatePost({url, index, no, offset, title, content, nav}){
 function deletePost(url, no, nav){
   console.log("deletePost");
   return async (dispatch, getState) => {
+
+    console.log("inner deletePost");
     const result = await BoardAPI.deletePost(url, no);
-    console.log("deletePost");
-    
+    console.log({result});
     if(result?.ret !== SUCCESS){
       alert("게시글 삭제에 실패하였습니다.");
     }

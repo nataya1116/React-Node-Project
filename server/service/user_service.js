@@ -50,7 +50,7 @@ module.exports.join = async ({id, pw, nickname, email}) => {
 module.exports.login = async (id) => {
     try {
         return await User.findOne({
-            attributes : ["id", "pw", "nickname", "authorityNo", "stateNo"],
+            attributes : ["id", "pw", "nickname", "authorityNo", "stateNo", "refreshToken"],
             where : { id}
         })
     } catch (err) {

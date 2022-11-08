@@ -57,8 +57,7 @@ module.exports.searchingList = async (offset, limit, searchKey, searchWord) => {
   const where = {};
   if(searchKey == "title" && !!searchWord) where.title = { [Op.like]: `%${searchWord}%` };                  
   if(searchKey == "content" && !!searchWord) where.content = { [Op.like]: `%${searchWord}%` };
-
-  console.log({where});
+  
   try {
     return await NoticeBoard.findAndCountAll({
       attributes: ["no", "title", "content", "createdAt", "view"],
@@ -139,10 +138,12 @@ module.exports.delete = async (id, no) => {
         },
         transaction: t,
       });
-
+      console.log({no, 
+        userNo : user.no });
+      console.log("destroy",{result});
       if(result){
         await NoticeReply.destroy({
-          where: { boardId: no },
+          where: { boardNo: no },
           transaction: t,
         });
       }

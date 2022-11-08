@@ -30,7 +30,7 @@ router.get("/list/:offset/:limit/:searchKey/:searchWord", NoticeBoardController.
 // // router.get("/update/:id/:offset", SessionMiddleware.validity, NoticeBoardController.updateView);
 // router.get("/update/:id/:offset", NoticeBoardController.updateView);
 
-router.get("/delete/:id", SessionMiddleware.validity, NoticeBoardController.delete);
+router.get("/delete/:no", SessionMiddleware.validity, NoticeBoardController.delete);
 // router.get("/delete/:id/", NoticeBoardController.delete);
 
 
