@@ -30,6 +30,7 @@ const BoardView = () => {
     undefinedPage();
   }
   
+  const isLogin = useSelector((state) => state.user.isLogin);
   const list = useSelector((state) => state.board.list);
   const pageQuery = useSelector((state) => state.board.query);
 
@@ -97,8 +98,9 @@ const BoardView = () => {
               </div>
             </EctDiv>
 
-
-            <ReplyDiv>
+            {
+              isLogin ?  
+              <ReplyDiv>
               <ReplyWriterDiv>
                 <div>
                   <textarea>댓글 작성</textarea>
@@ -108,6 +110,10 @@ const BoardView = () => {
                 </div>
               </ReplyWriterDiv>
             </ReplyDiv>
+            :
+            <></>
+            }
+
 
             <div>
               {

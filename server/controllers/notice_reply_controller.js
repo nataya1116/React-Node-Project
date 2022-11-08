@@ -3,8 +3,10 @@ const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
     console.log("c notice reply create");
-    console.log(req.body);
-    const { id, boardNo, content } = req.body;
+    const accessToken = req.headers?.access_token;
+    const user = TokenService.verifyAccessToken(accessToken);
+    const id = user?.id;
+    const { boardNo, content } = req.body;
     console.log("create()", id, boardNo, content);
     const result = await NoticeReplyService.create({ id, boardNo, content });
 

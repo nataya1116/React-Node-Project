@@ -93,6 +93,7 @@ const BoardList = () => {
 
     return <Btn onClick={()=>{nav(`/${url}/write`)}}>글쓰기</Btn>
   }
+  const reply = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
   return (
     <Article>
       <div>
@@ -114,6 +115,9 @@ const BoardList = () => {
                 <td>
                   <BoardLink to={`/${url}/read/${item.offset}${searchKey}${searchWord}`} index={index}>
                     {item.title}
+                    {
+                      item[reply]?.length > 0 ? <>[{item[reply]?.length}]</> : <></>
+                    }
                   </BoardLink>
                 </td>
                 <td>{item.User.nickname}</td>
