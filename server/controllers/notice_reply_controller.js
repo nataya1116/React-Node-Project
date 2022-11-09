@@ -6,9 +6,10 @@ module.exports.create = async (req, res) => {
     const accessToken = req.headers?.access_token;
     const user = TokenService.verifyAccessToken(accessToken);
     const id = user?.id;
-    const { boardNo, content } = req.body;
+
+    const { boardNo, content, replyNo } = req.body;
     console.log("create()", id, boardNo, content);
-    const result = await NoticeReplyService.create({ id, boardNo, content });
+    const result = await NoticeReplyService.create({ id, boardNo, content, replyNo });
     const reply = result?.dataValues;
     if(result){
         res.send({ret : SUCCESS, reply });
@@ -17,19 +18,21 @@ module.exports.create = async (req, res) => {
     }
 }
 
-module.exports.createNested = async (req, res) => {
-    const { offset, userId, boardNo, replyId, content } = req.body;
-    // console.log("createNested()",offset, userId, boardNo, replyId, content);
-    await NoticeReplyService.createNested({ userId, boardNo, replyId, content });
-
-    res.redirect("/notice_board/read/"+offset);
-}
-
 module.exports.update = async (req, res) => {
-    const { offset, id, content } = req.body;
-    await NoticeReplyService.update(id, content);
+    console.log("c notice reply update");
+    const accessToken = req.headers?.access_token;
+    const user = TokenService.verifyAccessToken(accessToken);
+    const id = user?.id;
 
-    res.redirect("/notice_board/read/"+offset);
+    const { no, content } = req.body;
+    console.log({id, no, content});
+    const result = await NoticeReplyService.update(id, no, content);
+
+    if(result){
+        res.send({ret : SUCCESS});
+      }else{
+        res.send({ret : FAIL});
+      }
 }
 
 // module.exports.updateView = async (req, res) => {

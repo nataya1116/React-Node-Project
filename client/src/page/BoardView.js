@@ -5,6 +5,7 @@ import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyV
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
 import { searchingList, deletePost, writeReply } from '../redux/boardReducer';
+import Reply from '../component/board/Reply';
 
 const BoardView = () => {
 
@@ -39,7 +40,6 @@ const BoardView = () => {
 
   const offsetStr = offset+"";
   const index = Number(offsetStr.substring(offsetStr?.length-1));
-  console.log({index});
   const post = list[index];
 
   let perPage = pageQuery.perPage;
@@ -82,7 +82,9 @@ const BoardView = () => {
 
             
             <ContentDiv>
-              <p>{post?.content}</p>
+              <p>
+                {post?.content}
+              </p>
             </ContentDiv>
 
             <EctDiv>
@@ -94,8 +96,8 @@ const BoardView = () => {
               <div>
                 {nickname == post?.User?.nickname ? 
                   <>
-                    <Btn onClick={()=>{nav(`/${url}/update/${offset}`)}}>수정</Btn>
-                    <Btn onClick={()=>{ dispatch(deletePost(url, post.no, nav))}}>삭제</Btn>
+                    <Btn onClick={()=>{ nav(`/${url}/update/${offset}`)} }>수정</Btn>
+                    <Btn onClick={()=>{ dispatch(deletePost(url, post.no, nav)) }}>삭제</Btn>
                   </>
                   :
                   <></>
@@ -136,28 +138,7 @@ const BoardView = () => {
               {
                 post[replyName]?.map(reply => {
                   return (
-                    <ReplyViewDiv>
-                      <div>
-                          <span>{reply?.User?.nickname}</span>
-                          <span>{reply?.createdAt}</span>
-                      </div>
-                      
-                      <div>
-                          <p>
-                              {reply?.content}
-                          </p>
-                      </div>
-                      <div>
-                      {nickname === reply?.User?.nickname ? 
-                        <>
-                          <Btn>수정</Btn>
-                          <Btn>삭제</Btn>
-                        </>
-                        :
-                        <></>
-                      }
-                      </div>
-                    </ReplyViewDiv>
+                    <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={post.no} boardIndex={index} replyNo={reply.no}/>
                   )
                 })
               }

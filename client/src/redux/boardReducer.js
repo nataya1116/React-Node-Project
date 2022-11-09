@@ -84,7 +84,7 @@ function updatePost({url, index, no, offset, title, content, nav}){
       return;
     }
 
-    dispatch({type : UPDATE, payload: { index, title, content } });
+    dispatch({type : UPDATE, payload: { index, no, title, content } });
   }
 }
 
@@ -127,9 +127,9 @@ function deletePost(url, no, nav){
 
 function writeReply({replyUrl, replyName, nickname, boardNo, boardIndex, content, replyNo = null}){
   return async  (dispatch, getState) => {
-    
+    console.log({replyUrl, replyName, nickname, boardNo, boardIndex, content, replyNo});
     const result = await BoardAPI.writeReply({replyUrl, boardNo, content, replyNo});
-    
+    console.log(result);
     if(result?.ret === FAIL){
       alert("댓글 등록에 실패하였습니다.");
       return;
@@ -144,7 +144,23 @@ function writeReply({replyUrl, replyName, nickname, boardNo, boardIndex, content
   }
 }
 
-export { searchingList, writePost, updatePost, deletePost, writeReply };
+
+function updateReply({replyUrl, replyName, boardNo, boardIndex, replyNo, content}){
+  return async  (dispatch, getState) => {
+    const result = await BoardAPI.updateReply({replyUrl, no : replyNo, content});
+
+    if(result?.ret !== SUCCESS){
+      alert("댓글 수정에 실패하였습니다.");
+      
+      return;
+    }
+
+    dispatch({type : UPDATE_REPLY, payload: { replyName, boardIndex, boardNo, replyNo, content } });
+  }
+}
+
+
+export { searchingList, writePost, updatePost, deletePost, writeReply, updateReply };
 
 let init = {
     url : null,
@@ -188,14 +204,16 @@ function board(state = init, action) {
                         ...state.list, 
                         ]
             };
-        case UPDATE:
-            if(state.list.length){
+        case UPDATE:{
+            const postNo = state.list[payload.index].no;
+            if(state.list.length && postNo === payload.no){
               state.list[payload.index] = {...state.list[payload.index], title : payload.title, content : payload.content};
             }
 
             return { 
                 ...state
             };
+          }
         case READ:
             return { ...state, 
                         url : payload.url, 
@@ -231,10 +249,21 @@ function board(state = init, action) {
               ...state,
               list : [...state.list]
             }
-        case UPDATE_REPLY:
-            return {
-
-            }
+        case UPDATE_REPLY:{
+          const postNo = state.list[payload.boardIndex].no;
+          if(state.list.length && postNo === payload.no){
+            const replyList = state.list[payload.boardIndex][payload.replyName].map((reply)=>{
+              if(reply.no === payload.replyNo){
+                reply.content = payload.content;
+              }
+            })
+            state.list[payload.boardIndex][payload.replyName] = replyList;
+          }
+          return { 
+            ...state,
+            list : [...state.list]
+          };
+        } 
         case DELETE_REPLY:
             return {
 

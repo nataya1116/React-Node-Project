@@ -3,7 +3,7 @@ const Op = require("sequelize").Op;
 const { POINT_TYPE, POINT } = require("../config/state");
 
 // TODO 포인트 추가해줄것
-module.exports.create = async ({id, boardNo, content}) => {
+module.exports.create = async ({id, boardNo, content, replyNo = null}) => {
     try {
         return await sequelize.transaction( async (t) => {
             return await User.findOne({
@@ -12,7 +12,8 @@ module.exports.create = async ({id, boardNo, content}) => {
                 const result = await NoticeReply.create({
                                             userNo : user.no,
                                             boardNo, 
-                                            content
+                                            content,
+                                            replyNo
                                         },
                                         {
                                             transaction: t
@@ -108,20 +109,28 @@ module.exports.list = async (boardNo) => {
     }
 }
 
-module.exports.update = async (id, content) => {
+module.exports.update = async (id, no, content) => {
     try {
-        NoticeReply.update(
+        const user = await User.findOne({
+                                            attributes : ["no"],
+                                            where: { id }
+                                        });
+        if (!user) return false;
+
+        return await NoticeReply.update(
             {
                 content
             },
             {
                 where : { 
-                    id
+                    no,
+                    userNo : user.no
                 }
             }
         );
     } catch (err) {
         console.error(err);
+        return false;
     }
 }
 
