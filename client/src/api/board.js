@@ -18,14 +18,14 @@ export const deletePost = async (url, no) => {
 }
 
 
-export const writeReply = async ({url, boardNo, content}) => {
-    return await authAPI.post(`/${url}/create`, {boardNo, content});
+export const writeReply = async ({replyUrl, boardNo, content, replyNo}) => {
+    return await authAPI.post(`/${replyUrl}/create`, {boardNo, content, replyNo});
 }
 
-export const updateReply = async ({url, no, content}) => {
-    return await authAPI.post(`/${url}/update`, {no, content});
+export const updateReply = async ({replyUrl, no, content}) => {
+    return await authAPI.post(`/${replyUrl}/update`, {no, content});
 }
 
-export const deleteReply = async (url, no) => {
-    return await authAPI.get(`/${url}/delete/${no}`);
+export const deleteReply = async (replyUrl, no) => {
+    return await authAPI.get(`/${replyUrl}/delete/${no}`);
 }

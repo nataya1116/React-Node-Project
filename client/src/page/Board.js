@@ -9,7 +9,9 @@ const Board = ({boardName}) => {
   const dispatch = useDispatch();
 
   const boardUrl = boardName === "Free Board" ? "free_board" : boardName === "Notice Board" ? "notice_board" : null;
-  dispatch({type : BOARD_URL, payload:{ boardUrl }});
+  const replyUrl = boardName === "Free Board" ? "free_reply" : boardName === "Notice Board" ? "notice_reply" : null;
+  console.log({replyUrl});
+  dispatch({type : BOARD_URL, payload:{ boardUrl, replyUrl }});
   
   return (
     <Section>

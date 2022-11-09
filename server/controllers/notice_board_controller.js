@@ -77,7 +77,7 @@ module.exports.searchingList = async (req, res) => {
   if(!result) res.send({ret : FAIL});
 
   const list = result?.rows;
-
+  console.log(list[0].NoticeReplies);
   const postNum = result?.count;
   const totalPageNum = Math.ceil(postNum / limit);
 

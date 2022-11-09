@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
@@ -12,6 +12,9 @@ const BoardView = () => {
   const nav = useNavigate();
   
   const url = useSelector((state) => state.board.url);
+  const replyUrl = useSelector(state => state.board.replyUrl);
+
+  const replyContent = useRef();
 
   const undefinedPage = ()=>{
     alert("존재하지 않는 페이지입니다.");
@@ -64,7 +67,7 @@ const BoardView = () => {
 
   const nickname = useSelector(state => state.user.nickname);
 
-  const reply = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
+  const replyName = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
 
   return (
     <Article>
@@ -103,10 +106,10 @@ const BoardView = () => {
               <ReplyDiv>
               <ReplyWriterDiv>
                 <div>
-                  <textarea>댓글 작성</textarea>
+                  <textarea ref={replyContent}>댓글 작성</textarea>
                 </div>
                 <div>
-                  <Btn>작성</Btn>
+                  <Btn onClick={()=>{dispatch()}}>작성</Btn>
                 </div>
               </ReplyWriterDiv>
             </ReplyDiv>
@@ -117,7 +120,7 @@ const BoardView = () => {
 
             <div>
               {
-                post[reply]?.map(reply => {
+                post[replyName]?.map(reply => {
                   return (
                     <ReplyViewDiv>
                       <div>
@@ -131,7 +134,7 @@ const BoardView = () => {
                           </p>
                       </div>
                       <div>
-                      {nickname == reply?.User?.nickname ? 
+                      {nickname === reply?.User?.nickname ? 
                         <>
                           <Btn>수정</Btn>
                           <Btn>삭제</Btn>

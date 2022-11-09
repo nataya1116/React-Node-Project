@@ -1,5 +1,5 @@
 import { BoardAPI, SUCCESS, FAIL } from "../api";
-import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST,  } from './common';
+import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST, CREATE_REPLY, UPDATE_REPLY, DELETE_REPLY, } from './common';
 import {produce} from "immer"
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
@@ -65,6 +65,12 @@ function writePost({url, nickname, title, content, pageQuery, nav}){
   }
 }
 
+function dataStr(date) {
+  const dateStr = date.split("T")[0];
+  const timeStr = date.split("T")[1].split(".")[0];
+  return dateStr+" "+timeStr;
+}
+
 function updatePost({url, index, no, offset, title, content, nav}){
   return async  (dispatch, getState) => {
     console.log({url, index, no, offset, title, content, nav});
@@ -118,16 +124,31 @@ function deletePost(url, no, nav){
   }
 }
 
-function dataStr(date) {
-  const dateStr = date.split("T")[0];
-  const timeStr = date.split("T")[1].split(".")[0];
-  return dateStr+" "+timeStr;
+
+function writeReply({replyUrl, replyName, nickname, boardNo, boardIndex, content, replyNo = null}){
+  return async  (dispatch, getState) => {
+    
+    const result = await BoardAPI.writeReply({replyUrl, boardNo, content, replyNo});
+    
+    if(result?.ret === FAIL){
+      alert("댓글 등록에 실패하였습니다.");
+      return;
+    }
+      
+      console.log(result?.reply);
+      const { no,  } = result?.reply;
+      let createdAt = result?.reply.createdAt;
+      createdAt = dataStr(createdAt);
+      console.log({ no, content, createdAt});
+      dispatch({type : CREATE_REPLY, payload: { boardIndex, no, nickname, content, createdAt, replyName} });
+  }
 }
 
-export { searchingList, writePost, updatePost, deletePost };
+export { searchingList, writePost, updatePost, deletePost, writeReply };
 
 let init = {
     url : null,
+    replyUrl : null,
     postNum : null,
     totalPageNum : null,
     query : {
@@ -143,13 +164,13 @@ function board(state = init, action) {
     const {type, payload} = action;
     switch (type) {
         case BOARD_URL:
-            console.log("BOARD_URL",payload.boardUrl);
+          console.log({BOARD_URL, replyUrl : payload.replyUrl});
             return {
                 ...state,
-                url : payload.boardUrl
+                url : payload.boardUrl,
+                replyUrl : payload.replyUrl
             }
         case CREATE:
-            console.log("board create");
             state.list.map(item=>{
               item.offset++;
             });
@@ -168,7 +189,6 @@ function board(state = init, action) {
                         ]
             };
         case UPDATE:
-            console.log("board update");
             if(state.list.length){
               state.list[payload.index] = {...state.list[payload.index], title : payload.title, content : payload.content};
             }
@@ -177,27 +197,48 @@ function board(state = init, action) {
                 ...state
             };
         case READ:
-            console.log("포인트");
             return { ...state, 
                         url : payload.url, 
+                        
                         list : payload.list, 
                         query: payload.query 
                     };
         case DELETE:
-            console.log("포인트");
             return { ...state, 
                         point : payload.point
                     };
         case LIST:
-            console.log("LIST");
             return { 
                 ...state, 
                 url : payload.url, 
+                replyUrl : payload.replyUrl,
                 list : [...payload.list], 
                 postNum : payload.postNum,
                 totalPageNum : payload.totalPageNum,
                 query: {...payload.query}
             };
+        case CREATE_REPLY:
+            state.list[payload.boardIndex][payload.replyName] 
+            = [...state.list[payload.boardIndex][payload.replyName], 
+                { no : payload.no, 
+                  content : payload.content,
+                  replyNo : payload.replyNo,
+                  createdAt : payload.createdAt,
+                  User : {nickname : payload.nickname}
+                } 
+              ]
+            return {
+              ...state,
+              list : [...state.list]
+            }
+        case UPDATE_REPLY:
+            return {
+
+            }
+        case DELETE_REPLY:
+            return {
+
+            }
         default:
             return state;
     }
