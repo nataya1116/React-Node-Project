@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
-import { searchingList, deletePost } from '../redux/boardReducer';
+import { searchingList, deletePost, writeReply } from '../redux/boardReducer';
 
 const BoardView = () => {
 
@@ -12,7 +12,7 @@ const BoardView = () => {
   const nav = useNavigate();
   
   const url = useSelector((state) => state.board.url);
-  const replyUrl = useSelector(state => state.board.replyUrl);
+  const replyUrl = useSelector((state) => state.board.replyUrl);
 
   const replyContent = useRef();
 
@@ -52,6 +52,8 @@ const BoardView = () => {
       console.log("offset",offset,"page",page,"perPage",perPage);
       dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
     }
+
+    
   },[])
 
   const postNum = useSelector(state => state.board.postNum);
@@ -63,7 +65,8 @@ const BoardView = () => {
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
   
-  console.log("postNum", postNum);
+  console.log({replyUrl});
+  console.log({url});
 
   const nickname = useSelector(state => state.user.nickname);
 
@@ -106,10 +109,21 @@ const BoardView = () => {
               <ReplyDiv>
               <ReplyWriterDiv>
                 <div>
-                  <textarea ref={replyContent}>댓글 작성</textarea>
+                  <textarea ref={replyContent} placeholder="댓글 작성"></textarea>
                 </div>
                 <div>
-                  <Btn onClick={()=>{dispatch()}}>작성</Btn>
+                  <Btn onClick={()=>{
+                      dispatch(
+                        writeReply({
+                          replyUrl, 
+                          replyName, 
+                          nickname, 
+                          boardNo : post.no, 
+                          boardIndex : index, 
+                          content : replyContent.current.value
+                        }));
+                        replyContent.current.value = "";
+                    }}>작성</Btn>
                 </div>
               </ReplyWriterDiv>
             </ReplyDiv>

@@ -1,6 +1,6 @@
 import { BoardAPI, SUCCESS, FAIL } from "../api";
 import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST, CREATE_REPLY, UPDATE_REPLY, DELETE_REPLY, } from './common';
-import {produce} from "immer"
+// import {produce} from "immer"
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
 
@@ -136,7 +136,7 @@ function writeReply({replyUrl, replyName, nickname, boardNo, boardIndex, content
     }
       
       console.log(result?.reply);
-      const { no,  } = result?.reply;
+      const { no } = result?.reply;
       let createdAt = result?.reply.createdAt;
       createdAt = dataStr(createdAt);
       console.log({ no, content, createdAt});

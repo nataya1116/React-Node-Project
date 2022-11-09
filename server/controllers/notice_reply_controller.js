@@ -1,4 +1,4 @@
-const { NoticeReplyService } = require("../service");
+const { NoticeReplyService, TokenService } = require("../service");
 const { SUCCESS, FAIL,  } = require("../config/respons");
 
 module.exports.create = async (req, res) => {
@@ -9,9 +9,9 @@ module.exports.create = async (req, res) => {
     const { boardNo, content } = req.body;
     console.log("create()", id, boardNo, content);
     const result = await NoticeReplyService.create({ id, boardNo, content });
-
+    const reply = result?.dataValues;
     if(result){
-        res.send({ret : SUCCESS});
+        res.send({ret : SUCCESS, reply });
     }else{
         res.send({ret : FAIL});
     }
