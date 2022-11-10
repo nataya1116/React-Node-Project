@@ -34,7 +34,7 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
     console.log(list);
     
     if (result?.ret === SUCCESS) {
-      dispatch({ type: LIST, payload: { url, list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page, perPage, searchKey, searchWord } } });
+      dispatch({ type: LIST, payload: { list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page, perPage, searchKey, searchWord } } });
     }
   };
 }
@@ -117,7 +117,7 @@ function deletePost(url, no, nav){
     });
 
     if (resultList?.ret === SUCCESS) {
-      dispatch({ type: LIST, payload: { url, list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page : 1, perPage : 10, searchKey : "", searchWord : "" } } });
+      dispatch({ type: LIST, payload: { list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page : 1, perPage : 10, searchKey : "", searchWord : "" } } });
     }
     
     nav(`/${url}/list/1/10`);
@@ -180,7 +180,6 @@ function board(state = init, action) {
     const {type, payload} = action;
     switch (type) {
         case BOARD_URL:
-          console.log({BOARD_URL, replyUrl : payload.replyUrl});
             return {
                 ...state,
                 url : payload.boardUrl,
@@ -216,8 +215,7 @@ function board(state = init, action) {
           }
         case READ:
             return { ...state, 
-                        url : payload.url, 
-                        
+                        url : payload.url,
                         list : payload.list, 
                         query: payload.query 
                     };
@@ -228,8 +226,8 @@ function board(state = init, action) {
         case LIST:
             return { 
                 ...state, 
-                url : payload.url, 
-                replyUrl : payload.replyUrl,
+                // url : payload.url, 
+                // replyUrl : payload.replyUrl,
                 list : [...payload.list], 
                 postNum : payload.postNum,
                 totalPageNum : payload.totalPageNum,
@@ -250,8 +248,10 @@ function board(state = init, action) {
               list : [...state.list]
             }
         case UPDATE_REPLY:{
+          console.log(UPDATE_REPLY);
           const postNo = state.list[payload.boardIndex].no;
-          if(state.list.length && postNo === payload.no){
+          console.log(state.list[payload.boardIndex]);
+          if(state.list.length && postNo === payload.boardNo){
             const replyList = state.list[payload.boardIndex][payload.replyName].map((reply)=>{
               if(reply.no === payload.replyNo){
                 reply.content = payload.content;
@@ -259,6 +259,7 @@ function board(state = init, action) {
             })
             state.list[payload.boardIndex][payload.replyName] = replyList;
           }
+          console.log(state.list[payload.boardIndex]);
           return { 
             ...state,
             list : [...state.list]

@@ -53,7 +53,7 @@ const BoardView = () => {
       dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
     }
 
-    
+      console.log({replyUrl});
   },[])
 
   const postNum = useSelector(state => state.board.postNum);
@@ -65,13 +65,13 @@ const BoardView = () => {
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
   
-  console.log({replyUrl});
+
   console.log({url});
 
   const nickname = useSelector(state => state.user.nickname);
 
   const replyName = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
-
+  console.log(post);
   return (
     <Article>
         <div>
@@ -137,8 +137,9 @@ const BoardView = () => {
             <div>
               {
                 post[replyName]?.map(reply => {
+                  console.log(reply);
                   return (
-                    <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={post.no} boardIndex={index} replyNo={reply.no}/>
+                    <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={post?.no} boardIndex={index} replyNo={reply?.no}/>
                   )
                 })
               }
