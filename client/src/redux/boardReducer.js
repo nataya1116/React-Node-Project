@@ -159,8 +159,22 @@ function updateReply({replyUrl, replyName, boardNo, boardIndex, replyNo, content
   }
 }
 
+function deleteReply({replyUrl, replyName, boardNo, boardIndex, replyNo}){
+  return async  (dispatch, getState) => {
+    const result = await BoardAPI.deleteReply({replyUrl, no : replyNo});
 
-export { searchingList, writePost, updatePost, deletePost, writeReply, updateReply };
+    if(result?.ret !== SUCCESS){
+      alert("댓글 수정에 실패하였습니다.");
+      
+      return;
+    }
+
+    dispatch({type : UPDATE_REPLY, payload: { replyName, boardIndex, boardNo, replyNo } });
+  }
+}
+
+
+export { searchingList, writePost, updatePost, deletePost, writeReply, updateReply, deleteReply };
 
 let init = {
     url : null,
@@ -248,18 +262,17 @@ function board(state = init, action) {
               list : [...state.list]
             }
         case UPDATE_REPLY:{
-          console.log(UPDATE_REPLY);
           const postNo = state.list[payload.boardIndex].no;
-          console.log(state.list[payload.boardIndex]);
           if(state.list.length && postNo === payload.boardNo){
             const replyList = state.list[payload.boardIndex][payload.replyName].map((reply)=>{
               if(reply.no === payload.replyNo){
+                console.log({reply : reply.content, reReply : payload.content});
                 reply.content = payload.content;
               }
+              return reply;
             })
             state.list[payload.boardIndex][payload.replyName] = replyList;
           }
-          console.log(state.list[payload.boardIndex]);
           return { 
             ...state,
             list : [...state.list]

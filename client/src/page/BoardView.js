@@ -64,9 +64,6 @@ const BoardView = () => {
 
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
-  
-
-  console.log({url});
 
   const nickname = useSelector(state => state.user.nickname);
 
@@ -137,7 +134,6 @@ const BoardView = () => {
             <div>
               {
                 post[replyName]?.map(reply => {
-                  console.log(reply);
                   return (
                     <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={post?.no} boardIndex={index} replyNo={reply?.no}/>
                   )
