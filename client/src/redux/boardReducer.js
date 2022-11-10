@@ -169,7 +169,7 @@ function deleteReply({replyUrl, replyName, boardNo, boardIndex, replyNo}){
       return;
     }
 
-    dispatch({type : UPDATE_REPLY, payload: { replyName, boardIndex, boardNo, replyNo } });
+    dispatch({type : DELETE_REPLY, payload: { replyName, boardIndex, boardNo, replyNo } });
   }
 }
 
