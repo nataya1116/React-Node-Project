@@ -27,5 +27,5 @@ export const updateReply = async ({replyUrl, no, content}) => {
 }
 
 export const deleteReply = async (replyUrl, no) => {
-    return await authAPI.get(`/${replyUrl}/delete/${no}`);
+    return await authAPI.post(`/${replyUrl}/delete`, {no});
 }

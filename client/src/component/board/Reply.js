@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { ReplyViewDiv, Btn } from '../../styledComponent/board_view_cs'
-import { updateReply } from '../../redux/boardReducer';
+import { deleteReply, updateReply } from '../../redux/boardReducer';
 
 const Reply = ({reply, nickname, replyUrl, replyName, boardNo, boardIndex, replyNo}) => {
   const dispatch = useDispatch();
@@ -39,7 +39,9 @@ const Reply = ({reply, nickname, replyUrl, replyName, boardNo, boardIndex, reply
       :
       <>
         <Btn onClick={()=>{setModify(true)}}>수정</Btn>
-        <Btn>삭제</Btn>
+        <Btn onClick={()=>{
+                dispatch(deleteReply({replyUrl, replyName, boardNo, boardIndex, replyNo}));
+            }}>삭제</Btn>
       </>
     }
     </div>

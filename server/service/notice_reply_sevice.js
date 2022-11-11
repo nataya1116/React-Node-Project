@@ -134,20 +134,26 @@ module.exports.update = async (id, no, content) => {
     }
 }
 
-module.exports.delete = async (id) => {
+module.exports.delete = async (id, no) => {
     try {
-        NoticeReply.destroy(
+        const user = await User.findOne({
+            attributes : ["no"],
+            where: { id }
+        });
+        if (!user) return false;
+        return NoticeReply.destroy(
             {
                 where : { 
                     [Op.or] : [{
-                        id
+                        no
                     },{
-                        replyNo : id // 댓글이 삭제되면 해당 대댓글도 삭제
+                        replyNo : no // 댓글이 삭제되면 해당 대댓글도 삭제
                     }]
                 }
             }
         )
     } catch (err) {
         console.error(err);
+        return false;
     }
 }

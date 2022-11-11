@@ -11,8 +11,8 @@ router.post("/create", SessionMiddleware.validity, NoticeReplyController.create)
 router.post("/update", SessionMiddleware.validity, NoticeReplyController.update);
 // router.post("/update", NoticeReplyController.update);
 
-// router.get("/delete/:no", SessionMiddleware.validity, NoticeReplyController.delete)
-router.get("/delete/:no", NoticeReplyController.delete)
+router.post("/delete", SessionMiddleware.validity, NoticeReplyController.delete)
+// router.get("/delete/:no", NoticeReplyController.delete)
 
 
 

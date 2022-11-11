@@ -30,9 +30,9 @@ module.exports.update = async (req, res) => {
 
     if(result){
         res.send({ret : SUCCESS});
-      }else{
-        res.send({ret : FAIL});
-      }
+    }else{
+    res.send({ret : FAIL});
+    }
 }
 
 // module.exports.updateView = async (req, res) => {
@@ -42,10 +42,18 @@ module.exports.update = async (req, res) => {
 // }
 
 module.exports.delete = async (req, res) => {
-    const id = Number(req.params.id);
-    const offset = Number(req.params.offset);
+    console.log("c notice reply delete");
+    const accessToken = req.headers?.access_token;
+    const user = TokenService.verifyAccessToken(accessToken);
+    const id = user?.id;
 
-    await NoticeReplyService.delete(id);
+    const { no } = req.body;
 
-    res.redirect("/notice_board/read/"+offset);
+    const result = await NoticeReplyService.delete(id, no);
+
+    if(result){
+        res.send({ret : SUCCESS});
+    }else{
+        res.send({ret : FAIL});
+    }
 }

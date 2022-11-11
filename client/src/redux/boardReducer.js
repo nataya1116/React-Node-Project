@@ -30,8 +30,6 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
       item.offset = count;
       count++;
     });
-
-    console.log(list);
     
     if (result?.ret === SUCCESS) {
       dispatch({ type: LIST, payload: { list, postNum : result?.postNum, totalPageNum : result?.totalPageNum, query: { page, perPage, searchKey, searchWord } } });
@@ -41,10 +39,8 @@ function searchingList({ url = "notice_board", page = "1", perPage = "10", searc
 
 function writePost({url, nickname, title, content, pageQuery, nav}){
   return async  (dispatch, getState) => {
-    // console.log({id, nickname, title, content});
-    const result = await BoardAPI.writePost({url, title, content});
 
-    console.log("boardReducer",result);
+    const result = await BoardAPI.writePost({url, title, content});
     
     if(result?.ret === FAIL){
       alert("게시글 등록에 실패하였습니다.");
@@ -52,12 +48,9 @@ function writePost({url, nickname, title, content, pageQuery, nav}){
       return;
     }
     if(pageQuery?.page == 1){
-      
-      console.log(result?.post);
       const { no, title, content } = result?.post;
       let createdAt = result?.post.createdAt;
       createdAt = dataStr(createdAt);
-      console.log({ no, title, content, createdAt});
       dispatch({type : CREATE, payload: { no, nickname, title, content, createdAt} });
     }
 
@@ -73,7 +66,6 @@ function dataStr(date) {
 
 function updatePost({url, index, no, offset, title, content, nav}){
   return async  (dispatch, getState) => {
-    console.log({url, index, no, offset, title, content, nav});
     const result = await BoardAPI.updatePost({url, no, title, content});
 
     nav(`/${url}/read/${offset}`);
@@ -89,12 +81,8 @@ function updatePost({url, index, no, offset, title, content, nav}){
 }
 
 function deletePost(url, no, nav){
-  console.log("deletePost");
   return async (dispatch, getState) => {
-
-    console.log("inner deletePost");
     const result = await BoardAPI.deletePost(url, no);
-    console.log({result});
     if(result?.ret !== SUCCESS){
       alert("게시글 삭제에 실패하였습니다.");
     }
@@ -127,19 +115,15 @@ function deletePost(url, no, nav){
 
 function writeReply({replyUrl, replyName, nickname, boardNo, boardIndex, content, replyNo = null}){
   return async  (dispatch, getState) => {
-    console.log({replyUrl, replyName, nickname, boardNo, boardIndex, content, replyNo});
     const result = await BoardAPI.writeReply({replyUrl, boardNo, content, replyNo});
-    console.log(result);
+
     if(result?.ret === FAIL){
       alert("댓글 등록에 실패하였습니다.");
       return;
     }
-      
-      console.log(result?.reply);
       const { no } = result?.reply;
       let createdAt = result?.reply.createdAt;
       createdAt = dataStr(createdAt);
-      console.log({ no, content, createdAt});
       dispatch({type : CREATE_REPLY, payload: { boardIndex, no, nickname, content, createdAt, replyName} });
   }
 }
@@ -161,18 +145,17 @@ function updateReply({replyUrl, replyName, boardNo, boardIndex, replyNo, content
 
 function deleteReply({replyUrl, replyName, boardNo, boardIndex, replyNo}){
   return async  (dispatch, getState) => {
-    const result = await BoardAPI.deleteReply({replyUrl, no : replyNo});
+    console.log({replyUrl, replyName, boardNo, boardIndex, replyNo});
+    const result = await BoardAPI.deleteReply(replyUrl, replyNo);
 
     if(result?.ret !== SUCCESS){
-      alert("댓글 수정에 실패하였습니다.");
-      
+      alert("댓글 삭제에 실패하였습니다.");
       return;
     }
 
     dispatch({type : DELETE_REPLY, payload: { replyName, boardIndex, boardNo, replyNo } });
   }
 }
-
 
 export { searchingList, writePost, updatePost, deletePost, writeReply, updateReply, deleteReply };
 
@@ -239,9 +222,7 @@ function board(state = init, action) {
                     };
         case LIST:
             return { 
-                ...state, 
-                // url : payload.url, 
-                // replyUrl : payload.replyUrl,
+                ...state,
                 list : [...payload.list], 
                 postNum : payload.postNum,
                 totalPageNum : payload.totalPageNum,
@@ -266,7 +247,6 @@ function board(state = init, action) {
           if(state.list.length && postNo === payload.boardNo){
             const replyList = state.list[payload.boardIndex][payload.replyName].map((reply)=>{
               if(reply.no === payload.replyNo){
-                console.log({reply : reply.content, reReply : payload.content});
                 reply.content = payload.content;
               }
               return reply;
@@ -279,8 +259,21 @@ function board(state = init, action) {
           };
         } 
         case DELETE_REPLY:
+            const postNo = state.list[payload.boardIndex].no;
+            console.log(state.list[payload.boardIndex][payload.replyName]);
+            if(state.list.length && postNo === payload.boardNo){
+              const replyList 
+              = state.list[payload.boardIndex][payload.replyName].filter((reply)=>
+                reply.no !== payload.replyNo
+              )
+              state.list[payload.boardIndex][payload.replyName] = replyList;
+              console.log({replyList});
+            }
+            
+            console.log(state.list[payload.boardIndex][payload.replyName]);
             return {
-
+              ...state,
+              list : [...state.list]
             }
         default:
             return state;
