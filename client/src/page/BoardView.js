@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
@@ -7,17 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchingList, deletePost, writeReply } from '../redux/boardReducer';
 import Reply from '../component/board/Reply';
 
-const BoardView = () => {
+const BoardView = ({boardUrl}) => {
 
   const dispatch = useDispatch();
   const nav = useNavigate();
   
-  const url = useSelector((state) => state.board.url);
-  const replyUrl = useSelector((state) => state.board.replyUrl);
+  let url = useSelector((state) => state.board.url);
 
   const replyContent = useRef();
 
-  const undefinedPage = ()=>{
+  const undefinedPage = (url)=>{
     alert("존재하지 않는 페이지입니다.");
     nav(`/${url}/list/1/10`);
   }
@@ -30,24 +29,25 @@ const BoardView = () => {
   const isLogin = useSelector((state) => state.user.isLogin);
   let list = useSelector((state) => state.board.list);
 
-  
   useEffect(()=>{
+    if(!url){
+      url = boardUrl;
+    }
 
     if(offset < 0) {
-      undefinedPage();
+      undefinedPage(url);
     }
 
     if(isNaN(offset)){
-      undefinedPage();
-    }
-    
-    if(!list){
-      page = Math.floor( offset / 10 ) + 1;
-      dispatch(searchingList({ url, page, perPage : 10, searchKey, searchWord }));
-      list = useSelector((state) => state.board.list);
+      undefinedPage(url);
     }
 
-},[])
+  },[])
+
+  if(!list){
+    const tempPage = Math.floor( offset / 10 ) + 1;
+    dispatch(searchingList({ url, page : tempPage, perPage : 10, searchKey, searchWord }));
+  }
 
   const pageQuery = useSelector((state) => state.board.query);
   const perPage = pageQuery.perPage;
@@ -55,49 +55,50 @@ const BoardView = () => {
 
   const offsetStr = offset+"";
   const index = Number(offsetStr.substring(offsetStr?.length-1));
-  const post = list[index];
 
   const postNum = useSelector(state => state.board.postNum);
 
   useEffect(()=>{
     if(offset > postNum -1) {
-      undefinedPage();
+      undefinedPage(url);
     }
   },[])
 
+  
+  const replyUrl = useSelector((state) => state.board.replyUrl);
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
 
   const nickname = useSelector(state => state.user.nickname);
 
   const replyName = url === "notice_board" ? "NoticeReplies" : url === "free_board" ? "FreeReplies" : null;
-  console.log(post);
+
   return (
     <Article>
         <div>
 
             <TitleDiv>
-              <h5>{post?.title}</h5>
+              <h5>{list[index]?.title}</h5>
             </TitleDiv>
 
             
             <ContentDiv>
               <p>
-                {post?.content}
+                {list[index]?.content}
               </p>
             </ContentDiv>
 
             <EctDiv>
               <div>
-                  <span>{post?.User?.nickname}</span>
-                  <span>{post?.view}</span>                  
-                  <span>{post?.createdAt}</span>
+                  <span>{list[index]?.User?.nickname}</span>
+                  <span>{list[index]?.view}</span>                  
+                  <span>{list[index]?.createdAt}</span>
               </div>
               <div>
-                {nickname == post?.User?.nickname ? 
+                {nickname == list[index]?.User?.nickname ? 
                   <>
                     <Btn onClick={()=>{ nav(`/${url}/update/${offset}`)} }>수정</Btn>
-                    <Btn onClick={()=>{ dispatch(deletePost(url, post.no, nav)) }}>삭제</Btn>
+                    <Btn onClick={()=>{ dispatch(deletePost(url, list[index].no, nav)) }}>삭제</Btn>
                   </>
                   :
                   <></>
@@ -120,7 +121,7 @@ const BoardView = () => {
                           replyUrl, 
                           replyName, 
                           nickname, 
-                          boardNo : post.no, 
+                          boardNo : list[index].no, 
                           boardIndex : index, 
                           content : replyContent.current.value
                         }));
@@ -136,9 +137,9 @@ const BoardView = () => {
 
             <div>
               {
-                post[replyName]?.map(reply => {
+                list[index][replyName]?.map(reply => {
                   return (
-                    <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={post?.no} boardIndex={index} replyNo={reply?.no}/>
+                    <Reply nickname={nickname} reply={reply} replyUrl={replyUrl} replyName={replyName} boardNo={list[index]?.no} boardIndex={index} replyNo={reply?.no}/>
                   )
                 })
               }
