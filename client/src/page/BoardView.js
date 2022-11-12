@@ -24,43 +24,46 @@ const BoardView = () => {
 
   let { offset, searchKey = null, searchWord = null } = useParams();
 
-  if(isNaN(offset)){
-    undefinedPage();
-  }
-
   offset = Number(offset);
+  console.log({offset});
 
-  if(offset < 0) {
-    undefinedPage();
-  }
-  
   const isLogin = useSelector((state) => state.user.isLogin);
-  const list = useSelector((state) => state.board.list);
+  let list = useSelector((state) => state.board.list);
+
+  
+  useEffect(()=>{
+
+    if(offset < 0) {
+      undefinedPage();
+    }
+
+    if(isNaN(offset)){
+      undefinedPage();
+    }
+    
+    if(!list){
+      page = Math.floor( offset / 10 ) + 1;
+      dispatch(searchingList({ url, page, perPage : 10, searchKey, searchWord }));
+      list = useSelector((state) => state.board.list);
+    }
+
+},[])
+
   const pageQuery = useSelector((state) => state.board.query);
+  const perPage = pageQuery.perPage;
+  const page = pageQuery.page;
 
   const offsetStr = offset+"";
   const index = Number(offsetStr.substring(offsetStr?.length-1));
   const post = list[index];
 
-  let perPage = pageQuery.perPage;
-  let page = pageQuery.page;
-
-  useEffect(()=>{
-    if(!post || searchKey !== pageQuery.searchKey || searchWord !== pageQuery.searchWord){
-      perPage = 10;
-      page = Math.floor( offset / perPage ) + 1;
-      console.log("offset",offset,"page",page,"perPage",perPage);
-      dispatch(searchingList({ url, page, perPage, searchKey, searchWord }));
-    }
-
-      console.log({replyUrl});
-  },[])
-
   const postNum = useSelector(state => state.board.postNum);
 
-  if(offset > postNum -1) {
-    undefinedPage();
-  }
+  useEffect(()=>{
+    if(offset > postNum -1) {
+      undefinedPage();
+    }
+  },[])
 
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
