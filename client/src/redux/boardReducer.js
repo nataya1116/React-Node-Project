@@ -3,8 +3,9 @@ import { BOARD_URL, CREATE, UPDATE, READ, DELETE, LIST, CREATE_REPLY, UPDATE_REP
 // import {produce} from "immer"
 
 function searchingList({ url = "notice_board", page = "1", perPage = "10", searchKey = null, searchWord = null }) {
-
+  console.log({ url, page, perPage, searchKey, searchWord });
   return async (dispatch, getState) => {
+    console.log({ url, page, perPage, searchKey, searchWord });
     const querySearchKey = searchKey === null || searchWord === null ? "" : "/" + searchKey;
     const querySearchWord = searchWord === null ? "" : "/" + searchWord;
 

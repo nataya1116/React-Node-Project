@@ -27,11 +27,13 @@ const BoardView = ({boardUrl}) => {
   console.log({offset});
 
   const isLogin = useSelector((state) => state.user.isLogin);
-  let list = useSelector((state) => state.board.list);
+  
 
   useEffect(()=>{
     if(!url){
       url = boardUrl;
+      const tempPage = Math.floor( offset / 10 ) + 1;
+      dispatch(searchingList({ url, page : tempPage, perPage : 10, searchKey, searchWord }));
     }
 
     if(offset < 0) {
@@ -44,11 +46,8 @@ const BoardView = ({boardUrl}) => {
 
   },[])
 
-  if(!list){
-    const tempPage = Math.floor( offset / 10 ) + 1;
-    dispatch(searchingList({ url, page : tempPage, perPage : 10, searchKey, searchWord }));
-  }
-
+  const list = useSelector((state) => state.board.list);
+  console.log({list});
   const pageQuery = useSelector((state) => state.board.query);
   const perPage = pageQuery.perPage;
   const page = pageQuery.page;
