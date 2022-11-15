@@ -1,18 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, ReplyViewDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
+import { Article, TitleDiv, EctDiv, ContentDiv, ReplyDiv, ReplyWriterDiv, Btn, PageNav  } from '../styledComponent/board_view_cs'
 import { Icon,} from "../styledComponent/board_list_cs";
 import { useDispatch, useSelector } from 'react-redux';
-import { searchingList, deletePost, writeReply } from '../redux/boardReducer';
+import { deletePost, writeReply } from '../redux/boardReducer';
 import Reply from '../component/board/Reply';
 
-const BoardView = ({boardUrl}) => {
+const BoardView = () => {
 
   const dispatch = useDispatch();
   const nav = useNavigate();
   
   let url = useSelector((state) => state.board.url);
+  const replyUrl = useSelector((state) => state.board.replyUrl);
 
   const replyContent = useRef();
 
@@ -24,30 +25,11 @@ const BoardView = ({boardUrl}) => {
   let { offset, searchKey = null, searchWord = null } = useParams();
 
   offset = Number(offset);
-  console.log({offset});
 
   const isLogin = useSelector((state) => state.user.isLogin);
-  
-
-  useEffect(()=>{
-    if(!url){
-      url = boardUrl;
-      const tempPage = Math.floor( offset / 10 ) + 1;
-      dispatch(searchingList({ url, page : tempPage, perPage : 10, searchKey, searchWord }));
-    }
-
-    if(offset < 0) {
-      undefinedPage(url);
-    }
-
-    if(isNaN(offset)){
-      undefinedPage(url);
-    }
-
-  },[])
 
   const list = useSelector((state) => state.board.list);
-  console.log({list});
+
   const pageQuery = useSelector((state) => state.board.query);
   const perPage = pageQuery.perPage;
   const page = pageQuery.page;
@@ -58,13 +40,20 @@ const BoardView = ({boardUrl}) => {
   const postNum = useSelector(state => state.board.postNum);
 
   useEffect(()=>{
+    if(offset < 0) {
+      undefinedPage(url);
+    }
+
+    if(isNaN(offset)){
+      undefinedPage(url);
+    }
+
     if(offset > postNum -1) {
       undefinedPage(url);
     }
   },[])
 
   
-  const replyUrl = useSelector((state) => state.board.replyUrl);
   searchKey = searchKey !== null && searchWord !== null ? "/"+searchKey : "";
   searchWord = searchWord !== null ? "/"+searchWord : "";
 

@@ -8,7 +8,7 @@ import storage from "redux-persist/lib/storage/session"; // session storage
 const persistConfig = {
     key: "react",
     storage,
-    whitelist: ['userReducer' ]
+    whitelist: ['user', 'board' ]
 };
 
 const rootReducer = combineReducers({ user, board, });
