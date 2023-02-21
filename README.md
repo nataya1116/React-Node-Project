@@ -39,7 +39,7 @@ React와 Node.js로 간단한 로그인과 게시판 기능을 가진 웹사이�
 
 ## 백엔드 아키텍쳐 구조
 웹 프레임워크인 Express의 경우 빠르고 간결한 것을 목적으로 구현되었기 때문에 구조를 존재하지 않아 MVC와 유사하게 Model, Service, Controller, Router의 구조로 설계하였다.
-![image](https://user-images.githubusercontent.com/50866572/220259244-9be8f02f-d86c-42cd-82c6-87a3097aafe7.png)
+![image](https://user-images.githubusercontent.com/50866572/220283317-807fd8ba-0373-4a3f-8e4b-8246d3dd59a0.png)
 
 </br>
 </br>
