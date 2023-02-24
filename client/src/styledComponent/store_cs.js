@@ -70,7 +70,7 @@ const OptionBtn = styled.button`
     height: 25px;
     margin-right : 5px;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
 `
 
 const OptionActiveBtn = styled.button`
@@ -80,7 +80,7 @@ const OptionActiveBtn = styled.button`
     height: 25px;
     margin-right : 5px;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
 `
 
 const Detail = styled.div`
@@ -115,7 +115,7 @@ const Detail = styled.div`
         background-color: rgb(63, 62, 62);
         color: white;
         box-sizing: border-box;
-        border-radius: 8%;
+        border-radius: 3px;
         margin : 12px 3.5px 0px 3.5px;
     }
 `

@@ -50,7 +50,7 @@ const Btn = styled.button`
     background-color: rgb(63, 62, 62);
     color: white;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
     /* margin: 20px 0px; */
 `
 
@@ -62,7 +62,7 @@ const LargeBtn = styled.button`
     background-color: rgb(63, 62, 62);
     color: white;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
     margin: 10px 0px;
 `
 

@@ -20,7 +20,7 @@ const MenuBtn = styled.button`
     height: 30px;
     margin-right : 10px;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
     margin-bottom: 10px;
 `
 
@@ -31,7 +31,7 @@ const MenuActiveBtn = styled.button`
     height: 30px;
     margin-right : 10px;
     box-sizing: border-box;
-    border-radius: 8%;
+    border-radius: 3px;
     margin-bottom: 10px;
 `
 const Tr = styled.tr`
@@ -100,7 +100,7 @@ const ProductDiv = styled.div`
         color: white;
         height: 25px;
         box-sizing: border-box;
-        border-radius: 8%;
+        border-radius: 3px;
         font-family: 'NanumSquareRound';
     }
 `
@@ -112,7 +112,7 @@ const RegisterBtn = styled.button`
         height: 25px;
         width: 50px;
         box-sizing: border-box;
-        border-radius: 8%;
+        border-radius: 3px;
 `
 
 export { Article, MenuDiv, MenuBtn, MenuActiveBtn, Tr, ProductDiv, RegisterBtn, }
